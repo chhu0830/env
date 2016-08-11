@@ -13,9 +13,9 @@ set t_Co=256
 set expandtab
 set shiftwidth=2
 
-
 set nocompatible              " be iMproved, required
 filetype off                  " required
+
 
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
@@ -38,6 +38,12 @@ call vundle#begin()
 	" plugin from http://vim-scripts.org/vim/scripts.html
 	Plugin 'L9'
 	Plugin 'https://github.com/ctrlpvim/ctrlp.vim.git'
+  Plugin 'https://github.com/honza/vim-snippets'
+  Plugin 'https://github.com/othree/vim-autocomplpop'
+  Plugin 'https://github.com/marcweber/vim-addon-mw-utils'
+  Plugin 'https://github.com/tomtom/tlib_vim'
+  Plugin 'https://github.com/garbas/vim-snipmate'
+  Plugin 'Raimondi/delimitMate'
 
 	" All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -62,7 +68,7 @@ let g:ycm_key_list_previous_completion=[]
 map e :Tex<CR>
 map <F11> gT
 map <F12> gt
-map <F2> :w<CR>:!clear && cat %<CR>
+map <F2> :set nu!<CR>
 map <F3> :w<CR>:EXE 
 command -nargs=* EXE execute CP_R() . <q-args>
 
