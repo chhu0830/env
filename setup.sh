@@ -1,6 +1,5 @@
 #/bin/sh
 
-git clone https://github.com/chhu0830/env
 cp env/.gitconfig ~/.gitconfig
 
 chsh -s /bin/zsh

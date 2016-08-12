@@ -12,11 +12,16 @@ set cin
 set t_Co=256
 set expandtab
 set shiftwidth=2
+
 set laststatus=2
-set statusline=%5*%{getcwd()}
+set statusline=%5*%{hostname()}:%{CurDir()}/
 set statusline+=\ %2*%<%f%m
 set statusline+=\ %1*\[%{&ff}:%{&fenc}:%Y]
-set statusline+=\ \ \%3*[%{strftime('%Y/%b/%d\ %a\ %I:%M\ %p')}\]\ %5*%=\ Line:%4*%l\/%L\ %5*Column:%4*%c%V\ %5*%P
+set statusline+=\ \ \%3*[%{strftime('%Y/%b/%d\ %a\ %I:%M\ %p')}\]\ %5*%=\ Line:%4*%l\/%L\ %5*Column:%4*%c%V\  
+function! CurDir()
+  let curdir = substitute(getcwd(), $HOME, "~", "")
+  return curdir
+endfunction
 highlight User1 ctermfg=red
 highlight User2 ctermfg=green
 highlight User3 ctermfg=yellow
