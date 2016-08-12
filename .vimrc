@@ -12,15 +12,28 @@ set cin
 set t_Co=256
 set expandtab
 set shiftwidth=2
+set laststatus=2
+set statusline=%5*%{getcwd()}
+set statusline+=\ %2*%<%f%m
+set statusline+=\ %1*\[%{&ff}:%{&fenc}:%Y]
+set statusline+=\ \ \%3*[%{strftime('%Y/%b/%d\ %a\ %I:%M\ %p')}\]\ %5*%=\ Line:%4*%l\/%L\ %5*Column:%4*%c%V\ %5*%P
+highlight User1 ctermfg=red
+highlight User2 ctermfg=green
+highlight User3 ctermfg=yellow
+highlight User4 ctermfg=white
+highlight User5 ctermfg=cyan
 
 set nocompatible              " be iMproved, required
 filetype off                  " required
-
 
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(exe|so|dll)$',
   \ }
+let g:netrw_liststyle=3
+let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+let g:ycm_key_list_select_completion=[]
+let g:ycm_key_list_previous_completion=[]
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -60,10 +73,6 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
-let g:netrw_liststyle=3
-let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
-let g:ycm_key_list_select_completion=[]
-let g:ycm_key_list_previous_completion=[]
 
 map e :Tex<CR>
 map <F11> gT
