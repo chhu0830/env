@@ -1,5 +1,6 @@
 #/bin/sh
 
+sudo apt-get install -y vim git curl zsh tmux
 cp env/.gitconfig ~/.gitconfig
 
 chsh -s /bin/zsh
