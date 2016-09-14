@@ -13,28 +13,32 @@ set t_Co=256
 set expandtab
 set shiftwidth=2
 
+set cursorline
+hi CursorLine cterm=none ctermbg=8
+
 set laststatus=2
 set statusline=%5*%{hostname()}:%{CurDir()}/
 set statusline+=\ %2*%<%f%m
-set statusline+=\ %1*\[%{&ff}:%{&fenc}:%Y]
-set statusline+=\ \ \%3*[%{strftime('%Y/%b/%d\ %a\ %I:%M\ %p')}\]\ %5*%=\ Line:%4*%l\/%L\ %5*Column:%4*%c%V\  
+set statusline+=\ %1*\[%{&ff}:%{&fenc}:%Y]	
+set statusline+=\ %5*%=\Line:%4*%l\/%L\ %5*Column:%4*%c%V\  
 function! CurDir()
-  let curdir = substitute(getcwd(), $HOME, "~", "")
-  return curdir
+	let curdir = substitute(getcwd(), $HOME, "~", "")
+	return curdir
 endfunction
-highlight User1 ctermfg=red
-highlight User2 ctermfg=green
-highlight User3 ctermfg=yellow
-highlight User4 ctermfg=white
-highlight User5 ctermfg=cyan
+highlight User1 ctermfg=red cterm=underline
+highlight User2 ctermfg=green cterm=underline
+highlight User3 ctermfg=yellow cterm=underline
+highlight User4 ctermfg=white cterm=underline
+highlight User5 ctermfg=cyan cterm=underline
 
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible							" be iMproved, required
+filetype off									" required
 
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ }
+	\ 'dir':	'\v[\/]\.(git|hg|svn)$',
+	\ 'file': '\v\.(exe|so|dll)$',
+	\ }
+let g:ctrlp_working_path_mode = 0
 let g:netrw_liststyle=3
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 let g:ycm_key_list_select_completion=[]
@@ -56,24 +60,24 @@ call vundle#begin()
 	" plugin from http://vim-scripts.org/vim/scripts.html
 	Plugin 'L9'
 	Plugin 'https://github.com/ctrlpvim/ctrlp.vim.git'
-  Plugin 'https://github.com/honza/vim-snippets'
-  Plugin 'https://github.com/othree/vim-autocomplpop'
-  Plugin 'https://github.com/marcweber/vim-addon-mw-utils'
-  Plugin 'https://github.com/tomtom/tlib_vim'
-  Plugin 'https://github.com/garbas/vim-snipmate'
-  Plugin 'Raimondi/delimitMate'
+	Plugin 'https://github.com/honza/vim-snippets'
+	Plugin 'https://github.com/othree/vim-autocomplpop'
+	Plugin 'https://github.com/marcweber/vim-addon-mw-utils'
+	Plugin 'https://github.com/tomtom/tlib_vim'
+	Plugin 'https://github.com/garbas/vim-snipmate'
+	Plugin 'Raimondi/delimitMate'
 
 	" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+call vundle#end()						" required
+filetype plugin indent on		" required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
 " Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginList			 - lists configured plugins
+" :PluginInstall		- installs plugins; append `!` to update or just :PluginUpdate
 " :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+" :PluginClean			- confirms removal of unused plugins; append `!` to auto-approve removal
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
@@ -103,8 +107,10 @@ function CP_R()
 	elseif( &ft == 'verilog')
 		let cpl = 'iverilog "%" -o "%:r.exe"' |
 		let exc = '"./%:r.exe"'
-  elseif( &ft == 'ruby')
-    let exc = 'ruby "%"'
+	elseif( &ft == 'ruby')
+		let exc = 'ruby "%"'
+	elseif( &ft == 'tex')
+		let exc = 'pdflatex "%"' 
 	endif
 
 	if !exists('exc')
