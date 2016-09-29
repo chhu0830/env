@@ -87,7 +87,7 @@ map e :Tex<CR>
 map <F11> gT
 map <F12> gt
 map <F2> :set nu!<CR>
-map <F3> :w<CR>:EXE 
+map :r :w<CR>:EXE 
 command -nargs=* EXE execute CP_R() . <q-args>
 
 function CP_R()
