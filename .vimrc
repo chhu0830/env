@@ -10,7 +10,6 @@ set is
 set hls
 set cin
 set t_Co=256
-set expandtab
 set shiftwidth=2
 
 set cursorline
@@ -87,7 +86,7 @@ map e :Tex<CR>
 map <F11> gT
 map <F12> gt
 map <F2> :set nu!<CR>
-map :r :w<CR>:EXE 
+map <F3> :w<CR>:EXE 
 command -nargs=* EXE execute CP_R() . <q-args>
 
 function CP_R()
@@ -122,6 +121,6 @@ function CP_R()
 	else
 		let cp_r = 'echo "[Running]" && time ' . exc
 	endif
-	return '!clear;' . cp_r . ''
+	return '!clear;' . cp_r . ' '
 endfunction
 
