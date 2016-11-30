@@ -2,7 +2,7 @@ colorscheme peachpuff
 syntax on
 set bs=2
 set ts=2
-set sw=4
+set sw=2
 set nu
 set ru
 set ai
@@ -10,15 +10,14 @@ set is
 set hls
 set cin
 set t_Co=256
-set shiftwidth=2
 
 set cursorline
 hi CursorLine cterm=none ctermbg=8
 
 set laststatus=2
-set statusline=%5*%{hostname()}:%{CurDir()}/
-set statusline+=\ %2*%<%f%m
-set statusline+=\ %1*\[%{&ff}:%{&fenc}:%Y]	
+set statusline=%5*%{hostname()}:%<%{CurDir()}/
+set statusline+=\ %2*%f%m
+set statusline+=\ %1*\[%{&fenc}:%Y]	
 set statusline+=\ %5*%=\Line:%4*%l\/%L\ %5*Column:%4*%c%V\  
 function! CurDir()
 	let curdir = substitute(getcwd(), $HOME, "~", "")
@@ -91,11 +90,11 @@ command -nargs=* EXE execute CP_R() . <q-args>
 
 function CP_R()
 	if( &ft == 'cpp')
-		let cpl = 'g++ -w -o "%:r.exe" -std=c++11 "%"' |
-		let exc = '"./%:r.exe"'
+		let cpl = 'g++ -w -o "%:r.out" -std=c++11 "%"' |
+		let exc = '"./%:r.out"'
 	elseif( &ft == 'c')
-		let cpl = 'gcc -w -o "%:r" -std=c99 "%"' |
-		let exc = '"./%:r.exe"'
+		let cpl = 'gcc -w -o "%:r.out" -std=c99 "%"' |
+		let exc = '"./%:r.out"'
 	elseif( &ft == 'java')
 		let cpl = 'javac "%"' |
 		let exc = 'java "%:r"'
