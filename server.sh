@@ -1,7 +1,8 @@
 #/bin/sh
 
+sudo apt-get install -y zsh vim tmux
 # git
-cp env/.gitconfig .gitconfig
+cp ./.gitconfig .gitconfig
 
 # zsh
 chsh -s /bin/zsh $USER
