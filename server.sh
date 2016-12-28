@@ -2,7 +2,7 @@
 
 sudo apt-get install -y zsh vim tmux
 # git
-cp ./.gitconfig .gitconfig
+ln -s ./.gitconfig .gitconfig
 
 # zsh
 chsh -s /bin/zsh $USER
@@ -22,4 +22,3 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ln -s ./.tmux.conf ~/.tmux.conf
 tmux source ~/.tmux.conf
 
-rm -rf env
