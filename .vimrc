@@ -99,7 +99,7 @@ function CP_R()
 		let cpl = 'javac "%"' |
 		let exc = 'java "%:r"'
 	elseif( &ft == 'python')
-		let exc = 'python "%"'
+		let exc = 'python3 "%"'
 	elseif( &ft == 'sh')
 		let exc = 'sh "%"'
 	elseif( &ft == 'verilog')
