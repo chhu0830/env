@@ -13,6 +13,7 @@ set t_Co=256
 
 set cursorline
 hi CursorLine cterm=bold ctermbg=8
+hi Visual ctermbg=0
 
 set laststatus=2
 set statusline=%5*%{hostname()}:%<%{CurDir()}/
