@@ -65,6 +65,7 @@ call vundle#begin()
 	Plugin 'https://github.com/tomtom/tlib_vim'
 	Plugin 'https://github.com/garbas/vim-snipmate'
 	Plugin 'Raimondi/delimitMate'
+	Plugin 'airblade/vim-gitgutter'
 
 	" All of your Plugins must be added before the following line
 call vundle#end()						" required
@@ -90,7 +91,9 @@ map <F3> :w<CR>:EXE
 command -nargs=* EXE execute CP_R() . <q-args>
 
 function CP_R()
-	if( &ft == 'cpp')
+	if filereadable("makefile") || filereadable("Makefile")
+		let exc = 'make'
+	elseif( &ft == 'cpp')
 		let cpl = 'g++ -w -o "%:r.out" -std=c++11 "%"' |
 		let exc = '"./%:r.out"'
 	elseif( &ft == 'c')
