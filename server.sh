@@ -11,6 +11,7 @@ ln -s $PWD/.ssh.conf ~/.ssh/config
 # zsh
 chsh -s /bin/zsh $USER
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+cp rkj-repos.zsh-theme ~/.oh-my-zsh/themes/
 rm ~/.zshrc
 ln -s $PWD/.zshrc ~/.zshrc
 source ~/.zshrc
