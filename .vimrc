@@ -21,7 +21,9 @@ set statusline+=\ %2*%f%m
 set statusline+=\ %1*\[%{&fenc}:%Y]	
 set statusline+=\ %5*%=\Line:%4*%l\/%L\ %5*Column:%4*%c%V\  
 function! CurDir()
-	let curdir = substitute(getcwd(), $HOME, "~", "")
+	" let curdir = substitute(getcwd(), $HOME, "~", "")
+	let prefix = " ../"
+	let curdir = prefix . fnamemodify(getcwd(), ':t')
 	return curdir
 endfunction
 highlight User1 ctermfg=red cterm=underline
