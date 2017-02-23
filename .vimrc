@@ -39,6 +39,8 @@ highlight User5 ctermfg=cyan cterm=underline
 set nocompatible							" be iMproved, required
 filetype off									" required
 
+let g:ag_working_path_mode="r"
+
 let g:ctrlp_custom_ignore = {
 	\ 'dir':	'\v[\/]\.(git|hg|svn)$',
 	\ 'file': '\v\.(exe|so|dll)$',
@@ -72,6 +74,7 @@ call vundle#begin()
 	Plugin 'https://github.com/garbas/vim-snipmate'
 	Plugin 'Raimondi/delimitMate'
 	Plugin 'airblade/vim-gitgutter'
+	Plugin 'https://github.com/rking/ag.vim'
 
 	" All of your Plugins must be added before the following line
 call vundle#end()						" required
@@ -92,9 +95,11 @@ filetype plugin indent on		" required
 map e :Tex<CR>
 map <F11> gT
 map <F12> gt
-map <F2> :set nu!<CR>
+map <F2> :tabnew<CR>:AG 
 map <F3> :w<CR>:EXE 
+map <F4> :set nu!<CR>
 command -nargs=* EXE execute CP_R() . <q-args>
+command -nargs=* AG vimgrep <q-args> * | copen
 
 function CP_R()
 	if filereadable("makefile") || filereadable("Makefile")
