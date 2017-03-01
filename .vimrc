@@ -16,6 +16,9 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
+" emmet
+imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
@@ -86,6 +89,7 @@ call vundle#begin()
 	Plugin 'airblade/vim-gitgutter'
 	Plugin 'https://github.com/rking/ag.vim'
 	Plugin 'https://github.com/vim-syntastic/syntastic.git'
+	Plugin 'http://github.com/mattn/emmet-vim/'
 
 	" All of your Plugins must be added before the following line
 call vundle#end()						" required
