@@ -11,6 +11,16 @@ set hls
 set cin
 set t_Co=256
 
+" c++ syntax checking
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
 set fileencodings=utf8,big5,gbk,latin1
 map <C-u> :set fileencoding=utf8<CR>
 map <C-g> :set fileencoding=big5<CR>
@@ -75,6 +85,7 @@ call vundle#begin()
 	Plugin 'Raimondi/delimitMate'
 	Plugin 'airblade/vim-gitgutter'
 	Plugin 'https://github.com/rking/ag.vim'
+	Plugin 'https://github.com/vim-syntastic/syntastic.git'
 
 	" All of your Plugins must be added before the following line
 call vundle#end()						" required
