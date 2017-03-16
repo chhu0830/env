@@ -15,6 +15,9 @@ set t_Co=256
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_cpp_compiler_options = ' -std=c++11 '
+
 
 " emmet
 imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
@@ -106,15 +109,17 @@ filetype plugin indent on		" required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
+:set switchbuf+=newtab
 
 map e :Tex<CR>
 map <F11> gT
 map <F12> gt
-map <F2> :tabnew<CR>:AG 
+map <F2> :execute "vimgrep /" .expand("<cword>") . "/j **" <Bar> cw<CR>
+" map <F2> :tabnew<CR>:AG 
 map <F3> :w<CR>:EXE 
 map <F4> :set nu!<CR>
 command -nargs=* EXE execute CP_R() . <q-args>
-command -nargs=* AG vimgrep <q-args> * | copen
+" command -nargs=* AG vimgrep <q-args> * | copen
 
 function CP_R()
 	if filereadable("makefile") || filereadable("Makefile")
