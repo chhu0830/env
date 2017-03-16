@@ -10,6 +10,7 @@ set is
 set hls
 set cin
 set t_Co=256
+set expandtab
 
 " c++ syntax checking
 set statusline+=%#warningmsg#
