@@ -19,6 +19,8 @@ set statusline+=%*
 let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_cpp_compiler_options = ' -std=c++11 '
 
+let g:syntastic_python_checkers = ['python3']
+
 
 " emmet
 imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
@@ -92,7 +94,7 @@ call vundle#begin()
 	Plugin 'Raimondi/delimitMate'
 	Plugin 'airblade/vim-gitgutter'
 	Plugin 'https://github.com/rking/ag.vim'
-	Plugin 'https://github.com/vim-syntastic/syntastic.git'
+	" Plugin 'https://github.com/vim-syntastic/syntastic.git'
 	Plugin 'http://github.com/mattn/emmet-vim/'
 
 	" All of your Plugins must be added before the following line
@@ -115,10 +117,10 @@ filetype plugin indent on		" required
 map e :Tex<CR>
 map <F11> gT
 map <F12> gt
-map <F2> :execute "vimgrep /" .expand("<cword>") . "/j **" <Bar> cw<CR>
+map <F2> :set nu!<CR>
 " map <F2> :tabnew<CR>:AG 
 map <F3> :w<CR>:EXE 
-map <F4> :set nu!<CR>
+map <F4> :execute "vimgrep /" .expand("<cword>") . "/j **" <Bar> cw<CR>
 command -nargs=* EXE execute CP_R() . <q-args>
 " command -nargs=* AG vimgrep <q-args> * | copen
 
@@ -145,6 +147,8 @@ function CP_R()
 		let exc = 'ruby "%"'
 	elseif( &ft == 'tex')
 		let exc = 'pdflatex "%"' 
+    else
+        let exc = './"%"'
 	endif
 
 	if !exists('exc')
