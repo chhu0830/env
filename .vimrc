@@ -10,7 +10,6 @@ set is
 set hls
 set cin
 set t_Co=256
-set expandtab
 
 " c++ syntax checking
 set statusline+=%#warningmsg#
@@ -147,8 +146,8 @@ function CP_R()
 		let exc = 'ruby "%"'
 	elseif( &ft == 'tex')
 		let exc = 'pdflatex "%"' 
-    else
-        let exc = './"%"'
+	else
+		let exc = './"%"'
 	endif
 
 	if !exists('exc')
