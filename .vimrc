@@ -24,9 +24,7 @@ let g:syntastic_python_checkers = ['python3']
 
 
 " emmet
-let g:user_emmet_install_global = 0
-let g:user_emmet_expandabbr_key = '<Tab>'
-autocmd FileType html,css EmmetInstall
+let g:user_emmet_expandabbr_key = '<C-e>'
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
