@@ -36,7 +36,8 @@ map <C-u> :set fileencoding=utf8<CR>
 map <C-g> :set fileencoding=big5<CR>
 
 set cursorline
-hi CursorLine cterm=bold ctermbg=8
+hi CursorLine cterm=bold
+" hi CursorLine ctermbg=8
 hi Visual ctermbg=0
 
 set laststatus=2
