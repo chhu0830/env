@@ -6,7 +6,7 @@ rm ~/.gitconfig
 ln -s $PWD/.gitconfig ~/.gitconfig
 
 # ssh
-ln -s $PWD/.ssh.conf ~/.ssh/config
+# ln -s $PWD/.ssh.conf ~/.ssh/config
 
 # zsh
 chsh -s /bin/zsh $USER
