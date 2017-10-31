@@ -1,5 +1,6 @@
 #/bin/sh
 
+sudo apt-get update
 sudo apt-get install -y zsh vim tmux
 # git
 rm -f ~/.gitconfig
