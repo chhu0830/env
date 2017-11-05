@@ -10,5 +10,6 @@ sudo apt-get install -y python2.7 python-pip python-dev git libssl-dev libffi-de
 sudo pip install --upgrade pip
 sudo pip install --upgrade setuptools
 sudo pip install --upgrade pwntools
+sudo pip install --upgrade ropgadget
 
 sudo apt-get install -y nmap
