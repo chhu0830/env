@@ -1,13 +1,14 @@
 #/bin/sh
 
 sudo apt-get update
-sudo apt-get install -y zsh vim tmux
+sudo apt-get install -y git curl zsh vim tmux
 # git
 rm -f ~/.gitconfig
 ln -s $PWD/.gitconfig ~/.gitconfig
 
 # ssh
-# ln -s $PWD/.ssh.conf ~/.ssh/config
+mkdir ~/.ssh
+ln -s $PWD/.ssh.conf ~/.ssh/config
 
 # zsh
 chsh -s /bin/zsh $USER
