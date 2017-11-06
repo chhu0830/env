@@ -8,7 +8,7 @@ ln -s $PWD/.gitconfig ~/.gitconfig
 
 # ssh
 mkdir ~/.ssh
-ln -s $PWD/.ssh.conf ~/.ssh/config
+cp $PWD/.ssh.conf ~/.ssh/config
 
 # zsh
 chsh -s /bin/zsh $USER
