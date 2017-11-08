@@ -87,8 +87,8 @@ source $ZSH/oh-my-zsh.sh
 alias ta="tmux a"
 alias sr="screen -d -r"
 alias dockerx="docker -H=0.0.0.0:2375"
-alias mountssh="sshfs 140.113.124.56:/mnt/d/data"
-alias umountssh="fusermount -u"
+alias mountssh="sshfs 140.113.124.56:/mnt/d/data data"
+alias umountssh="fusermount -u data"
 
 export LC_CTYPE="en_US.UTF-8"
 export LANG="en_US.UTF-8"
