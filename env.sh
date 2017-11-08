@@ -11,7 +11,7 @@ mkdir ~/.ssh
 cp $PWD/.ssh.conf ~/.ssh/config
 
 # zsh
-chsh -s /bin/zsh $USER
+sudo chsh -s /bin/zsh $USER
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 mv ~/.oh-my-zsh/themes/rkj-repos.zsh-theme ~/.oh-my-zsh/themes/rkj-repos.zsh-theme.bak
 ln -s $PWD/rkj-repos.zsh-theme ~/.oh-my-zsh/themes/
