@@ -1,7 +1,7 @@
 #/bin/sh
 
 sudo apt-get update
-sudo apt-get install -y git curl zsh vim tmux
+sudo apt-get install -y git curl zsh vim tmux htop
 # git
 rm -f ~/.gitconfig
 ln -s $PWD/.gitconfig ~/.gitconfig
