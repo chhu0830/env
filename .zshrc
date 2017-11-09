@@ -62,6 +62,8 @@ source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
+export LC_CTYPE="en_US.UTF-8"
+export LANG="en_US.UTF-8"
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -87,25 +89,22 @@ source $ZSH/oh-my-zsh.sh
 alias ta="tmux a"
 alias sr="screen -d -r"
 alias dockerx="docker -H=0.0.0.0:2375"
-alias mountssh="sshfs 140.113.124.56:/mnt/d/data data"
-alias umountssh="fusermount -u data"
+alias mountssh="mkdir data; sshfs 140.113.124.56:/mnt/d/data data"
+alias umountssh="fusermount -u data; rmdir data"
 
-export LC_CTYPE="en_US.UTF-8"
-export LANG="en_US.UTF-8"
 export DISPLAY=:0.0
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export PATH="/usr/local/anaconda3/bin:$PATH"
 export PATH="$PATH:/usr/local/spark/bin"
 export PATH="/usr/local/binaryninja:$PATH"
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+[ -s "$HOME/.rvm/scripts/rvm" ] && source "$HOME/.rvm/scripts/rvm" # This loads nvm
 # export PATH="$PATH:/usr/local/scala/bin"
 # export PATH="$PATH:/home/chhu0830/.tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin"
+
 # export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python2
 # export WORKON_HOME=$HOME/.virtualenvs
 # source /usr/local/bin/virtualenvwrapper.sh
-export NVM_DIR="$HOME/.nvm"
+
+# export NVM_DIR="$HOME/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 # nvm use 8.1.4
-# source /home/chhu0830/.rvm/scripts/rvm
-export DOCKER_HOST="unix:///var/run/docker.sock"
-# export DOCKER_HOST="tcp://0.0.0.0:2375"
-# export DOCKER_HOST="tcp://172.18.14.110:2375"
