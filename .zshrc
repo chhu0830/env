@@ -93,9 +93,9 @@ alias mountssh="mkdir data; sshfs 140.113.124.56:/mnt/d/data data"
 alias umountssh="fusermount -u data; rmdir data"
 
 export DISPLAY=:0.0
-export PATH="/usr/local/anaconda3/bin:$PATH"
-export PATH="$PATH:/usr/local/spark/bin"
-export PATH="/usr/local/binaryninja:$PATH"
+export PATH="$PATH:$HOME/.anaconda3/bin"
+export PATH="$PATH:$HOME/.spark/bin"
+export PATH="$PATH:$HOME/.binaryninja"
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 [ -s "$HOME/.rvm/scripts/rvm" ] && source "$HOME/.rvm/scripts/rvm" # This loads nvm
 # export PATH="$PATH:/usr/local/scala/bin"
