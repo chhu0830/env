@@ -127,9 +127,9 @@ filetype plugin indent on    " required
 map e :Tex<CR>
 map <F11> gT
 map <F12> gt
-" map <F2> :set nu!<CR>
+map <F2> :set paste!<CR>
 " map <F2> :tabnew<CR>:AG 
-map <F2> :w<CR>:!clear && echo "[Running]" && time ./% 
+"" map <F2> :w<CR>:!clear && echo "[Running]" && time ./% 
 map <F3> :w<CR>:EXE 
 map <F4> :execute "vimgrep /" .expand("<cword>") . "/j **" <Bar> cw<CR>
 command -nargs=* EXE execute CP_R() . <q-args>
@@ -148,7 +148,7 @@ function CP_R()
         let cpl = 'javac "%"' |
         let exc = 'java "%:r"'
     elseif( &ft == 'python')
-        let exc = 'python3 "%"'
+        let exc = './"%"'
     elseif( &ft == 'sh')
         let exc = 'sh "%"'
     elseif( &ft == 'verilog')
