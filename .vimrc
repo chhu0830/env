@@ -67,7 +67,7 @@ highlight User5 ctermfg=cyan cterm=underline
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-let g:ag_working_path_mode="r"
+" let g:ag_working_path_mode="r"
 
 let g:ctrlp_custom_ignore = {
             \ 'dir':  '\v[\/]\.(git|hg|svn)$',
@@ -125,34 +125,35 @@ filetype plugin indent on    " required
 :set switchbuf+=newtab
 
 map e :Tex<CR>
+map f :Ag! <cword><CR>
+map <F2> :RUN 
+map <F3> :w<CR>:CPR 
+map <F4> :Ag! 
 map <F11> gT
 map <F12> gt
-map <F2> :set paste!<CR>
-" map <F2> :tabnew<CR>:AG 
-"" map <F2> :w<CR>:!clear && echo "[Running]" && time ./% 
-map <F3> :w<CR>:EXE 
-map <F4> :execute "vimgrep /" .expand("<cword>") . "/j **" <Bar> cw<CR>
-command -nargs=* EXE execute CP_R() . <q-args>
+" map <F4> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 " command -nargs=* AG vimgrep <q-args> * | copen
+command -nargs=* CPR execute CPR("CPR") . <q-args>
+command -nargs=* RUN execute CPR("RUN") . <q-args>
 
-function CP_R()
+function CPR(flag)
     if filereadable("makefile") || filereadable("Makefile")
         let exc = 'make'
     elseif( &ft == 'cpp')
-        let cpl = 'g++ -w -o "%:r" -std=c++11 "%"' |
+        let cpl = 'g++ -w -o "%:r" -std=c++11 "%";' |
         let exc = '"./%:r"'
     elseif( &ft == 'c')
-        let cpl = 'gcc -w -o "%:r" -std=c99 "%"' |
+        let cpl = 'gcc -w -o "%:r" -std=c99 "%";' |
         let exc = '"./%:r"'
     elseif( &ft == 'java')
-        let cpl = 'javac "%"' |
+        let cpl = 'javac "%";' |
         let exc = 'java "%:r"'
     elseif( &ft == 'python')
         let exc = './"%"'
     elseif( &ft == 'sh')
-        let exc = 'sh "%"'
+        let exc = './"%"'
     elseif( &ft == 'verilog')
-        let cpl = 'iverilog "%" -o "%:r.exe"' |
+        let cpl = 'iverilog "%" -o "%:r.exe";' |
         let exc = '"./%:r.exe"'
     elseif( &ft == 'ruby')
         let exc = 'ruby "%"'
@@ -166,8 +167,8 @@ function CP_R()
         echo 'Can''t compile this filetype ...'
         return
     endif
-    if exists('cpl')
-        let cp_r = 'echo "[Compiling]"; ' . cpl . ' && echo "[Running]" && time ' . exc
+    if (exists('cpl') && a:flag == "CPR")
+        let cp_r = 'echo "[Compiling]"; ' . cpl . 'echo "[Running]" && time ' . exc
     else
         let cp_r = 'echo "[Running]" && time ' . exc
     endif
