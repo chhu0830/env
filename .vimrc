@@ -126,7 +126,7 @@ filetype plugin indent on    " required
 
 map e :Tex<CR>
 map f :Ag! <cword><CR>
-map <F2> :RUN 
+map <F2> :w<CR>:RUN 
 map <F3> :w<CR>:CPR 
 map <F4> :Ag! 
 map <F11> gT
