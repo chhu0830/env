@@ -88,14 +88,14 @@ export LANG="en_US.UTF-8"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ta="tmux a"
 alias sr="screen -d -r"
-alias dockerx="docker -H=0.0.0.0:2375"
-alias mountssh="mkdir data; sshfs 140.113.124.56:/mnt/d/data data"
-alias umountssh="fusermount -u data; rmdir data"
+alias dkr="docker"
+alias dke="dkr exec -it"
 
-export DISPLAY=:0.0
-export PATH="$PATH:$HOME/.anaconda3/bin"
-export PATH="$PATH:$HOME/.spark/bin"
-export PATH="$PATH:$HOME/.binaryninja"
+export DISPLAY="192.168.1.41:0.0"
+# export PATH="$PATH:$HOME/.anaconda2/bin"
+# export PATH="$PATH:$HOME/.anaconda3/bin"
+# export PATH="$PATH:$HOME/.spark/bin"
+# export PATH="$PATH:$HOME/.binaryninja"
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 [ -s "$HOME/.rvm/scripts/rvm" ] && source "$HOME/.rvm/scripts/rvm" # This loads nvm
 # export PATH="$PATH:/usr/local/scala/bin"
