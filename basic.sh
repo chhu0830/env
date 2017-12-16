@@ -1,6 +1,6 @@
 #/bin/sh
 
-sudo apt-get install -y git curl zsh vim tmux htop smbclient
+sudo apt-get install -y git curl zsh vim tmux htop smbclient p7zip-full
 # git
 rm -f ~/.gitconfig
 ln -s $PWD/.gitconfig ~/.gitconfig
