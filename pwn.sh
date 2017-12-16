@@ -17,8 +17,3 @@ curl -sSL https://rvm.io/mpapis.asc | gpg --import
 curl -L https://get.rvm.io | bash -s stable --ruby
 zsh -c "source .zshrc && gem install one_gadget"
 
-wget https://github.com/horsicq/DIE-engine/releases/download/1.01/DIE_1.01_win.zip
-mkdir ~/.die
-mv DIE_1.01_win.zip ~/.die/DIE.zip
-7z x ~/.die/DIE.zip
-rm ~/.die/DIE.zip
