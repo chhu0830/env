@@ -91,7 +91,6 @@ alias sr="screen -d -r"
 alias dkr="docker"
 alias dke="dkr exec -it"
 
-export DISPLAY="192.168.1.41:0.0"
 # export PATH="$PATH:$HOME/.anaconda2/bin"
 # export PATH="$PATH:$HOME/.anaconda3/bin"
 # export PATH="$PATH:$HOME/.spark/bin"
