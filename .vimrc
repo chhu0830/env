@@ -158,7 +158,8 @@ function CPR(flag)
     elseif( &ft == 'ruby')
         let exc = 'ruby "%"'
     elseif( &ft == 'tex')
-        let exc = 'pdflatex "%"' 
+        let cpl = 'pdflatex "%";' |
+        let exc = 'xpdf "%:r.pdf"'
     else
         let exc = './"%"'
     endif
