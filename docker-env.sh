@@ -1,7 +1,6 @@
 #!/bin/sh
 
-sudo apt-get update
-sudo apt-get install -y git htop net-tools
-sudo apt-get install -y software-properties-common
-
+apt update
+apt install -y git htop net-tools wget time man sudo
+apt install -y software-properties-common iputils-ping
 ./env.sh
