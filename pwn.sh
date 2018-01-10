@@ -9,7 +9,7 @@ ln -s $PWD/.gdbinit ~/.gdbinit
 sudo apt install -y python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential
 sudo pip install --upgrade pip
 sudo pip install --upgrade setuptools ropgadget
-sudo pip insatll --upgrade pwntools angr
+sudo pip install --upgrade pwntools angr
 
 sudo apt install -y nmap
 
