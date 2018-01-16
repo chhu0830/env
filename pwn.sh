@@ -28,4 +28,4 @@ sudo apt install libcurl4-gnutls-dev
 make
 sudo make install
 cd ..
-rm -rf dirb
+sudo mv -f dirb /usr/share/dirb
