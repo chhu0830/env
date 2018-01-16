@@ -18,7 +18,8 @@ curl -L https://get.rvm.io | bash -s stable --ruby
 zsh -c "source .zshrc && gem install one_gadget"
 
 git clone https://github.com/guelfoweb/knock.git ~/.knock
-sudo chmod +x ~/.knock/knockpy/knockpy.py
+mv ~/.knock/knockpy/knockpy.py ~/.knock/knockpy/knockpy
+sudo chmod +x ~/.knock/knockpy/knockpy
 
 wget -c 'http://sourceforge.net/projects/dirb/files/dirb/2.03/dirb203.tar.gz/download' -O dirb203.tar.gz
 tar -zxvf dirb203.tar.gz
@@ -33,4 +34,5 @@ sudo mv -f dirb /usr/share/dirb
 sudo apt install build-essential python-pip libyaml-dev python-dev
 sudo pip install --upgrade prettytable Mako PyYAML python-dateutil PySocks
 git clone https://github.com/epinna/weevely3.git ~/.weevely
-sudo chmod +x ~/.weevely3/weevely.py
+mv ~/.weevely/weevely.py ~/.weevel/weevely
+sudo chmod +x ~/.weevely3/weevely
