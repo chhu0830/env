@@ -29,3 +29,8 @@ make
 sudo make install
 cd ..
 sudo mv -f dirb /usr/share/dirb
+
+sudo apt install build-essential python-pip libyaml-dev python-dev
+sudo pip install --upgrade prettytable Mako PyYAML python-dateutil PySocks
+git clone https://github.com/epinna/weevely3.git ~/.weevely
+sudo chmod +x ~/.weevely3/weevely.py
