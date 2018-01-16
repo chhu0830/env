@@ -108,4 +108,4 @@ export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 # [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 # nvm use 8.1.4
 export PATH="$PATH:$HOME/.knock/knockpy/"
-export PATH="$PATH:/home/chhu0830/.weevely3/weevely.py"
+export PATH="$PATH:$HOME/.weevely"
