@@ -17,3 +17,5 @@ curl -sSL https://rvm.io/mpapis.asc | gpg --import
 curl -L https://get.rvm.io | bash -s stable --ruby
 zsh -c "source .zshrc && gem install one_gadget"
 
+git clone https://github.com/guelfoweb/knock.git ~/.knock
+sudo chmod +x ~/.knock/knockpy/knockpy.py

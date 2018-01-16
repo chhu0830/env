@@ -95,6 +95,7 @@ alias dke="dkr exec -it"
 # export PATH="$PATH:$HOME/.anaconda3/bin"
 # export PATH="$PATH:$HOME/.spark/bin"
 # export PATH="$PATH:$HOME/.binaryninja"
+export PATH="$PATH:$HOME/.knock/knockpy/"
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 [ -s "$HOME/.rvm/scripts/rvm" ] && source "$HOME/.rvm/scripts/rvm" # This loads nvm
 # export PATH="$PATH:/usr/local/scala/bin"
