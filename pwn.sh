@@ -19,3 +19,13 @@ zsh -c "source .zshrc && gem install one_gadget"
 
 git clone https://github.com/guelfoweb/knock.git ~/.knock
 sudo chmod +x ~/.knock/knockpy/knockpy.py
+
+wget -c 'http://sourceforge.net/projects/dirb/files/dirb/2.03/dirb203.tar.gz/download' -O dirb203.tar.gz
+tar -zxvf dirb203.tar.gz
+cd dirb
+sudo apt install libcurl4-gnutls-dev
+./configure
+make
+sudo make install
+cd ..
+rm -rf dirb
