@@ -23,6 +23,7 @@ sudo chmod +x ~/.knock/knockpy/knockpy
 
 wget -c 'http://sourceforge.net/projects/dirb/files/dirb/2.03/dirb203.tar.gz/download' -O dirb203.tar.gz
 tar -zxvf dirb203.tar.gz
+rm dirb203.tar.gz
 cd dirb
 sudo apt install libcurl4-gnutls-dev
 ./configure
@@ -34,5 +35,8 @@ sudo mv -f dirb /usr/share/dirb
 sudo apt install build-essential python-pip libyaml-dev python-dev
 sudo pip install --upgrade prettytable Mako PyYAML python-dateutil PySocks
 git clone https://github.com/epinna/weevely3.git ~/.weevely
-mv ~/.weevely/weevely.py ~/.weevel/weevely
-sudo chmod +x ~/.weevely3/weevely
+mv ~/.weevely/weevely.py ~/.weevely/weevely
+sudo chmod +x ~/.weevely/weevely
+
+sudo apt install openjdk-8-jre
+./burpsuite.sh
