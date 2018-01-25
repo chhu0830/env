@@ -104,8 +104,9 @@ export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 # export WORKON_HOME=$HOME/.virtualenvs
 # source /usr/local/bin/virtualenvwrapper.sh
 
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" > /dev/null 2>&1    # This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && nvm use --delete-prefix v4.7.3 --silent # This use nvm v.4.7.3
 # nvm use 8.1.4
 export PATH="$PATH:$HOME/.knock/knockpy/"
 export PATH="$PATH:$HOME/.weevely"
