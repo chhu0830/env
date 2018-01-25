@@ -30,7 +30,7 @@ let g:syntastic_cpp_checkers = ['cppcheck']
 
 " emmet
 let g:user_emmet_install_global = 0
-autocmd FileType html,css EmmetInstall
+autocmd FileType html,css,javascript EmmetInstall
 let g:user_emmet_expandabbr_key = '<C-e>'
 
 let g:syntastic_always_populate_loc_list = 1
@@ -55,7 +55,7 @@ set statusline+=\ %1*\[%{&fenc}:%Y]
 set statusline+=\ %5*%=\Line:%4*%l\/%L\ %5*Column:%4*%c%V\  
 function! CurDir()
     " let curdir = substitute(getcwd(), $HOME, "~", "")
-    let prefix = " ../"
+    let prefix = " .../"
     let curdir = prefix . fnamemodify(getcwd(), ':t')
     return curdir
 endfunction
