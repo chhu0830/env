@@ -38,6 +38,7 @@ npm install style-loader node-sass --save
 
 # babel stuffs
 npm install babel-plugin-react-transform --save-dev
+npm install babel-plugin-transform-class-properties --save-dev
 npm install babel-loader babel-core --save-dev
 npm install babel-preset-es2015 babel-preset-react --save-dev
 
