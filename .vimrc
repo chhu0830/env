@@ -1,9 +1,9 @@
 colorscheme peachpuff
 syntax on
 set bs=2
-set ts=4
-set softtabstop=4
-set sw=4
+set ts=2
+set softtabstop=2
+set sw=2
 set nu
 set ru
 set ai
@@ -54,10 +54,10 @@ set statusline+=\ %2*%f%m
 set statusline+=\ %1*\[%{&fenc}:%Y]  
 set statusline+=\ %5*%=\Line:%4*%l\/%L\ %5*Column:%4*%c%V\  
 function! CurDir()
-    " let curdir = substitute(getcwd(), $HOME, "~", "")
-    let prefix = " .../"
-    let curdir = prefix . fnamemodify(getcwd(), ':t')
-    return curdir
+  " let curdir = substitute(getcwd(), $HOME, "~", "")
+  let prefix = " .../"
+  let curdir = prefix . fnamemodify(getcwd(), ':t')
+  return curdir
 endfunction
 highlight User1 ctermfg=red cterm=underline
 highlight User2 ctermfg=green cterm=underline
@@ -71,9 +71,9 @@ filetype off                  " required
 " let g:ag_working_path_mode="r"
 
 let g:ctrlp_custom_ignore = {
-            \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-            \ 'file': '\v\.(exe|so|dll)$',
-            \ }
+      \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+      \ 'file': '\v\.(exe|so|dll)$',
+      \ }
 let g:ctrlp_working_path_mode = 0
 let g:netrw_liststyle=3
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
@@ -105,6 +105,7 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'https://github.com/rking/ag.vim'
 Plugin 'http://github.com/mattn/emmet-vim/'
+Plugin 'https://github.com/isRuslan/vim-es6.git'
 " Plugin 'https://github.com/vim-syntastic/syntastic.git'
 " Plugin 'https://github.com/vivien/vim-linux-coding-style'
 
@@ -138,42 +139,42 @@ command -nargs=* CPR execute CPR("CPR") . <q-args>
 command -nargs=* RUN execute CPR("RUN") . <q-args>
 
 function CPR(flag)
-    if filereadable("makefile") || filereadable("Makefile")
-        let exc = 'make'
-    elseif( &ft == 'cpp')
-        let cpl = 'g++ -w -o "%:r" -std=c++11 "%";' |
-        let exc = '"./%:r"'
-    elseif( &ft == 'c')
-        let cpl = 'gcc -w -o "%:r" -std=c99 "%";' |
-        let exc = '"./%:r"'
-    elseif( &ft == 'java')
-        let cpl = 'javac "%";' |
-        let exc = 'java "%:r"'
-    elseif( &ft == 'python')
-        let exc = './"%"'
-    elseif( &ft == 'sh')
-        let exc = './"%"'
-    elseif( &ft == 'verilog')
-        let cpl = 'iverilog "%" -o "%:r.exe";' |
-        let exc = '"./%:r.exe"'
-    elseif( &ft == 'ruby')
-        let exc = 'ruby "%"'
-    elseif( &ft == 'tex')
-        let cpl = 'pdflatex "%";' |
-        let exc = 'xpdf "%:r.pdf"'
-    else
-        let exc = './"%"'
-    endif
+  if filereadable("makefile") || filereadable("Makefile")
+    let exc = 'make'
+  elseif( &ft == 'cpp')
+    let cpl = 'g++ -w -o "%:r" -std=c++11 "%";' |
+    let exc = '"./%:r"'
+  elseif( &ft == 'c')
+    let cpl = 'gcc -w -o "%:r" -std=c99 "%";' |
+    let exc = '"./%:r"'
+  elseif( &ft == 'java')
+    let cpl = 'javac "%";' |
+    let exc = 'java "%:r"'
+  elseif( &ft == 'python')
+    let exc = './"%"'
+  elseif( &ft == 'sh')
+    let exc = './"%"'
+  elseif( &ft == 'verilog')
+    let cpl = 'iverilog "%" -o "%:r.exe";' |
+    let exc = '"./%:r.exe"'
+  elseif( &ft == 'ruby')
+    let exc = 'ruby "%"'
+  elseif( &ft == 'tex')
+    let cpl = 'pdflatex "%";' |
+    let exc = 'xpdf "%:r.pdf"'
+  else
+    let exc = './"%"'
+  endif
 
-    if !exists('exc')
-        echo 'Can''t compile this filetype ...'
-        return
-    endif
-    if (exists('cpl') && a:flag == "CPR")
-        let cp_r = 'echo "[Compiling]"; ' . cpl . 'echo "[Running]" && time ' . exc
-    else
-        let cp_r = 'echo "[Running]" && time ' . exc
-    endif
-    return '!clear;' . cp_r . ' '
+  if !exists('exc')
+    echo 'Can''t compile this filetype ...'
+    return
+  endif
+  if (exists('cpl') && a:flag == "CPR")
+    let cp_r = 'echo "[Compiling]"; ' . cpl . 'echo "[Running]" && time ' . exc
+  else
+    let cp_r = 'echo "[Running]" && time ' . exc
+  endif
+  return '!clear;' . cp_r . ' '
 endfunction
 
