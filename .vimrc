@@ -12,7 +12,7 @@ set hls
 set cin
 set ignorecase
 set smartcase
-" set mouse=a
+set mouse=a
 set t_Co=256
 set expandtab
 set switchbuf+=newtab
@@ -46,10 +46,11 @@ map f :Ag! <cword><CR>
 map <C-f> :Ag! 
 map <F2> :w<CR>:RUN 
 map <F3> :w<CR>:CPR 
-map <F5> :set paste!<CR>
-map <F6> :set nu!<CR>
+map <F4> :NERDTreeToggle<CR>
+map <F5> :set paste<CR>:set mouse=<CR>o
+map <F6> :set nopaste<CR>:set mouse=a<CR>
 map <F7> :GitGutterSignsToggle<CR>
-map <F8> :NERDTreeToggle<CR>
+map <F8> :set nu!<CR>
 map <F11> gT
 map <F12> gt
 command -nargs=* CPR execute CPR('CPR') . <q-args>
@@ -94,7 +95,7 @@ autocmd Filetype python let b:delimitMate_nesting_quotes = ['"']
 let g:ycm_python_binary_path = 'python'
 
 " NERDTree
-let g:NERDTreeWinPos = "right"
+" let g:NERDTreeWinPos = "right"
 let g:NERDTreeShowHidden = 1
 
 
