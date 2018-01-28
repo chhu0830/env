@@ -38,7 +38,6 @@ npm install style-loader node-sass --save
 
 # babel stuffs
 npm install babel-plugin-react-transform --save-dev
-npm install babel-plugin-transform-class-properties --save-dev
 npm install babel-loader babel-core --save-dev
 npm install babel-preset-es2015 babel-preset-react --save-dev
 
@@ -56,15 +55,16 @@ npm install react-router-dom --save
 # some other stuffs
 npm install autoprefixer --save
 
-cp ../.babelrc ./
-cp ../postcss.config.js ./
-cp ../webpack.config.js ./
-cp ../webpack.production.config.js ./
-cp ../src/Router.jsx ./src/js/
-cp ../src/boot.jsx ./src/
-cp ../src/index.ejs ./src/
-cp ../src/reducer.jsx ./src/js/Redux/Reducers/index.jsx
-cp ../src/Index.jsx ./src/js/Pages/
+url="https://raw.githubusercontent.com/chhu0830/env/master/ReactJS/"
+curl $url/.babelrc > .babelrc
+curl $url/postcss.config.js > postcss.config.js
+curl $url/webpack.config.js > webpack.config.js
+curl $url/webpack.production.config.js > webpack.production.config.js
+curl $url/src/Router.jsx > src/js/Router.jsx
+curl $url/src/boot.jsx > src/boot.jsx
+curl $url/src/index.ejs > src/index.ejs
+curl $url/src/reducer.jsx > src/js/Redux/Reducers/index.jsx
+curl $url/src/Index.jsx > src/js/Pages/Index.jsx
 
 txt='\    "build": "NODE_ENV=production webpack -p --progress --config ./webpack.production.config.js",'
 sed -i "/\"scripts\": {/a $txt" ./package.json
