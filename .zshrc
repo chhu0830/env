@@ -90,6 +90,7 @@ alias ta="tmux a"
 alias sr="screen -d -r"
 alias dkr="docker"
 alias dke="dkr exec -it"
+alias cmx="sudo chmod +x"
 
 # export PATH="$PATH:$HOME/.anaconda2/bin"
 # export PATH="$PATH:$HOME/.anaconda3/bin"
