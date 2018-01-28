@@ -1,10 +1,11 @@
 #!/bin/sh
+DIR=$PWD/config/pwn
 
 sudo apt install -y git gdb
 git clone https://github.com/scwuaptx/peda.git ~/.peda
 git clone https://github.com/scwuaptx/Pwngdb ~/.Pwngdb
 cp ~/.peda/.inputrc ~/
-ln -s $PWD/.gdbinit ~/.gdbinit
+ln -s $DIR/.gdbinit ~/.gdbinit
 
 sudo apt install -y python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential
 sudo pip install --upgrade pip
