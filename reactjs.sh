@@ -55,7 +55,7 @@ npm install react-router-dom --save
 # some other stuffs
 npm install autoprefixer --save
 
-url="https://raw.githubusercontent.com/chhu0830/env/master/ReactJS/"
+url="https://raw.githubusercontent.com/chhu0830/env/master/config/ReactJS/"
 curl $url/.babelrc > .babelrc
 curl $url/postcss.config.js > postcss.config.js
 curl $url/webpack.config.js > webpack.config.js
