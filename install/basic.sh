@@ -18,7 +18,7 @@ sudo chmod 644 $HOME/.ssh/config
 # zsh
 sudo chsh -s /bin/zsh $USER
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-curl -fsSL $URL/zsh-repos.zsh-theme > $DIR/zsh-repos.zsh-theme
+curl -fsSL $URL/rkj-repos.zsh-theme > $DIR/rkj-repos.zsh-theme
 mv $HOME/.oh-my-zsh/themes/rkj-repos.zsh-theme $HOME/.oh-my-zsh/themes/rkj-repos.zsh-theme.bak
 ln -s $DIR/rkj-repos.zsh-theme $HOME/.oh-my-zsh/themes/
 mv $HOME/.zshrc $HOME/.zshrc.bak
@@ -32,7 +32,7 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.c
 mv $HOME/.vimrc $HOME/.vimrc.bak
 curl -fsSL $URL/.vimrc > $DIR/.vimrc
 ln -s $DIR/.vimrc ~/.vimrc
-vim +PlugInstall
+vim +PlugInstall +qall
 sudo apt install silversearcher-ag
 
 # tmux
