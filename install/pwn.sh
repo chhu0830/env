@@ -42,4 +42,7 @@ mv $HOME/.weevely/weevely.py $HOME/.weevely/weevely
 sudo chmod +x ~/.weevely/weevely
 
 sudo apt install -y openjdk-8-jre
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/chhu0830/env/master/install/burpsuite.sh)"
+curl -fsSL https://raw.githubusercontent.com/chhu0830/env/master/install/burpsuite.sh > burpsuite.sh
+sudo chmod +x burpsuite.sh
+./burpsuite.sh
+rm burpsuit.sh
