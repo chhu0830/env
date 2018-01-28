@@ -45,4 +45,4 @@ sudo apt install -y openjdk-8-jre
 curl -fsSL https://raw.githubusercontent.com/chhu0830/env/master/install/burpsuite.sh > burpsuite.sh
 sudo chmod +x burpsuite.sh
 ./burpsuite.sh
-rm burpsuit.sh
+rm burpsuite.sh
