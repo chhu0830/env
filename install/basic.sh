@@ -1,8 +1,8 @@
 #/bin/sh
 URL="https://raw.githubusercontent.com/chhu0830/env/master/config/basic"
 DIR="$PWD/config/basic"
-
 mkdir -p $DIR
+
 sudo apt install -y git curl zsh vim tmux screen htop smbclient cifs-utils p7zip-full
 # git
 rm -f $HOME/.gitconfig

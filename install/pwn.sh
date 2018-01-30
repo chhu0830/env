@@ -1,6 +1,7 @@
 #!/bin/sh
 URL="https://raw.githubusercontent.com/chhu0830/env/master/config/pwn"
 DIR=$PWD/config/pwn
+mkdir -p $DIR
 
 sudo apt install -y git gdb
 git clone https://github.com/scwuaptx/peda.git ~/.peda

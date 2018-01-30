@@ -1,6 +1,7 @@
 #!/bin/sh
 URL="https://raw.githubusercontent.com/chu0830/env/master/config/apache2"
 DIR=$PWD/config/apache2
+mkdir -p $DIR
 
 sudo apt install -y apache2 php libapache2-mod-php
 curl -fsSL $URL/apache2.example > $DIR/apache2.example
