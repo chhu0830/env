@@ -9,8 +9,6 @@
   #ServerName www.example.com
 
   ServerAdmin chhu0830@localhost
-  ServerName ohsuano.nctu.me
-  DocumentRoot /var/www/html
 
   # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
   # error, crit, alert, emerg.
