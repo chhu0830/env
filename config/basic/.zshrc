@@ -91,6 +91,8 @@ alias sr="screen -d -r"
 alias dkr="docker"
 alias dke="dkr exec -it"
 alias cmx="sudo chmod +x"
+alias scan="nmap -sn"
+alias sc="source $HOME/.zshrc"
 
 # export PATH="$PATH:$HOME/.anaconda2/bin"
 # export PATH="$PATH:$HOME/.anaconda3/bin"

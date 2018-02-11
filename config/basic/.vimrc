@@ -22,8 +22,8 @@ set fileencodings=utf-8,big5
 set cursorline
 hi CursorLine cterm=bold
 hi Visual ctermbg=0
-hi Comment ctermfg=20
-hi Directory ctermfg=20
+" hi Comment ctermfg=20
+" hi Directory ctermfg=20
 
 " status bar
 highlight User1 ctermfg=red cterm=underline
@@ -47,14 +47,21 @@ map <C-f> :Ag!
 map <F2> :w<CR>:RUN 
 map <F3> :w<CR>:CPR 
 map <F4> :NERDTreeToggle<CR>
-map <F5> :set paste<CR>:set mouse=<CR>o
-map <F6> :set nopaste<CR>:set mouse=a<CR>
-map <F7> :GitGutterSignsToggle<CR>
-map <F8> :set nu!<CR>
+map <F5> :call MouseToggle()<CR>:set paste!<CR>
+map <F6> :call MouseToggle()<CR>:GitGutterSignsToggle<CR>:set nu!<CR>
 map <F11> gT
 map <F12> gt
-command -nargs=* CPR execute CPR('CPR') . <q-args>
+imap <F5> <ESC><F5>a
+cnoremap w!! execute 'silent! write !sudo tee % > /dev/null' <bar> edit!<CR>
 command -nargs=* RUN execute CPR('RUN') . <q-args>
+command -nargs=* CPR execute CPR('CPR') . <q-args>
+function! MouseToggle()
+  if &mouse == 'a'
+    set mouse=
+  else
+    set mouse=a
+  endif
+endfunction
 
 
 " vim plug
