@@ -16,8 +16,8 @@ set mouse=a
 set t_Co=256
 set expandtab
 set switchbuf+=newtab
-set encoding=utf-8
 set fileencodings=utf-8,big5
+set fileformats=unix,dos
 
 set cursorline
 hi CursorLine cterm=bold
@@ -91,9 +91,9 @@ let g:ctrlp_custom_ignore = {
 
 " emmet
 let g:user_emmet_expandabbr_key = '<C-e>'
-autocmd Filetype html,css,javascript imap <expr><tab>
-  \ emmet#isExpandable() ? '\<C-e>' :
-  \ '\<tab>'
+"autocmd Filetype html,css,javascript imap <expr><tab>
+"  \ emmet#isExpandable() ? '<C-e>' :
+"  \ '<tab>'
 
 " delimitMate
 autocmd Filetype python let b:delimitMate_nesting_quotes = ['"']
