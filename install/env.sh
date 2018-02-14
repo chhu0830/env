@@ -23,3 +23,6 @@ read -p "Install LAMP? (Y/n) " yn
 
 read -p "Install pwn env? (Y/n) " yn
 [ "${yn}" == "Y" -o "${yn}" == "y" -o "${yn}" == "" ] && sh -c "$(curl -fsSL $URL/pwn.sh)"
+
+read -p "Install penetration env? (Y/n) " yn
+[ "${yn}" == "Y" -o "${yn}" == "y" -o "${yn}" == "" ] && sh -c "$(curl -fsSL $URL/penetration.sh)"
