@@ -47,11 +47,11 @@ sudo mv BurpSuitCommunity /opt/
 sudo apt install sqlmap
 
 # BeEF
-zsh -c "source .zshrc && rvm install 2.3.0"
-zsh -c "source .zshrc && rvm use 2.3.0 && gem install bundler"
+zsh -c "source $HOME/.zshrc && rvm install 2.3.0"
+zsh -c "source $HOME/.zshrc && rvm use 2.3.0 && gem install bundler"
 git clone git://github.com/beefproject/beef.git
 cd beef
-zsh -c "source .zshrc && rvm use 2.3.0 && bundle"
+zsh -c "source $HOME/.zshrc && rvm use 2.3.0 && bundle"
 cd ..
 sudo chown -R root:root beef
 sudo mv beef /opt/

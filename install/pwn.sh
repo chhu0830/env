@@ -19,4 +19,4 @@ sudo apt install -y nmap
 
 curl -sSL https://rvm.io/mpapis.asc | gpg --import
 curl -L https://get.rvm.io | bash -s stable --ruby
-zsh -c "source .zshrc && gem install one_gadget"
+zsh -c "source $HOME/.zshrc && gem install one_gadget"
