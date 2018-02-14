@@ -2,9 +2,11 @@
 
 # enumerate subdomains
 # usage: knockpy <url>
-git clone https://github.com/guelfoweb/knock.git ~/.knock
-mv $HOME/.knock/knockpy/knockpy.py $HOME/.knock/knockpy/knockpy
-sudo chmod +x $HOME/.knock/knockpy/knockpy
+git clone https://github.com/guelfoweb/knock.git knock
+mv knock/knockpy/knockpy.py knock/knockpy/knockpy
+sudo chmod +x knock/knockpy/knockpy
+sudo chown -R root:root knock
+sudo mv knock /opt/
 
 # web content scanner
 # usage: dirb <url> /usr/share/dirb/wordlists/<wordlist>
@@ -24,9 +26,11 @@ sudo mv -f dirb /usr/share/dirb
 # usage: weevely <url-of-reverse-php> <passwd>
 sudo apt install -y build-essential python-pip libyaml-dev python-dev
 sudo pip install --upgrade prettytable Mako PyYAML python-dateutil PySocks
-git clone https://github.com/epinna/weevely3.git ~/.weevely
-mv $HOME/.weevely/weevely.py $HOME/.weevely/weevely
+git clone https://github.com/epinna/weevely3.git weevely
+mv weevely/weevely.py weevely/weevely
 sudo chmod +x ~/.weevely/weevely
+sudo chown -R $USER:$USER weevely
+sudo mv weevly /opt/
 
 # proxy
 # usage: BurpSuitCommunity &
@@ -35,18 +39,19 @@ curl -fsSL https://raw.githubusercontent.com/chhu0830/env/master/install/burpsui
 sudo chmod +x burpsuite.sh
 ./burpsuite.sh
 rm burpsuite.sh
+sudo chown -R root:root BurpSuitCommunity
+sudo mv BurpSuitCommunity /opt/
 
 # SQL injection vulnerability
 # usage: sqlmap -u <url>
 sudo apt install sqlmap
 
 # BeEF
-rvm install 2.3.0
-rvm use 2.3.0
-zsh -c "source .zshrc && gem install bundler"
+zsh -c "source .zshrc && rvm install 2.3.0"
+zsh -c "source .zshrc && rvm use 2.3.0 && gem install bundler"
 git clone git://github.com/beefproject/beef.git
 cd beef
-bundle
+zsh -c "source .zshrc && rvm use 2.3.0 && bundle"
 cd ..
 sudo chown -R root:root beef
-sudo mv beef /opt/beef
+sudo mv beef /opt/
