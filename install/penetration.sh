@@ -39,3 +39,14 @@ rm burpsuite.sh
 # SQL injection vulnerability
 # usage: sqlmap -u <url>
 sudo apt install sqlmap
+
+# BeEF
+rvm install 2.3.0
+rvm use 2.3.0
+zsh -c "source .zshrc && gem install bundler"
+git clone git://github.com/beefproject/beef.git
+cd beef
+bundle
+cd ..
+sudo chown -R root:root beef
+sudo mv beef /opt/beef
