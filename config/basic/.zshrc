@@ -111,6 +111,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" > /dev/null 2>&1    # This loads nvm
 [ -s "$NVM_DIR/nvm.sh" ] && nvm use --delete-prefix v4.7.3 --silent # This use nvm v.4.7.3
 # nvm use 8.1.4
-export PATH="$PATH:/opt/weevly/"
+export PATH="$PATH:/opt/weevely/"
 export PATH="$PATH:/opt/knock/knockpy/"
 export PATH="$PATH:/opt/BurpSuiteCommunity/"
