@@ -5,7 +5,6 @@
 git clone https://github.com/guelfoweb/knock.git knock
 mv knock/knockpy/knockpy.py knock/knockpy/knockpy
 sudo chmod +x knock/knockpy/knockpy
-sudo chown -R root:root knock
 sudo mv knock /opt/
 
 # web content scanner
@@ -29,7 +28,6 @@ sudo pip install --upgrade prettytable Mako PyYAML python-dateutil PySocks
 git clone https://github.com/epinna/weevely3.git weevely
 mv weevely/weevely.py weevely/weevely
 sudo chmod +x ~/.weevely/weevely
-sudo chown -R $USER:$USER weevely
 sudo mv weevly /opt/
 
 # proxy
@@ -39,7 +37,6 @@ curl -fsSL https://raw.githubusercontent.com/chhu0830/env/master/install/burpsui
 sudo chmod +x burpsuite.sh
 ./burpsuite.sh
 rm burpsuite.sh
-sudo chown -R root:root BurpSuitCommunity
 sudo mv BurpSuitCommunity /opt/
 
 # SQL injection vulnerability
@@ -53,5 +50,4 @@ git clone git://github.com/beefproject/beef.git
 cd beef
 zsh -c "source $HOME/.zshrc && rvm use 2.3.0 && bundle"
 cd ..
-sudo chown -R root:root beef
 sudo mv beef /opt/
