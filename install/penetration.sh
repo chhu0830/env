@@ -51,9 +51,12 @@ zsh -c "source $HOME/.zshrc && rvm use 2.3.0 && bundle"
 cd ..
 sudo mv beef /opt/
 
-# Veil
-# cd /opt/Veil && ./Veil.py
+# Veil - create backdoor
+# usage: cd /opt/Veil && ./Veil.py
 sudo git clone https://github.com/Veil-Framework/Veil/ /opt/Veil
 cd /opt/Veil/setup
 sudo ./setup.py -c
 cd -
+
+# msfconsole
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb)"
