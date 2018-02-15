@@ -3,8 +3,7 @@
 # enumerate subdomains
 # usage: knockpy <url>
 git clone https://github.com/guelfoweb/knock.git knock
-mv knock/knockpy/knockpy.py knock/knockpy/knockpy
-sudo chmod +x knock/knockpy/knockpy
+sudo chmod +x knock/knockpy/knockpy.py
 sudo mv knock /opt/
 
 # web content scanner
@@ -26,8 +25,7 @@ sudo mv -f dirb /usr/share/dirb
 sudo apt install -y build-essential python-pip libyaml-dev python-dev
 sudo pip install --upgrade prettytable Mako PyYAML python-dateutil PySocks
 git clone https://github.com/epinna/weevely3.git weevely
-mv weevely/weevely.py weevely/weevely
-sudo chmod +x ~/.weevely/weevely
+sudo chmod +x weevely/weevely.py
 sudo mv weevly /opt/
 
 # proxy
@@ -54,6 +52,7 @@ cd ..
 sudo mv beef /opt/
 
 # Veil
+# cd /opt/Veil && ./Veil.py
 sudo git clone https://github.com/Veil-Framework/Veil/ /opt/Veil
 cd /opt/Veil/setup
 sudo ./setup.py -c
