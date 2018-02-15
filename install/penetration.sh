@@ -44,6 +44,7 @@ sudo mv BurpSuitCommunity /opt/
 sudo apt install sqlmap
 
 # BeEF
+# cd /opt/beef && ./beef
 zsh -c "source $HOME/.zshrc && rvm install 2.3.0"
 zsh -c "source $HOME/.zshrc && rvm use 2.3.0 && gem install bundler"
 git clone git://github.com/beefproject/beef.git
@@ -51,3 +52,9 @@ cd beef
 zsh -c "source $HOME/.zshrc && rvm use 2.3.0 && bundle"
 cd ..
 sudo mv beef /opt/
+
+# Veil
+sudo git clone https://github.com/Veil-Framework/Veil/ /opt/Veil
+cd /opt/Veil/setup
+sudo ./setup.py -c
+cd -
