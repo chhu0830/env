@@ -1,3 +1,3 @@
 #!/bin/sh
 
-sudo cp $1 /var/www/html/files/
+cp $1 /var/www/html/files/
