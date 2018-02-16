@@ -60,3 +60,9 @@ cd -
 
 # msfconsole
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb)"
+
+# Tools for Brute Force
+sudo apt install crunch
+git clone https://github.com/vanhauser-thc/thc-hydra
+cd thc-hydra && zsh -c "./configure && make && sudo make install" && cd ..
+rm -rf thc-hydra
