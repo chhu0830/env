@@ -1,0 +1,3 @@
+#!/bin/sh
+
+cd /opt/knock/knockpy && ./knockpy.py $@
