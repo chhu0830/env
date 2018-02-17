@@ -66,3 +66,9 @@ sudo apt install crunch
 git clone https://github.com/vanhauser-thc/thc-hydra
 cd thc-hydra && zsh -c "./configure && make && sudo make install" && cd ..
 rm -rf thc-hydra
+
+# Tool for auto detect web vulnerability
+wget https://github.com/zaproxy/zaproxy/releases/download/2.7.0/ZAP_2_7_0_unix.sh
+sudo chmod +x ZAP_2_7_0_unix
+sudo ./ZAP_2_7_0_unix.sh
+rm ZAP_2_7_0_unix
