@@ -1,6 +1,11 @@
 #!/bin/sh
 
 sudo apt install traceroute default-jdk default-jre
+sudo add-apt-repository ppa:wireshark-dev/stable
+sudo apt update
+sudo apt install wireshark-gtk
+sudo adduser $USER wireshark
+
 # enumerate subdomains
 # usage: knockpy <url>
 git clone https://github.com/guelfoweb/knock.git knock
