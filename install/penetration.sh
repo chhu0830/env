@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sudo apt install traceroute
+sudo apt install traceroute default-jdk default-jre
 # enumerate subdomains
 # usage: knockpy <url>
 git clone https://github.com/guelfoweb/knock.git knock
