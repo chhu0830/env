@@ -1,5 +1,6 @@
 #!/bin/sh
 
+sudo apt install traceroute
 # enumerate subdomains
 # usage: knockpy <url>
 git clone https://github.com/guelfoweb/knock.git knock
