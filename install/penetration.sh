@@ -6,6 +6,10 @@ sudo apt update
 sudo apt install wireshark-gtk
 sudo adduser $USER wireshark
 
+# Maltego
+# https://www.paterva.com/web7/downloads.php
+# sudo dpkg -i maltego
+
 # enumerate subdomains
 # usage: knockpy <url>
 git clone https://github.com/guelfoweb/knock.git knock
