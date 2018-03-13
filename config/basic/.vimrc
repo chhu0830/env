@@ -96,6 +96,7 @@ let g:ycm_python_binary_path = 'python'
 " NERDTree
 " let g:NERDTreeWinPos = "right"
 let g:NERDTreeShowHidden = 1
+let g:NERDTreeQuitOnOpen=1
 
 
 function CPR(flag)
