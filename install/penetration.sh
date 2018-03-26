@@ -82,3 +82,10 @@ wget https://github.com/zaproxy/zaproxy/releases/download/2.7.0/ZAP_2_7_0_unix.s
 sudo chmod +x ZAP_2_7_0_unix
 sudo ./ZAP_2_7_0_unix.sh
 rm ZAP_2_7_0_unix
+
+# privoxy & tor
+# default port is 8118 & 9050
+# usage: tor
+sudo apt install privoxy tor
+sudo service tor stop
+sudo sed -i "\$aforward-socks4a / localhost:9050 ." /etc/privoxy/config
