@@ -89,3 +89,11 @@ rm ZAP_2_7_0_unix
 sudo apt install privoxy tor
 sudo service tor stop
 sudo sed -i "\$aforward-socks4a / localhost:9050 ." /etc/privoxy/config
+
+# DirBuster - Tool for Scan Directory
+# usage: java -jar /opt/DirBuster/DirBuster-1.0-RC1.jar
+wget -O DirBuster.tar.bz2 "https://downloads.sourceforge.net/project/dirbuster/DirBuster%20%28jar%20%2B%20lists%29/1.0-RC1/DirBuster-1.0-RC1.tar.bz2?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fdirbuster%2Ffiles%2FDirBuster%2520%2528jar%2520%252B%2520lists%2529%2F1.0-RC1%2FDirBuster-1.0-RC1.tar.bz2%2Fdownload&ts=1522125805"
+tar -xf DirBuster.tar.bz2
+sudo mv DirBurster-1.0-RC1 /opt/DirBuster
+sudo ln -s /opt/DirBuster/DirBuster-1.0-RC1.sh /usr/local/bin/dirbuster
+rm DirBuster.tar.bz2
