@@ -52,8 +52,8 @@ map <F11> gT
 map <F12> gt
 imap <F5> <ESC><F5>a
 cnoremap w!! execute 'silent! write !sudo tee % > /dev/null' <bar> edit!<CR>
-command -nargs=* RUN execute CPR('RUN') . <q-args>
-command -nargs=* CPR execute CPR('CPR') . <q-args>
+command -nargs=* RUN execute CPR('RUN') . <q-args> . ';echo "\e[1;31m[Terminated] $(date)\e[0m\a"'
+command -nargs=* CPR execute CPR('CPR') . <q-args> . ';echo "\e[1;31m[Terminated] $(date)\e[0m\a"'
 
 
 " vim plug
@@ -103,43 +103,51 @@ function CPR(flag)
   if filereadable('makefile') || filereadable('Makefile')
     let exc = 'make'
   elseif( &ft == 'cpp')
-    let cpl = 'g++ -w -o "%:r" -std=c++11 "%";' |
-    let exc = '"./%:r"'
+    let cpl = 'g++ -w -o %:r -std=c++11 %;' |
+    let exc = './%:r'
   elseif( &ft == 'c')
-    let cpl = 'gcc -w -o "%:r" -std=c99 "%";' |
-    let exc = '"./%:r"'
+    let cpl = 'gcc -w -o %:r -std=c99 %;' |
+    let exc = './%:r'
   elseif( &ft == 'java')
-    let cpl = 'javac "%";' |
-    let exc = 'java "%:r"'
+    let cpl = 'javac %;' |
+    let exc = 'java %:r'
+  elseif( getline(1) =~ 'python3')
+    let exc = 'python3 %'
+  elseif( getline(1) =~ 'python2')
+    let exc = 'python2 %'
   elseif( &ft == 'python')
-    let exc = './"%"'
+    let exc = 'python %'
+  elseif( getline(1) =~ 'bash')
+    let exc = 'bash %'
+  elseif( getline(1) =~ 'zsh')
+    let exc = 'zsh %'
   elseif( &ft == 'sh')
-    let exc = './"%"'
+    let exc = 'sh %'
   elseif( &ft == 'verilog')
-    let cpl = 'iverilog "%" -o "%:r.exe";' |
-    let exc = '"./%:r.exe"'
+    let cpl = 'iverilog % -o %:r.exe;' |
+    let exc = './%:r.exe'
   elseif( &ft == 'ruby')
-    let exc = 'ruby "%"'
+    let exc = 'ruby %'
   elseif( &ft == 'tex')
-    let cpl = 'pdflatex "%";' |
-    let exc = 'xpdf "%:r.pdf"'
+    let cpl = 'pdflatex %;' |
+    let exc = ''
   else
-    let exc = './"%"'
+    let exc = './%'
   endif
 
-  if a:flag == "CPR"
+  if a:flag == 'CPR'
     if !exists('cpl')
       echo 'Can''t compile this filetype ...'
       return
     else
-      let cp_r = 'echo "[Compiling]"; ' . cpl . 'echo "[Running]" && time ' . exc
+      let cp_r = 'echo "\e[1;33m[Compiling] $(date)\e[0m"; ' . cpl . 'echo "\e[1;32m[Running] $(date)\e[0m" && time ' . exc
     endif
   else 
     if !exists('exc')
       echo 'Can''t run this filetype ...'
       return
     else
-      let cp_r = 'echo "[Running]" && time ' . exc
+      let cp_r = 'echo "\e[1;32m[Running] $(date)\e[0m" && time ' . exc
     endif
   endif
 
