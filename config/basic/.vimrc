@@ -103,11 +103,11 @@ function CPR(flag)
   if filereadable('makefile') || filereadable('Makefile')
     let exc = 'make'
   elseif( &ft == 'cpp')
-    let cpl = 'g++ -w -o %:r -std=c++11 %;' |
-    let exc = './%:r'
+    let cpl = 'g++ -w -o %:r.out -std=c++14 %;' |
+    let exc = './%:r.out'
   elseif( &ft == 'c')
-    let cpl = 'gcc -w -o %:r -std=c99 %;' |
-    let exc = './%:r'
+    let cpl = 'gcc -w -o %:r.out -std=c99 %;' |
+    let exc = './%:r.out'
   elseif( &ft == 'java')
     let cpl = 'javac %;' |
     let exc = 'java %:r'
