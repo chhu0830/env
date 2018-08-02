@@ -12,6 +12,7 @@ set hls
 set cin
 set ignorecase
 set smartcase
+set mouse=a
 set t_Co=256
 set expandtab
 set switchbuf+=newtab
@@ -35,10 +36,6 @@ set statusline=%5*%<%{CurDir()}/
 set statusline+=\ %2*%f%m
 set statusline+=\ %1*\[%{&fenc}:%Y]  
 set statusline+=\ %5*%=\Line:%4*%l\/%L\ %5*Column:%4*%c%V\  
-function! CurDir()
-  let curdir = substitute(getcwd(), $HOME, '~', '')
-  return curdir
-endfunction
 
 map e :Tex<CR>
 map f :Ag! <cword><CR>
@@ -46,8 +43,8 @@ map <C-f> :Ag!
 map <F2> :w<CR>:RUN 
 map <F3> :w<CR>:CPR 
 map <F4> :NERDTreeToggle<CR>
-map <F5> :set paste!<CR>
-map <F6> :GitGutterSignsToggle<CR>:set nu!<CR>
+map <F5> :call MouseToggle()<CR>:set paste!<CR>
+map <F6> :call MouseToggle()<CR>:GitGutterSignsToggle<CR>:set nu!<CR>
 map <F11> gT
 map <F12> gt
 imap <F5> <ESC><F5>a
@@ -76,10 +73,10 @@ call plug#end()
 " ctrlp
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
+      \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+      \ 'file': '\v\.(exe|so|dll)$',
+      \ 'link': 'some_bad_symbolic_links',
+      \ }
 
 " emmet
 let g:user_emmet_expandabbr_key = '<C-e>'
@@ -98,6 +95,18 @@ let g:ycm_python_binary_path = 'python'
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeQuitOnOpen=1
 
+function! MouseToggle()
+  if &mouse == 'a'
+    set mouse=
+  else
+    set mouse=a
+  endif
+endfunction
+
+function! CurDir()
+  let curdir = substitute(getcwd(), $HOME, '~', '')
+  return curdir
+endfunction
 
 function CPR(flag)
   if filereadable('makefile') || filereadable('Makefile')
