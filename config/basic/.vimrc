@@ -12,12 +12,12 @@ set hls
 set cin
 set ignorecase
 set smartcase
-set mouse=a
 set t_Co=256
 set expandtab
 set switchbuf+=newtab
 set fileencodings=utf-8,big5
 set fileformats=unix,dos
+set clipboard=unnamedplus
 
 set cursorline
 hi CursorLine cterm=bold
@@ -43,8 +43,8 @@ map <C-f> :Ag!
 map <F2> :w<CR>:RUN 
 map <F3> :w<CR>:CPR 
 map <F4> :NERDTreeToggle<CR>
-map <F5> :call MouseToggle()<CR>:set paste!<CR>
-map <F6> :call MouseToggle()<CR>:GitGutterSignsToggle<CR>:set nu!<CR>
+map <F5> :set paste!<CR>
+map <F6> :GitGutterSignsToggle<CR>:set nu!<CR>
 map <F11> gT
 map <F12> gt
 imap <F5> <ESC><F5>a
