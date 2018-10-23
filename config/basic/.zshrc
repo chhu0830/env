@@ -6,7 +6,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 # ZSH_THEME="xiong-chiamiov-plus"
-ZSH_THEME="rkj-repos"
+ZSH_THEME="rkj-repos-customize"
 
 
 # Uncomment the following line to use case-sensitive completion.
@@ -52,6 +52,8 @@ ZSH_THEME="rkj-repos"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
+
+REPORTTIME=1
 
 # User configuration
 
