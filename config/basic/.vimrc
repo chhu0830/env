@@ -35,7 +35,7 @@ highlight User4 ctermfg=white cterm=underline
 highlight User5 ctermfg=cyan cterm=underline
 set laststatus=2
 set statusline=%5*%<%{CurDir()}/
-set statusline+=\ %2*%f%m
+set statusline+=\ %3*%f%m
 set statusline+=\ %1*\[%{&fenc}:%Y]  
 set statusline+=\ %5*%=\Line:%4*%l\/%L\ %5*Column:%4*%c%V\  
 
