@@ -1,9 +1,9 @@
 colorscheme peachpuff
 syntax on
 set bs=2
-set ts=2
-set softtabstop=2
-set sw=2
+set ts=4
+set softtabstop=4
+set sw=4
 set nu
 set ru
 set ai
@@ -18,6 +18,8 @@ set switchbuf+=newtab
 set fileencodings=utf-8,big5
 set fileformats=unix,dos
 set clipboard=unnamedplus
+
+autocmd FileType html,css,javascript,ruby set ts=2 | set softtabstop=2 | set sw=2
 
 set cursorline
 hi CursorLine cterm=bold
@@ -44,13 +46,13 @@ map <F2> :w<CR>:RUN
 map <F3> :w<CR>:CPR 
 map <F4> :NERDTreeToggle<CR>
 map <F5> :set paste!<CR>
-map <F6> :GitGutterSignsToggle<CR>:set nu!<CR>
+map <F6> :set nu!<CR>:GitGutterSignsToggle<CR>:IndentLinesToggle<CR>
 map <F11> gT
 map <F12> gt
 imap <F5> <ESC><F5>a
 cnoremap w!! execute 'silent! write !sudo tee % > /dev/null' <bar> edit!<CR>
-command -nargs=* RUN execute CPR('RUN') . <q-args> . ';echo "\e[1;31m[Terminated] $(date)\e[0m\a"'
-command -nargs=* CPR execute CPR('CPR') . <q-args> . ';echo "\e[1;31m[Terminated] $(date)\e[0m\a"'
+command -nargs=* RUN execute CPR('RUN') . <q-args> . '; echo "\e[1;31m[Terminated] $(date)\e[0m\a"'
+command -nargs=* CPR execute CPR('CPR') . <q-args> . '; echo "\e[1;31m[Terminated] $(date)\e[0m\a"'
 
 
 " vim plug
@@ -68,15 +70,16 @@ Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
 Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree'
+Plug 'Yggdroot/indentLine'
 call plug#end()
 
 " ctrlp
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = {
-      \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-      \ 'file': '\v\.(exe|so|dll)$',
-      \ 'link': 'some_bad_symbolic_links',
-      \ }
+            \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+            \ 'file': '\v\.(exe|so|dll)$',
+            \ 'link': 'some_bad_symbolic_links',
+            \ }
 
 " emmet
 let g:user_emmet_expandabbr_key = '<C-e>'
@@ -95,70 +98,75 @@ let g:ycm_python_binary_path = 'python'
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeQuitOnOpen=1
 
+" Intent line
+let g:indentLine_color_term = 239
+let g:indentLine_char = '|'
+
 function! MouseToggle()
-  if &mouse == 'a'
-    set mouse=
-  else
-    set mouse=a
-  endif
+    if &mouse == 'a'
+        set mouse=
+    else
+        set mouse=a
+    endif
 endfunction
 
 function! CurDir()
-  let curdir = substitute(getcwd(), $HOME, '~', '')
-  return curdir
+    let curdir = substitute(getcwd(), $HOME, '~', '')
+    return curdir
 endfunction
 
 function CPR(flag)
-  if filereadable('makefile') || filereadable('Makefile')
-    let exc = 'make'
-  elseif( &ft == 'cpp')
-    let cpl = 'g++ -w -o %:r.out -std=c++14 %;' |
-    let exc = './%:r.out'
-  elseif( &ft == 'c')
-    let cpl = 'gcc -w -o %:r.out -std=c99 %;' |
-    let exc = './%:r.out'
-  elseif( &ft == 'java')
-    let cpl = 'javac %;' |
-    let exc = 'java %:r'
-  elseif( getline(1) =~ 'python3')
-    let exc = 'python3 %'
-  elseif( getline(1) =~ 'python2')
-    let exc = 'python2 %'
-  elseif( &ft == 'python')
-    let exc = 'python %'
-  elseif( getline(1) =~ 'bash')
-    let exc = 'bash %'
-  elseif( getline(1) =~ 'zsh')
-    let exc = 'zsh %'
-  elseif( &ft == 'sh')
-    let exc = 'sh %'
-  elseif( &ft == 'verilog')
-    let cpl = 'iverilog % -o %:r.exe;' |
-    let exc = './%:r.exe'
-  elseif( &ft == 'ruby')
-    let exc = 'ruby %'
-  elseif( &ft == 'tex')
-    let cpl = 'pdflatex %;' |
-    let exc = ''
-  else
-    let exc = './%'
-  endif
-
-  if a:flag == 'CPR'
-    if !exists('cpl')
-      echo 'Can''t compile this filetype ...'
-      return
+    if filereadable('makefile') || filereadable('Makefile')
+        let cpl = 'make && '
+        let exc = 'make run'
+    elseif( &ft == 'cpp')
+        let cpl = 'g++ -o %:r -std=c++14 % && ' |
+        let exc = './%:r'
+    elseif( &ft == 'c')
+        let cpl = 'gcc -o %:r % && ' |
+        let exc = './%:r'
+    elseif( &ft == 'java')
+        let cpl = 'javac % && ' |
+        let exc = 'java %:r'
+    elseif( getline(1) =~ 'python3')
+        let exc = 'python3 %'
+    elseif( getline(1) =~ 'python2')
+        let exc = 'python2 %'
+    elseif( &ft == 'python')
+        let exc = 'python %'
+    elseif( getline(1) =~ 'bash')
+        let exc = 'bash %'
+    elseif( getline(1) =~ 'zsh')
+        let exc = 'zsh %'
+    elseif( &ft == 'sh')
+        let exc = 'sh %'
+    elseif( &ft == 'verilog')
+        let cpl = 'iverilog % -o %:r.exe && ' |
+        let exc = './%:r.exe'
+    elseif( &ft == 'ruby')
+        let exc = 'ruby %'
+    elseif( &ft == 'tex')
+        let cpl = 'pdflatex % && ' |
+        let exc = ''
     else
-      let cp_r = 'echo "\e[1;33m[Compiling] $(date)\e[0m"; ' . cpl . 'echo "\e[1;32m[Running] $(date)\e[0m" && time ' . exc
+        let exc = './%'
     endif
-  else 
-    if !exists('exc')
-      echo 'Can''t run this filetype ...'
-      return
-    else
-      let cp_r = 'echo "\e[1;32m[Running] $(date)\e[0m" && time ' . exc
-    endif
-  endif
 
-  return '!clear;' . cp_r . ' '
+    if a:flag == 'CPR'
+        if !exists('cpl')
+            echo 'Can''t compile this filetype ...'
+            return
+        else
+            let cp_r = 'echo "\e[1;33m[Compiling] $(date)\e[0m" && ' . cpl . 'echo "\e[1;32m[Running] $(date)\e[0m" && time ' . exc
+        endif
+    else 
+        if !exists('exc')
+            echo 'Can''t run this filetype ...'
+            return
+        else
+            let cp_r = 'echo "\e[1;32m[Running] $(date)\e[0m" && time ' . exc
+        endif
+    endif
+
+    return '!clear;' . cp_r . ' '
 endfunction
