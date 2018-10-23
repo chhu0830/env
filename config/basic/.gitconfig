@@ -1,6 +1,6 @@
 [user]
 	email = chhu0830@gmail.com
-	name = oHSUANo
+	name = Chia-Hsuan Hu
 [alias]
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
   st = status
