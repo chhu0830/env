@@ -19,8 +19,7 @@ sudo chmod 644 $HOME/.ssh/config
 sudo chsh -s /bin/zsh $USER
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 curl -fsSL $URL/rkj-repos.zsh-theme > $DIR/rkj-repos.zsh-theme
-mv $HOME/.oh-my-zsh/themes/rkj-repos.zsh-theme $HOME/.oh-my-zsh/themes/rkj-repos.zsh-theme.bak
-ln -s $DIR/rkj-repos.zsh-theme $HOME/.oh-my-zsh/themes/
+ln -s $DIR/rkj-repos-customize.zsh-theme $HOME/.oh-my-zsh/custom/themes/
 mv $HOME/.zshrc $HOME/.zshrc.bak
 curl -fsSL $URL/.zshrc > $DIR/.zshrc
 ln -s $DIR/.zshrc $HOME/.zshrc
