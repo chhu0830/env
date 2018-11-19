@@ -1,13 +1,5 @@
 #!/bin/bash
-DIR="$HOME/.env"
-
-read -p "Where do you want to put your config file? ($DIR) " dir
-[ "${dir}" != "" ] && DIR=${dir}
-
 sudo apt update
-sudo apt install -y git
-git clone https://github.com/chhu0830/env ${DIR}
-cd $DIR
 
 read -p "Install basic env? (Y/n) " yn
 [ "${yn}" == "Y" -o "${yn}" == "y" -o "${yn}" == "" ] && ./install/basic.sh
