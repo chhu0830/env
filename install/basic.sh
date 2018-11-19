@@ -1,7 +1,7 @@
 #/bin/sh
 DIR="$PWD/config/basic"
 
-sudo apt install -y git curl zsh vim tmux screen htop smbclient cifs-utils p7zip-full p7zip-rar iostat manpages-posix-dev glibc-doc
+sudo apt install -y git curl zsh vim tmux screen htop smbclient cifs-utils p7zip-full p7zip-rar manpages-posix-dev glibc-doc
 
 # git
 ln -b -s $DIR/.gitconfig $HOME/.gitconfig
