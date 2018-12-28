@@ -18,8 +18,16 @@ set switchbuf+=newtab
 set fileencodings=utf-8,big5
 set fileformats=unix,dos
 set clipboard=unnamedplus
-
+set autoread
+set mouse=a
+au CursorHold * checktime
 autocmd FileType html,css,javascript,ruby set ts=2 | set softtabstop=2 | set sw=2
+
+set textwidth=999
+let &colorcolumn="+".join(range(1, 999), ",+")
+highlight ColorColumn ctermbg=235 guibg=#2c2d27
+
+" match ErrorMsg '\%>80v.\+'
 
 set cursorline
 hi CursorLine cterm=bold
@@ -42,11 +50,15 @@ set statusline+=\ %5*%=\Line:%4*%l\/%L\ %5*Column:%4*%c%V\
 map e :Tex<CR>
 map f :Ag! <cword><CR>
 map <C-f> :Ag! 
-map <F2> :w<CR>:RUN 
-map <F3> :w<CR>:CPR 
+map <F2> :wa<CR>:RUN 
+map <F3> :wa<CR>:CPR 
 map <F4> :NERDTreeToggle<CR>
 map <F5> :set paste!<CR>
-map <F6> :set nu!<CR>:GitGutterSignsToggle<CR>:IndentLinesToggle<CR>
+map <F6> :set nonu<CR>:GitGutterSignsDisable<CR>:IndentLinesDisable<CR>
+map <F7> :set nu<CR>:GitGutterSignsEnable<CR>:IndentLinesEnable<CR>
+map <F8> :set textwidth=
+map <F9> :-tabmove<CR>
+map <F10> :+tabmove<CR>
 map <F11> gT
 map <F12> gt
 imap <F5> <ESC><F5>a
@@ -89,6 +101,7 @@ let g:user_emmet_expandabbr_key = '<C-e>'
 
 " delimitMate
 autocmd Filetype python let b:delimitMate_nesting_quotes = ['"']
+autocmd Filetype python let b:delimitMate_nesting_quotes = ["'"]
 
 " YouCompleteMe
 let g:ycm_python_binary_path = 'python'
@@ -99,7 +112,7 @@ let g:NERDTreeShowHidden = 1
 let g:NERDTreeQuitOnOpen=1
 
 " Intent line
-let g:indentLine_color_term = 239
+let g:indentLine_color_term = 235
 let g:indentLine_char = '|'
 
 function! MouseToggle()
@@ -117,13 +130,13 @@ endfunction
 
 function CPR(flag)
     if filereadable('makefile') || filereadable('Makefile')
-        let cpl = 'make && '
-        let exc = 'make run'
+        let cpl = ''
+        let exc = 'make'
     elseif( &ft == 'cpp')
-        let cpl = 'g++ -o %:r -std=c++14 % && ' |
+        let cpl = 'g++ -o %:r -std=c++14 -Wall -Wextra -pedantic % && ' |
         let exc = './%:r'
     elseif( &ft == 'c')
-        let cpl = 'gcc -o %:r % && ' |
+        let cpl = 'gcc -o %:r -Wall -Wextra -pedantic % && ' |
         let exc = './%:r'
     elseif( &ft == 'java')
         let cpl = 'javac % && ' |
