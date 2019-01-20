@@ -7,10 +7,9 @@
 ## Vim
 - &lt;F2&gt;: run [argv]
 - &lt;F3&gt;: compile & run [argv]
-- &lt;F4&gt;: NerdTree
-- &lt;F5&gt;: switch between paste mode & insert mode
-- &lt;F6&gt;: copy mode
-- &lt;F7&gt;: edit mode
+- &lt;F4&gt;: git add all open file & git commit msg
+- &lt;F5&gt;: NerdTree
+- &lt;F6&gt;: CopyPasteToggle
 - &lt;F8&gt;: set text width
 - &lt;F9&gt;: move tab to the left
 - &lt;F10&gt;: move tab to the right
