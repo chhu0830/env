@@ -20,11 +20,15 @@ set fileformats=unix,dos
 set clipboard=unnamedplus
 set autoread
 set mouse=a
-au CursorHold * checktime
-autocmd FileType html,css,javascript,ruby set ts=2 | set softtabstop=2 | set sw=2
+set foldmethod=manual
+set foldtext=FoldText()
 
-set textwidth=999
-let &colorcolumn="+".join(range(1, 999), ",+")
+au CursorHold * checktime
+autocmd FileType html,css,javascript,ruby set ts=2 softtabstop=2 sw=2
+autocmd Filetype json let g:indentLine_enabled = 0
+
+" highlight Folded ctermfg=cyan ctermbg=None cterm=bold
+
 highlight ColorColumn ctermbg=235 guibg=#2c2d27
 
 " match ErrorMsg '\%>80v.\+'
@@ -47,24 +51,33 @@ set statusline+=\ %3*%f%m
 set statusline+=\ %1*\[%{&fenc}:%Y]  
 set statusline+=\ %5*%=\Line:%4*%l\/%L\ %5*Column:%4*%c%V\  
 
-map e :Tex<CR>
+set textwidth=999
+" let &colorcolumn='+'.join(range(0, 999), ',+')
+let &colorcolumn='+0'
+
 map f :Ag! <cword><CR>
 map <C-f> :Ag! 
 map <F2> :wa<CR>:RUN 
 map <F3> :wa<CR>:CPR 
-map <F4> :NERDTreeToggle<CR>
-map <F5> :set paste!<CR>
-map <F6> :set nonu<CR>:GitGutterSignsDisable<CR>:IndentLinesDisable<CR>
-map <F7> :set nu<CR>:GitGutterSignsEnable<CR>:IndentLinesEnable<CR>
-map <F8> :set textwidth=
+" map <F4> :bufdo silent !git add %<CR>:!clear<CR>:!git commit -m 
+map <F4> :COMMIT 
+map <F5> :NERDTreeToggle<CR>
+map <F6> :call CopyPasteToggle()<CR>
+map <F8> :MARK 
 map <F9> :-tabmove<CR>
 map <F10> :+tabmove<CR>
 map <F11> gT
 map <F12> gt
 imap <F5> <ESC><F5>a
 cnoremap w!! execute 'silent! write !sudo tee % > /dev/null' <bar> edit!<CR>
-command -nargs=* RUN execute CPR('RUN') . <q-args> . '; echo "\e[1;31m[Terminated] $(date)\e[0m\a"'
-command -nargs=* CPR execute CPR('CPR') . <q-args> . '; echo "\e[1;31m[Terminated] $(date)\e[0m\a"'
+nnoremap <tab> zo
+nnoremap <S-tab> zc
+vnoremap <S-tab> zf
+command -nargs=* RUN execute EXEC('RUN', <q-args>)
+command -nargs=* CPR execute EXEC('CPR', <q-args>)
+command -nargs=* MARK execute MARK(<f-args>)
+command -nargs=* COMMIT execute 'wa' | execute 'silent bufdo !git add %' | execute '!clear; git commit -m "' . <q-args> . '"' | execute 'silent bufdo w'
+" command -nargs=* GCOMMIT 'bufdo !git add % | !git commit -m' . <q-args> . '| bufdo update'
 
 
 " vim plug
@@ -101,13 +114,12 @@ let g:user_emmet_expandabbr_key = '<C-e>'
 
 " delimitMate
 autocmd Filetype python let b:delimitMate_nesting_quotes = ['"']
-autocmd Filetype python let b:delimitMate_nesting_quotes = ["'"]
 
 " YouCompleteMe
 let g:ycm_python_binary_path = 'python'
 
 " NERDTree
-" let g:NERDTreeWinPos = "right"
+" let g:NERDTreeWinPos = 'right'
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeQuitOnOpen=1
 
@@ -115,12 +127,65 @@ let g:NERDTreeQuitOnOpen=1
 let g:indentLine_color_term = 235
 let g:indentLine_char = '|'
 
-function! MouseToggle()
-    if &mouse == 'a'
+function! FoldText()
+	let l:lpadding = &fdc
+	redir => l:signs
+	execute 'silent sign place buffer='.bufnr('%')
+	redir End
+	let l:lpadding += l:signs =~ 'id=' ? 2 : 0
+
+	if exists("+relativenumber")
+		if (&number)
+			let l:lpadding += max([&numberwidth, strlen(line('$'))]) + 1
+		elseif (&relativenumber)
+			let l:lpadding += max([&numberwidth, strlen(v:foldstart - line('w0')), strlen(line('w$') - v:foldstart), strlen(v:foldstart)]) + 1
+		endif
+	else
+		if (&number)
+			let l:lpadding += max([&numberwidth, strlen(line('$'))]) + 1
+		endif
+	endif
+
+	" expand tabs
+	let l:start = substitute(getline(v:foldstart), '\t', repeat(' ', &tabstop), 'g')
+	let l:end = substitute(substitute(getline(v:foldend), '\t', repeat(' ', &tabstop), 'g'), '^\s*', '', 'g')
+
+	let l:info = ' (' . (v:foldend - v:foldstart) . ')'
+	let l:infolen = strlen(substitute(l:info, '.', 'x', 'g'))
+	let l:width = winwidth(0) - l:lpadding - l:infolen
+
+	let l:separator = ' … '
+	let l:separatorlen = strlen(substitute(l:separator, '.', 'x', 'g'))
+	let l:start = strpart(l:start , 0, l:width - strlen(substitute(l:end, '.', 'x', 'g')) - l:separatorlen)
+	let l:text = l:start . ' … ' . l:end
+
+	return l:text . repeat(' ', l:width - strlen(substitute(l:text, ".", "x", "g"))) . l:info
+endfunction
+
+function! CopyPasteToggle()
+    if &nu == 1
+        set nonu
+        set paste
         set mouse=
+        GitGutterSignsDisable
+        IndentLinesDisable
     else
+        set nu
+        set nopaste
         set mouse=a
+        GitGutterSignsEnable
+        IndentLinesEnable
     endif
+endfunction
+
+function MARK(...)
+    for col in a:000
+        if col == 0
+            let &colorcolumn='+0'
+        else
+            let &colorcolumn=col . ',' . &colorcolumn
+        endif
+    endfor
 endfunction
 
 function! CurDir()
@@ -128,7 +193,7 @@ function! CurDir()
     return curdir
 endfunction
 
-function CPR(flag)
+function EXEC(flag, args)
     if filereadable('makefile') || filereadable('Makefile')
         let cpl = ''
         let exc = 'make'
@@ -179,7 +244,7 @@ function CPR(flag)
         else
             let cp_r = 'echo "\e[1;32m[Running] $(date)\e[0m" && time ' . exc
         endif
-    endif
+   endif
 
-    return '!clear;' . cp_r . ' '
+    return '!clear;' . cp_r . ' ' . a:args . '; echo "\e[1;31m[Terminated] $(date)\e[0m\a"'
 endfunction
