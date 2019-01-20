@@ -93,24 +93,18 @@ alias sr="screen -d -r"
 alias dkr="docker"
 alias dke="docker exec -it"
 alias dkl="docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}} {{.Name}}({{.Config.Image}}) {{json .NetworkSettings.Ports}}' \$(docker ps -q) | awk '{gsub(/172/, \"\n172\", \$1); gsub(/^\n/, \"\", \$1) gsub(/^\//, \"\", \$2); gsub(/\"/,\"\", \$3); gsub(/\//, \"(\", \$3); gsub(/:/,\")=>\", \$3); print}'"
-alias cmx="sudo chmod +x"
 alias sc="source $HOME/.zshrc"
-alias nctuvpn="/usr/local/pulse/pulsesvc -h sslvpn.nctu.edu.tw -r portal -u"
+alias nctuvpn="/usr/local/pulse/PulseClient_x86_64.sh -h sslvpn.nctu.edu.tw -r portal -u"
 
-# export PATH="$PATH:$HOME/.anaconda2/bin"
-# export PATH="$PATH:$HOME/.anaconda3/bin"
-# export PATH="$PATH:$HOME/.spark/bin"
-# export PATH="$PATH:$HOME/.binaryninja"
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-[ -s "$HOME/.rvm/scripts/rvm" ] && source "$HOME/.rvm/scripts/rvm" # This loads nvm
-# export PATH="$PATH:/usr/local/scala/bin"
-# export PATH="$PATH:/home/chhu0830/.tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin"
+export PATH="$HOME/.rvm/bin:$PATH" # Add RVM to PATH for scripting
+[ -s "$HOME/.rvm/scripts/rvm" ] && source "$HOME/.rvm/scripts/rvm" # This loads rvm
 
 # export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python2
-# export WORKON_HOME=$HOME/.virtualenvs
-# source /usr/local/bin/virtualenvwrapper.sh
+export WORKON_HOME=$HOME/.virtualenvs
+source $HOME/.local/bin/virtualenvwrapper.sh
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" > /dev/null 2>&1    # This loads nvm
 [ -s "$NVM_DIR/nvm.sh" ] && nvm use --delete-prefix v4.7.3 --silent # This use nvm v.4.7.3
 # nvm use 8.1.4
+export PATH="$HOME/.local/bin:$PATH"
