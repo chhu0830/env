@@ -5,15 +5,16 @@ vbell off
 term xterm-256color
 
 # Very nice tabbed colored hardstatus line
-caption splitonly "%{= dw}%-w%{= dg}%n %t%{= dw}%+w"
-# hardstatus string "%{= dw}%-w%{= dg}%n %t%{= dw}%+w"
+caption always "%{= dw}%-Lw%{= dg}%n*%f %t%{= dw}%+Lw"
+# hardstatus string "%{= dw}%-w%{= dg}%n %h%{= dw}%+w"
+# hardstatus alwayslastline
 # hardstatus ignore
 
 # Hide hardstatus: ctrl-a f 
 bind f eval "caption splitonly"
 # bind f eval "hardstatus ignore"
 # Show hardstatus: ctrl-a F
- bind F eval "caption always"
+bind F eval "caption always"
 # bind F eval "hardstatus alwayslastline"
 
 bind r eval "source $HOME/.screenrc"
