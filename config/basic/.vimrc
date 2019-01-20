@@ -59,10 +59,9 @@ map f :Ag! <cword><CR>
 map <C-f> :Ag! 
 map <F2> :wa<CR>:RUN 
 map <F3> :wa<CR>:CPR 
-" map <F4> :bufdo silent !git add %<CR>:!clear<CR>:!git commit -m 
 map <F4> :COMMIT 
-map <F5> :NERDTreeToggle<CR>
-map <F6> :call CopyPasteToggle()<CR>
+map <F5> :call CopyPasteToggle()<CR>
+map <F6> :NERDTreeToggle<CR>
 map <F8> :MARK 
 map <F9> :-tabmove<CR>
 map <F10> :+tabmove<CR>
@@ -77,7 +76,6 @@ command -nargs=* RUN execute EXEC('RUN', <q-args>)
 command -nargs=* CPR execute EXEC('CPR', <q-args>)
 command -nargs=* MARK execute MARK(<f-args>)
 command -nargs=* COMMIT execute 'wa' | execute 'silent bufdo !git add %' | execute '!clear; git commit -m "' . <q-args> . '"' | execute 'silent bufdo w'
-" command -nargs=* GCOMMIT 'bufdo !git add % | !git commit -m' . <q-args> . '| bufdo update'
 
 
 " vim plug
