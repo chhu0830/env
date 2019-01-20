@@ -22,10 +22,12 @@ set autoread
 set mouse=a
 set foldmethod=manual
 set foldtext=FoldText()
+set updatetime=500
 
-au CursorHold * checktime
+" autocmd CursorHold * checktime
 autocmd FileType html,css,javascript,ruby set ts=2 softtabstop=2 sw=2
 autocmd Filetype json let g:indentLine_enabled = 0
+autocmd CursorHold *.* call BLAME()
 
 " highlight Folded ctermfg=cyan ctermbg=None cterm=bold
 
@@ -51,9 +53,8 @@ set statusline+=\ %3*%f%m
 set statusline+=\ %1*\[%{&fenc}:%Y]  
 set statusline+=\ %5*%=\Line:%4*%l\/%L\ %5*Column:%4*%c%V\  
 
-set textwidth=999
 " let &colorcolumn='+'.join(range(0, 999), ',+')
-let &colorcolumn='+0'
+let &colorcolumn='999'
 
 map f :Ag! <cword><CR>
 map <C-f> :Ag! 
@@ -69,12 +70,13 @@ map <F11> gT
 map <F12> gt
 imap <F5> <ESC><F5>a
 cnoremap w!! execute 'silent! write !sudo tee % > /dev/null' <bar> edit!<CR>
+nnoremap <F7> :<C-u>call gitblame#echo()<CR>
 nnoremap <tab> zo
 nnoremap <S-tab> zc
 vnoremap <S-tab> zf
 command -nargs=* RUN execute EXEC('RUN', <q-args>)
 command -nargs=* CPR execute EXEC('CPR', <q-args>)
-command -nargs=* MARK execute MARK(<f-args>)
+command -nargs=* MARK call MARK(<f-args>)
 command -nargs=* COMMIT execute 'wa' | execute 'silent bufdo !git add %' | execute '!clear; git commit -m "' . <q-args> . '"' | execute 'silent bufdo w'
 
 
@@ -94,6 +96,7 @@ Plug 'tomtom/tlib_vim'
 Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree'
 Plug 'Yggdroot/indentLine'
+Plug 'zivyangll/git-blame.vim'
 call plug#end()
 
 " ctrlp
@@ -179,11 +182,18 @@ endfunction
 function MARK(...)
     for col in a:000
         if col == 0
-            let &colorcolumn='+0'
+            let &colorcolumn='999'
         else
             let &colorcolumn=col . ',' . &colorcolumn
         endif
     endfor
+endfunction
+
+function BLAME()
+    try
+        call gitblame#echo()
+    catch
+    endtry
 endfunction
 
 function! CurDir()
