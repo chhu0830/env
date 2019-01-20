@@ -16,22 +16,21 @@ ZSH_THEME_GIT_PROMPT_DELETED="%{$fg[red]%}✗"
 ZSH_THEME_GIT_PROMPT_RENAMED="%{$fg[blue]%}➦"
 ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[magenta]%}✂"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[blue]%}✈"
-ZSH_THEME_GIT_PROMPT_SHA_BEFORE=" %{$fg[blue]%}"
+ZSH_THEME_GIT_PROMPT_SHA_BEFORE="%{$fg[blue]%}"
 ZSH_THEME_GIT_PROMPT_SHA_AFTER="%{$reset_color%}"
 
 function mygit() {
   if [[ "$(git config --get oh-my-zsh.hide-status)" != "1" ]]; then
     ref=$(command git symbolic-ref HEAD 2> /dev/null) || \
     ref=$(command git rev-parse --short HEAD 2> /dev/null) || return
-# echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}$(git_prompt_short_sha)$( git_prompt_status )%{$reset_color%}$ZSH_THEME_GIT_PROMPT_SUFFIX "
-    echo "${ref#refs/heads/}$( git_prompt_status )"
+#  echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}$(git_prompt_short_sha)$( git_prompt_status )%{$reset_color%}$ZSH_THEME_GIT_PROMPT_SUFFIX "
+    echo "[${ref#refs/heads/}$(git_prompt_status)%B%{$fg[blue]%}]"
   fi
 }
 
 function retcode() {}
 
 # alternate prompt with git & hg
-PROMPT=$'%{\e[0;34m%}%B┌─[%b%{\e[0m%}%{\e[1;32m%}%n%{\e[1;30m%}@%{\e[0m%}%{\e[0;36m%}%m%{\e[0;34m%}%B]%b%{\e[0m%} - %b%{\e[0;34m%}%B[%b%{\e[1;37m%}%~%{\e[0;34m%}%B]%b%{\e[0m%}'%b$'%{\e[0;34m%}%b%{\e[0m%}
-%{\e[0;34m%}%B└─%B[%{\e[1;35m%}%?$(retcode)%{\e[0;34m%}%B] <$(mygit)$(hg_prompt_info)%{\e[0;34m%}%B>%{\e[0m%}%b '
-PS2=$' \e[0;34m%}%B>%{\e[0m%}%b '
-
+PROMPT=$'%B%{$fg[blue]%}[%{$fg[green]%}%n%{$fg[grey]%}@%b%{$fg[cyan]%}%m%B%{$fg[grey]%}:%{$fg[white]%}%~%{$fg[blue]%}]$(mygit)$(hg_prompt_info)%{$fg_bold[blue]%}[%b%{$fg[yellow]%}%D{%H:%M:%S}%b%{$fg_bold[blue]%}]%B%{$fg[blue]%}[%{\e[1;35m%}%?$(retcode)%{$fg[blue]%}]%{$reset_color%}
+%{$fg_bold[blue]%}>%{$reset_color%} '
+RPORMPT=''
