@@ -1,0 +1,3 @@
+Server = https://shadow.ind.ntou.edu.tw/archlinux/$repo/os/$arch
+Server = https://ftp.yzu.edu.tw/Linux/archlinux/$repo/os/$arch
+Server = http://archlinux.cs.nctu.edu.tw/$repo/os/$arch
