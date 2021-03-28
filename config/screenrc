@@ -1,0 +1,8 @@
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+vbell off
+autodetach on
+startup_message off
+
+caption always "%{= dw}%-Lw%{= dg}%n*%f %t%{= dw}%+Lw"
+
+bind r eval "source ${HOME}/.screenrc"
