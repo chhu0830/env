@@ -16,7 +16,7 @@ set backspace=2
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
-autocmd FileType html,css,javascript,ruby,markdown,sh,c,cpp,vim set ts=2 sts=2 sw=2
+autocmd FileType html,css,javascript,ruby,markdown,sh,c,cpp,vim,zsh set ts=2 sts=2 sw=2
 
 
 highlight User1 ctermfg=red
