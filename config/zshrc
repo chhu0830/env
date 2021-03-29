@@ -1,6 +1,8 @@
-PROMPT='🕑%F{yellow}%D{%H:%M:%S}%f 👤%F{magenta}%n%f 💻%F{cyan}%m%f 📁%F{white}%~%f
-%(?.%F{green}.%F{red})(%?)%f 🐈 '
-# ▓▒░⚡⏳
+setopt prompt_subst
+PROMPT='👤%F{magenta}%n%f 💻%F{cyan}%m%f 📁%F{white}%~%f
+🕑%F{yellow}%D{%H:%M:%S}%f ⏳%F{white}${PRETIME}%f%(?.%F{green}(✓.%F{red}(✗%?))%f 🐈 '
+# ▓▒░⚡🐍
+
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -9,13 +11,29 @@ setopt SHARE_HISTORY
 
 # TMOUT=1
 # TRAPALRM() {
-#     zle reset-prompt
+#   zle reset-prompt
 # }
 
-REPORTTIME=1
+# REPORTTIME=1
+function preexec() {
+  timer=$(($(date +%s%0N)/1000000))
+}
+
+function precmd() {
+  if [ $timer ]; then
+    now=$(($(date +%s%0N)/1000000))
+    elapsed=$(printf "%d.%03d" $((($now-$timer)/1000)) $((($now-$timer)%1000)))
+
+    # export RPROMPT="%F{cyan}${elapsed}ms %{$reset_color%}"
+    export PRETIME=${elapsed}s
+    unset timer
+  else
+    export PRETIME=0s
+  fi
+}
 
 ###############################################################################
-#  ______       _ _
+#  ______     _ _
 # |__  (_)_ __ (_) |_
 #   / /| | '_ \| | __|
 #  / /_| | | | | | |_
@@ -23,20 +41,20 @@ REPORTTIME=1
 ###############################################################################
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+  print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+  command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+  command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+    print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+    print -P "%F{160}▓▒░ The clone has failed.%f%b"
 fi
 
-source "$HOME/.zinit/bin/zinit.zsh"
+source "${HOME}/.zinit/bin/zinit.zsh"
 
-zinit ice lucid wait="0" atload='_zsh_autosuggest_start'
+# zinit ice lucid wait="0" atload='_zsh_autosuggest_start'
 zinit light zsh-users/zsh-autosuggestions
 ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd completion history)
 
-zinit ice lucid wait='0' atinit='zpcompinit'
+# zinit ice lucid wait='0' atinit='zpcompinit'
 zinit light zsh-users/zsh-syntax-highlighting
 # zinit light zdharma/fast-syntax-highlighting
 
@@ -44,19 +62,16 @@ zinit light zsh-users/zsh-syntax-highlighting
 # zinit light zsh-users/zsh-completions
 
 
-
 # autoload -Uz _zinit
 # (( ${+_comps} )) && _comps[zinit]=_zinit
-
-
 # 
 # # Load a few important annexes, without Turbo
 # # (this is currently required for annexes)
 # zinit light-mode for \
-#     zinit-zsh/z-a-rust \
-#     zinit-zsh/z-a-as-monitor \
-#     zinit-zsh/z-a-patch-dl \
-#     zinit-zsh/z-a-bin-gem-node
+#   zinit-zsh/z-a-rust \
+#   zinit-zsh/z-a-as-monitor \
+#   zinit-zsh/z-a-patch-dl \
+#   zinit-zsh/z-a-bin-gem-node
 # 
 # ### End of Zinit's installer chunk
 # 
@@ -65,19 +80,20 @@ zinit light zsh-users/zsh-syntax-highlighting
 # 
 # source "${HOME}/.zinit/bin/zinit.zsh"
 # # zinit self-update
+# # zinit update
+# # zinit delete --clean
 # 
 # autoload -Uz compinit
 # compinit
 # 
 # zinit cdreplay -q
-# # zinit delete -c -y -q
 # # zinit module build
 
 
 ###############################################################################
-#     _    _     ___    _    ____
-#    / \  | |   |_ _|  / \  / ___|
-#   / _ \ | |    | |  / _ \ \___ \
+#   _  _   ___  _  ____
+#  / \  | |   |_ _|  / \  / ___|
+#   / _ \ | |  | |  / _ \ \___ \
 #  / ___ \| |___ | | / ___ \ ___) |
 # /_/   \_\_____|___/_/   \_\____/
 ###############################################################################
