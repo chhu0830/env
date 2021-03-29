@@ -1,6 +1,6 @@
 setopt prompt_subst
 PROMPT='👤%F{magenta}%n%f 💻%F{cyan}%m%f 📁%F{white}%~%f
-🕑%F{yellow}%D{%H:%M:%S}%f ⏳%F{white}${PRETIME}%f%(?.%F{green}(✓.%F{red}(✗%?))%f 🐈 '
+🕑%F{yellow}%D{%H:%M:%S}%f ⏳%F{white}${EXTIME}%f%(?.%F{green}(✓.%F{red}(✗%?))%f 🐈 '
 # ▓▒░⚡🐍
 
 
@@ -25,10 +25,10 @@ function precmd() {
     elapsed=$(printf "%d.%03d" $((($now-$timer)/1000)) $((($now-$timer)%1000)))
 
     # export RPROMPT="%F{cyan}${elapsed}ms %{$reset_color%}"
-    export PRETIME=${elapsed}s
+    export EXTIME=${elapsed}s
     unset timer
   else
-    export PRETIME=0s
+    export EXTIME=0s
   fi
 }
 
