@@ -1,6 +1,7 @@
 PROMPT='👤%F{magenta}%n%f 💻%F{cyan}%m%f 📁%F{white}%~%f
 🐈 '
-# ▓▒░⚡🐍
+# ▓▒░ ✗
+# ⚡🐍
 
 
 HISTFILE=~/.zsh_history
@@ -21,7 +22,7 @@ function preexec() {
 function precmd() {
   now=$(($(date +%s%0N)/1000000))
   elapsed=$([[ ${timer} ]] && printf "%d.%03d" $((($now-$timer)/1000)) $((($now-$timer)%1000)) || echo 0)s
-  export RPROMPT="⏳%F{white}${elapsed}%f %(?.%F{green}(✓.%F{red}(%?✗))%f 🕑%F{yellow}%D{%H:%M:%S}%f"
+  export RPROMPT="%(?.%F{green}(✓.%F{red}(%?))%f ⏳%F{white}${elapsed}%f 🕑%F{yellow}%D{%H:%M:%S}%f"
   unset timer
 }
 
