@@ -16,12 +16,12 @@ setopt SHARE_HISTORY
 
 # REPORTTIME=1
 function preexec() {
-  timer=$(($(date +%s%0N)/1000000))
+  timer=$(date +%s%3N)
 }
 
 function precmd() {
-  now=$(($(date +%s%0N)/1000000))
-  elapsed=$([[ ${timer} ]] && printf "%d.%03d" $((($now-$timer)/1000)) $((($now-$timer)%1000)) || echo 0)s
+  now=$(date +%s%3N)
+  elapsed=$([[ ${timer} ]] && printf "%.3f" $((($now-$timer)/1000.0)) || echo 0)s
   export RPROMPT="%(?.%F{green}(✓.%F{red}(%?))%f ⏳%F{white}${elapsed}%f 🕑%F{yellow}%D{%H:%M:%S}%f"
   unset timer
 }
