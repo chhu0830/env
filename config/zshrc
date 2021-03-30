@@ -21,8 +21,23 @@ function preexec() {
 
 function precmd() {
   now=$(date +%s%3N)
-  elapsed=$([[ ${timer} ]] && printf "%.3f" $(((${now}-${timer})/1000.0)) || echo 0)s
-  export RPROMPT="%(?.%F{green}(✓.%F{red}(%?))%f ⏳%F{white}${elapsed}%f 🕑%F{yellow}%D{%H:%M:%S}%f"
+  elapsed=$([[ ${timer} ]] && echo $((${now}-${timer})) || echo 0)
+
+  ms=$((elapsed % 1000))"%F{magenta}ms%f"
+  s=$((elapsed / 1000 % 60))"%F{magenta}s%f"
+  m=$((elapsed / 1000 / 60 % 60))"%F{magenta}m%f"
+  h=$((elapsed / 1000 / 60 / 60 % 24))"%F{magenta}h%f"
+  d=$((elapsed / 1000 / 60 / 60 / 24))"%F{magenta}d%f"
+
+  if (((elapsed/1000/60/60/24) > 0)); then exectime="${d}${h}${m}${s}";
+  elif (((elapsed/1000/60/60) > 0)); then exectime="${h}${m}${s}";
+  elif (((elapsed/1000/60) > 0)); then exectime="${m}${s}";
+  elif (((elapsed/1000) > 0)); then exectime="${s}";
+  else exectime=${ms} fi
+
+
+  # elapsed=$([[ ${timer} ]] && printf "%.3f" $(((${now}-${timer})/1000.0)) || echo 0)s
+  export RPROMPT="%(?.%F{green}(✓.%F{red}(%?))%f ⏳%F{white}${exectime}%f 🕑%F{yellow}%D{%H:%M:%S}%f"
   unset timer
 }
 
@@ -46,7 +61,8 @@ source "${HOME}/.zinit/bin/zinit.zsh"
 
 # zinit ice lucid wait="0" atload='_zsh_autosuggest_start'
 zinit light zsh-users/zsh-autosuggestions
-ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd completion history)
+ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history)
+# ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
 
 # zinit ice lucid wait='0' atinit='zpcompinit'
 zinit light zsh-users/zsh-syntax-highlighting
