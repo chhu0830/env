@@ -21,7 +21,7 @@ function preexec() {
 
 function precmd() {
   now=$(date +%s%3N)
-  elapsed=$([[ ${timer} ]] && printf "%.3f" $((($now-$timer)/1000.0)) || echo 0)s
+  elapsed=$([[ ${timer} ]] && printf "%.3f" $(((${now}-${timer})/1000.0)) || echo 0)s
   export RPROMPT="%(?.%F{green}(✓.%F{red}(%?))%f ⏳%F{white}${elapsed}%f 🕑%F{yellow}%D{%H:%M:%S}%f"
   unset timer
 }
