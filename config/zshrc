@@ -1,9 +1,3 @@
-PROMPT='👤%F{magenta}%n%f 💻%F{cyan}%m%f 📁%F{white}%~%f
-🐈 '
-# ▓▒░ ✗
-# ⚡🐍🐳🌟🏄🔥💾✨
-
-
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=1000
@@ -15,11 +9,21 @@ setopt SHARE_HISTORY
 # }
 
 # REPORTTIME=1
+
+
+setopt prompt_subst
+PROMPT='👤%F{magenta}%n%f 💻%F{cyan}%m%f 📁%F{white}%~%f $(prompt_git)
+🐈 '
+# ▓▒░ ✗
+# ⚡🐍💎🐳🌟🏄🔥✨💾👀
+# 🔴🟠🟡🟢🔵🟣
+
 function preexec() {
   timer=$(date +%s%3N)
 }
 
 function precmd() {
+  vcs_info
   now=$(date +%s%3N)
   elapsed=$([[ ${timer} ]] && echo $((${now}-${timer})) || echo 0)
   # elapsed=$([[ ${timer} ]] && printf "%.3f" $(((${now}-${timer})/1000.0)) || echo 0)s
@@ -42,6 +46,33 @@ function precmd() {
   export RPROMPT="%(?.${success}.${failed})%f ⏳%F{white}${exectime}%f 🕑%F{yellow}%D{%H:%M:%S}%f"
 }
 
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' check-for-changes false
+zstyle ':vcs_info:git*' formats '%b'
+zstyle ':vcs_info:git*' actionformats '%b (%a)'
+
+function prompt_git() {
+  is_dirty() {
+    test -n "$(git status --porcelain --ignore-submodules)"
+  }
+  ref="${vcs_info_msg_0_}"
+  if [[ -n "${ref}" ]]; then
+    if [[ "${ref/.../}" == "${ref}" ]]; then
+      ref="${BRANCH}$ref"
+    else
+      ref="${DETACHED}${ref/.../}"
+    fi
+    if is_dirty; then
+      ref="%F{yellow}(${ref} ±)%f"
+    else
+      ref="%F{green}(${ref})%f"
+    fi
+    # prompt_segment ${color} ${PRIMARY_FG}
+    print -Pn "${ref}"
+  fi
+}
+
 ###############################################################################
 #  ______     _ _
 # |__  (_)_ __ (_) |_
@@ -60,11 +91,6 @@ fi
 
 source "${HOME}/.zinit/bin/zinit.zsh"
 
-# zinit ice lucid wait="0" atload='_zsh_autosuggest_start'
-zinit light zsh-users/zsh-autosuggestions
-ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history)
-# ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
-
 # zinit ice lucid wait='0' atinit='zpcompinit'
 zinit light zsh-users/zsh-syntax-highlighting
 # zinit light zdharma/fast-syntax-highlighting
@@ -72,6 +98,10 @@ zinit light zsh-users/zsh-syntax-highlighting
 # zinit ice lucid wait='0'
 # zinit light zsh-users/zsh-completions
 
+# zinit ice lucid wait="0" atload='_zsh_autosuggest_start; zpcompinit; zpcdreplay'
+zinit light zsh-users/zsh-autosuggestions
+ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history)
+# ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
 
 # autoload -Uz _zinit
 # (( ${+_comps} )) && _comps[zinit]=_zinit
