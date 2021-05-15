@@ -7,7 +7,7 @@ echo "* Basic Environment *"
 echo "*********************"
 
 # OS=`lsb_release -is`
-OS=`grep '^ID=' /etc/os-release | awk -F '=' '{print $2}'`
+OS=$(. /etc/os-release && echo $ID)
 case $OS in
   arch )
     echo  ""
