@@ -6,10 +6,9 @@ echo "*********************"
 echo "* Basic Environment *"
 echo "*********************"
 
-# OS=`lsb_release -is`
 OS=$(. /etc/os-release && echo $ID)
 case $OS in
-  arch )
+  arch)
     echo  ""
     echo  "  The operating system is \`$OS\`."
     echo  "  \`Powerpill\` and \`yay\` will be installed." 
@@ -49,7 +48,7 @@ case $OS in
     sudo perl -i -0pe 's/\[community\]\nInclude/\[community\]\nSigLevel = PackageRequired\nInclude/g' /etc/pacman.conf
     sudo perl -i -0pe 's/#\[multilib\]\n#Include/\[multilib\]\nSigLevel = PackageRequired\nInclude/g' /etc/pacman.conf
     ;;
-  * )
+  *)
     echo ""
     echo "  The operating system is $OS."
     echo "  Nothing to be installed."

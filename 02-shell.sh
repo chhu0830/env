@@ -6,7 +6,7 @@ echo "***************"
 echo "* ZSH Install *"
 echo "***************"
 
-OS=`grep "^ID=" /etc/os-release | awk -F "=" '{print $2}'`
+OS=$(. /etc/os-release && echo $ID)
 case $OS in
   arch)
     INS="powerpill"
