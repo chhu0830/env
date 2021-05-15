@@ -15,7 +15,7 @@ setopt prompt_subst
 PROMPT='👤%F{magenta}%n%f 💻%F{cyan}%m%f 📁%F{white}%~%f $(prompt_git)
 🐈 '
 # ▓▒░ ✗
-# ⚡🐍💎🐳🌟🏄🔥✨💾👀
+# ⚡🐍💎🐳🌟🏄🔥✨👀💡🔄📣📚📺💨🐣🐛💬🌀🚀🐯👋🏠🚫🔮🧪🤖
 # 🔴🟠🟡🟢🔵🟣
 
 function preexec() {
@@ -59,17 +59,17 @@ function prompt_git() {
   ref="${vcs_info_msg_0_}"
   if [[ -n "${ref}" ]]; then
     if [[ "${ref/.../}" == "${ref}" ]]; then
-      ref="${BRANCH}$ref"
+      ref="${BRANCH}${ref}"
     else
-      ref="${DETACHED}${ref/.../}"
+      ref="${DETACHED}❗${ref/.../}"
     fi
     if is_dirty; then
-      ref="%F{yellow}(${ref} ±)%f"
+      ref="${ref}±"
     else
-      ref="%F{green}(${ref})%f"
+      ref="${ref}"
     fi
     # prompt_segment ${color} ${PRIMARY_FG}
-    print -Pn "${ref}"
+    print -Pn "%F{yellow}(${ref})%f"
   fi
 }
 
@@ -139,5 +139,5 @@ ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history)
 # /_/   \_\_____|___/_/   \_\____/
 ###############################################################################
 alias ls="ls --color=auto"
-alias ssh="ssh -Y -D localhost:800$WINDOW "
+alias ssh="ssh -Y -D 0.0.0.0:800$WINDOW "
 # alias ssh="ssh -Y -D `ifconfig ens37 | sed -n '2p' | awk '{print $2}'`:800$WINDOW "
