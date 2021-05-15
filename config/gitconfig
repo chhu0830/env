@@ -9,3 +9,5 @@
 	default = simple
 [http]
 	sslverify = false
+[core]
+	editor = vim
