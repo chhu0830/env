@@ -7,3 +7,5 @@
     df = difftool --tool=vimdiff
 [push]
 	default = simple
+[http]
+	sslverify = false
