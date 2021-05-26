@@ -44,5 +44,3 @@ ln -b -s ${PWD}/config/tmux.conf ${HOME}/.tmux.conf
 # Install screen
 sudo $INS $INSOPT screen
 ln -b -s ${PWD}/config/screenrc ${HOME}/.screenrc
-
-# virtualenv
