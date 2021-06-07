@@ -20,11 +20,10 @@ case $OS in
     ;;
 esac
 
-# sudo $INS $UPDOPT
-sudo $INS $INSOPT curl git
+sudo $INS $UPDOPT
 
-# Install zsh
-sudo ${INS} ${INSOPT} zsh
+### zsh Installation ###
+sudo ${INS} ${INSOPT} curl git zsh
 ln -b -s ${PWD}/config/zshrc ${HOME}/.zshrc
 
 # FIXME: ${USER} not set in docker

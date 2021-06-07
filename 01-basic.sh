@@ -18,7 +18,7 @@ case $OS in
 
     clear
 
-    # Install powerpill
+    ### powerpill Installation ###
     echo "==== Installing powerpill... ===="
 
     # FIXME: This will use hkp:// instead of hkps://
@@ -31,7 +31,7 @@ case $OS in
 
     clear
 
-    # Install yay
+    ### yay Install ###
     echo "==== Installing yay... ===="
     mkdir -p /tmp/yay
     pushd /tmp/yay
