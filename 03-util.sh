@@ -22,25 +22,22 @@ esac
 
 sudo $INS $UPDOPT
 
-# Install utilities
+### Utilitiy Installation ###
 sudo $INS $INSOPT zip unzip p7zip unrar
 sudo $INS $INSOPT htop iftop iotop
 sudo $INS $INSOPT ntfs-3g cifs-utils
+sudo $INS $INSOPT httpie
 # sudo $INS $INSOPT manpages-posix-dev glibc-doc
 
-# Install git
 sudo $INS $INSOPT git tk
 ln -b -s ${PWD}/config/gitconfig ${HOME}/.gitconfig
 
-# Install vim
 sudo $INS $INSOPT vim
 ln -b -s ${PWD}/config/vimrc ${HOME}/.vimrc
 
-# Install tmux
 sudo $INS $INSOPT tmux
 git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
 ln -b -s ${PWD}/config/tmux.conf ${HOME}/.tmux.conf
 
-# Install screen
 sudo $INS $INSOPT screen
 ln -b -s ${PWD}/config/screenrc ${HOME}/.screenrc
