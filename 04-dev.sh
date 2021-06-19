@@ -27,11 +27,11 @@ sudo $INS $INSOPT gcc make
 
 ### pyenv ###
 sudo $INS $INSOPT python3 python3-pip
-# sudo $INS $INSOPT bzip2 libreadline-dev openssl
-# sudo $INS $INSOPT \
-#   make build-essential libssl-dev zlib1g-dev \
-#   libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
-#   libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+sudo $INS $INSOPT bzip2 libreadline-dev openssl
+sudo $INS $INSOPT \
+  make build-essential libssl-dev zlib1g-dev \
+  libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+  libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
 curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 echo 'export PYENV_ROOT="${HOME}/.pyenv"' >> ${HOME}/.zshenv
 echo 'export PATH="${PYENV_ROOT}/bin:${PATH}"' >> ${HOME}/.zshenv
