@@ -1,14 +1,13 @@
+setopt SHARE_HISTORY
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=1000
-setopt SHARE_HISTORY
 
+# REPORTTIME=1
 # TMOUT=1
 # TRAPALRM() {
 #   zle reset-prompt
 # }
-
-# REPORTTIME=1
 
 
 setopt prompt_subst
@@ -25,25 +24,22 @@ function preexec() {
 function precmd() {
   vcs_info
   now=$(date +%s%3N)
-  elapsed=$([[ ${timer} ]] && echo $((${now}-${timer})) || echo 0)
-  # elapsed=$([[ ${timer} ]] && printf "%.3f" $(((${now}-${timer})/1000.0)) || echo 0)s
+  elapsed=$([ ${timer} ] && echo $((${now}-${timer})) || echo 0)
   unset timer
 
-  ms=$((elapsed % 1000))"%F{magenta}ms%f"
-  s=$((elapsed / 1000 % 60))"%F{magenta}s%f"
-  m=$((elapsed / 1000 / 60 % 60))"%F{magenta}m%f"
-  h=$((elapsed / 1000 / 60 / 60 % 24))"%F{magenta}h%f"
-  d=$((elapsed / 1000 / 60 / 60 / 24))"%F{magenta}d%f"
+  ms=$((elapsed % 1000))
+  s=$((elapsed / 1000 % 60))
+  m=$((elapsed / 1000 / 60 % 60))
+  h=$((elapsed / 1000 / 60 / 60 % 24))
+  d=$((elapsed / 1000 / 60 / 60 / 24))
 
-  if (((elapsed/1000/60/60/24) > 0)); then exectime="${d}${h}${m}${s}";
-  elif (((elapsed/1000/60/60) > 0)); then exectime="${h}${m}${s}";
-  elif (((elapsed/1000/60) > 0)); then exectime="${m}${s}";
-  elif (((elapsed/1000) > 0)); then exectime="${s}";
-  else exectime=${ms} fi
+  exectime="${ms}%F{magenta}ms%f"
+  [ ${s} -gt 0 ] && exectime="${s}%F{magenta}s%f"
+  [ ${m} -gt 0 ] && exectime="${m}%F{magenta}m%f${exectime}"
+  [ ${h} -gt 0 ] && exectime="${h}%F{magenta}h%f${exectime}"
+  [ ${d} -gt 0 ] && exectime="${d}%F{magenta}d%f${exectime}"
 
-  success="%F{green}✓"
-  failed="%F{red}💀%?"
-  export RPROMPT="%(?.${success}.${failed})%f ⏳%F{white}${exectime}%f 🕑%F{yellow}%D{%H:%M:%S}%f"
+  RPROMPT="%(?.%F{green}✓.%F{red}💀%?)%f ⏳%F{white}${exectime}%f 🕑%F{yellow}%D{%H:%M:%S}%f"
 }
 
 autoload -Uz vcs_info
@@ -73,14 +69,8 @@ function prompt_git() {
   fi
 }
 
-###############################################################################
-#  ______     _ _
-# |__  (_)_ __ (_) |_
-#   / /| | '_ \| | __|
-#  / /_| | | | | | |_
-# /____|_|_| |_|_|\__|
-###############################################################################
-### Added by Zinit's installer
+
+### Added by Zinit's installer ###
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
   print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
   command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
@@ -91,6 +81,8 @@ fi
 
 source "${HOME}/.zinit/bin/zinit.zsh"
 
+
+### Zinit Plugin ###
 # zinit ice lucid wait='0' atinit='zpcompinit'
 zinit light zsh-users/zsh-syntax-highlighting
 # zinit light zdharma/fast-syntax-highlighting
@@ -131,13 +123,7 @@ ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history)
 # # zinit module build
 
 
-###############################################################################
-#     _    _     ___    _    ____
-#    / \  | |   |_ _|  / \  / ___|
-#   / _ \ | |    | |  / _ \ \___ \
-#  / ___ \| |___ | | / ___ \ ___) |
-# /_/   \_\_____|___/_/   \_\____/
-###############################################################################
+### Alias ###
 alias ls="ls --color=auto"
 alias ssh="ssh -Y -D 0.0.0.0:800$WINDOW "
 # alias ssh="ssh -Y -D `ifconfig ens37 | sed -n '2p' | awk '{print $2}'`:800$WINDOW "
