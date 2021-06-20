@@ -70,7 +70,7 @@ function prompt_git() {
 }
 
 
-### Added by Zinit's installer ###
+### Zinit ###
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
   print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
   command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
@@ -79,21 +79,30 @@ if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
     print -P "%F{160}▓▒░ The clone has failed.%f%b"
 fi
 
+module_path+=( "/home/chhu0830/.zinit/bin/zmodules/Src" )
+zmodload zdharma/zplugin
+# zinit module build
+# zpmod source-study
+
 source "${HOME}/.zinit/bin/zinit.zsh"
+# zinit self-update
+# zinit update
+# zinit delete --clean
 
 
 ### Zinit Plugin ###
 # zinit ice lucid wait='0' atinit='zpcompinit'
-zinit light zsh-users/zsh-syntax-highlighting
 # zinit light zdharma/fast-syntax-highlighting
+zinit ice lucid wait='0'
+zinit light zsh-users/zsh-syntax-highlighting
 
-# zinit ice lucid wait='0'
-# zinit light zsh-users/zsh-completions
-
-# zinit ice lucid wait="0" atload='_zsh_autosuggest_start; zpcompinit; zpcdreplay'
+# zinit ice lucid wait='0' atload='_zsh_autosuggest_start; zpcompinit; zpcdreplay'
+zinit ice wait='0' lucid atload='_zsh_autosuggest_start'
 zinit light zsh-users/zsh-autosuggestions
-ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history)
-# ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
+ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
+
+zinit ice lucid wait='0'
+zinit light zsh-users/zsh-completions
 
 # autoload -Uz _zinit
 # (( ${+_comps} )) && _comps[zinit]=_zinit
@@ -105,22 +114,6 @@ ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history)
 #   zinit-zsh/z-a-as-monitor \
 #   zinit-zsh/z-a-patch-dl \
 #   zinit-zsh/z-a-bin-gem-node
-# 
-# ### End of Zinit's installer chunk
-# 
-# module_path+=( "/home/${USER}/.zinit/bin/zmodules/Src" )
-# zmodload zdharma/zplugin
-# 
-# source "${HOME}/.zinit/bin/zinit.zsh"
-# # zinit self-update
-# # zinit update
-# # zinit delete --clean
-# 
-# autoload -Uz compinit
-# compinit
-# 
-# zinit cdreplay -q
-# # zinit module build
 
 
 ### Alias ###
