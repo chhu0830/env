@@ -79,7 +79,7 @@ if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
     print -P "%F{160}▓▒░ The clone has failed.%f%b"
 fi
 
-[ ! -d "${HOME}/.zinit/bin/zmodules/Src" ] && zinit module build
+[ ! -f "${HOME}/.zinit/bin/zmodules/Src/zdharma/zplugin.so" ] && zinit module build
 module_path+=( "${HOME}/.zinit/bin/zmodules/Src" )
 zmodload zdharma/zplugin
 # zpmod source-study
