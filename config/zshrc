@@ -1,3 +1,49 @@
+### Zinit ###
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+  print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+  command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+  command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+    print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+    print -P "%F{160}▓▒░ The clone has failed.%f%b"
+fi
+
+[ ! -f "${HOME}/.zinit/bin/zmodules/Src/zdharma/zplugin.so" ] && source "${HOME}/.zinit/bin/zinit.zsh" && zinit module build
+module_path+=( "${HOME}/.zinit/bin/zmodules/Src" )
+zmodload zdharma/zplugin
+# zpmod source-study
+
+source "${HOME}/.zinit/bin/zinit.zsh"
+# zinit self-update
+# zinit update
+# zinit delete --clean
+
+
+### Zinit Plugin ###
+# zinit ice lucid wait='0' atinit='zpcompinit'
+# zinit light zdharma/fast-syntax-highlighting
+zinit ice lucid wait='0'
+zinit light zsh-users/zsh-syntax-highlighting
+
+# zinit ice lucid wait='0' atload='_zsh_autosuggest_start; zpcompinit; zpcdreplay'
+zinit ice wait='0' lucid atload='_zsh_autosuggest_start'
+zinit light zsh-users/zsh-autosuggestions
+ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
+
+zinit ice lucid wait='0'
+zinit light zsh-users/zsh-completions
+
+# autoload -Uz _zinit
+# (( ${+_comps} )) && _comps[zinit]=_zinit
+#
+# # Load a few important annexes, without Turbo
+# # (this is currently required for annexes)
+# zinit light-mode for \
+#   zinit-zsh/z-a-rust \
+#   zinit-zsh/z-a-as-monitor \
+#   zinit-zsh/z-a-patch-dl \
+#   zinit-zsh/z-a-bin-gem-node
+
+
 setopt SHARE_HISTORY
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -10,11 +56,12 @@ SAVEHIST=1000
 # }
 
 
+### Prompt ###
 setopt prompt_subst
 PROMPT='👤%F{magenta}%n%f 💻%F{cyan}%m%f 📁%F{white}%~%f $(prompt_git)
 🐈 '
 # ▓▒░ ✗
-# ⚡🐍💎🐳🌟🏄🔥✨👀💡🔄📣📚📺💨🐣🐛💬🌀🚀🐯👋🏠🚫🔮🧪🤖
+# ⚡🐍💎🐳🌟🏄🔥✨👀💾💡🔄📣📚📺💨🐣🐛💬🌀🚀🐯👋🏠🚫🔮🧪🤖
 # 🔴🟠🟡🟢🔵🟣
 
 function preexec() {
@@ -68,52 +115,6 @@ function prompt_git() {
     print -Pn "%F{yellow}(${ref})%f"
   fi
 }
-
-
-### Zinit ###
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-  print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-  command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-  command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
-    print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-    print -P "%F{160}▓▒░ The clone has failed.%f%b"
-fi
-
-[ ! -f "${HOME}/.zinit/bin/zmodules/Src/zdharma/zplugin.so" ] && zinit module build
-module_path+=( "${HOME}/.zinit/bin/zmodules/Src" )
-zmodload zdharma/zplugin
-# zpmod source-study
-
-source "${HOME}/.zinit/bin/zinit.zsh"
-# zinit self-update
-# zinit update
-# zinit delete --clean
-
-
-### Zinit Plugin ###
-# zinit ice lucid wait='0' atinit='zpcompinit'
-# zinit light zdharma/fast-syntax-highlighting
-zinit ice lucid wait='0'
-zinit light zsh-users/zsh-syntax-highlighting
-
-# zinit ice lucid wait='0' atload='_zsh_autosuggest_start; zpcompinit; zpcdreplay'
-zinit ice wait='0' lucid atload='_zsh_autosuggest_start'
-zinit light zsh-users/zsh-autosuggestions
-ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
-
-zinit ice lucid wait='0'
-zinit light zsh-users/zsh-completions
-
-# autoload -Uz _zinit
-# (( ${+_comps} )) && _comps[zinit]=_zinit
-# 
-# # Load a few important annexes, without Turbo
-# # (this is currently required for annexes)
-# zinit light-mode for \
-#   zinit-zsh/z-a-rust \
-#   zinit-zsh/z-a-as-monitor \
-#   zinit-zsh/z-a-patch-dl \
-#   zinit-zsh/z-a-bin-gem-node
 
 
 ### Alias ###
