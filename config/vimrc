@@ -5,6 +5,7 @@ set ruler
 set incsearch
 set hlsearch
 set mouse=a
+set updatetime=100
 
 set autoindent
 set cindent
@@ -21,18 +22,21 @@ highlight Visual ctermbg=0
 " highlight Comment ctermfg=20
 " highlight Directory ctermfg=20
 
-highlight ColorColumn ctermbg=235 guibg=#2c2d27
-let &colorcolumn='80,100'
-
 highlight CursorLine cterm=bold
 highlight CursorLineNR cterm=bold
 set cursorline
 
-highlight User1 ctermfg=red
-highlight User2 ctermfg=yellow
-highlight User3 ctermfg=green
-highlight User4 ctermfg=cyan
-highlight User5 ctermfg=white
+highlight SignColumn guibg=#000000 ctermbg=0
+set signcolumn=yes
+
+highlight ColorColumn ctermbg=235 guibg=#2c2d27
+let &colorcolumn='80,100'
+
+highlight User1 ctermfg=1
+highlight User2 ctermfg=3
+highlight User3 ctermfg=2
+highlight User4 ctermfg=6
+highlight User5 ctermfg=7
 set laststatus=2
 set statusline=%5*📁%<%{CurDir()}/ 
 set statusline+=\ 📝%2*%f%m
@@ -49,6 +53,7 @@ imap <F6> <ESC><F6>
 command -nargs=* EXEC execute EXEC(<q-args>)
 
 
+""" vim-plug
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
   silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -56,7 +61,13 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
+Plug 'airblade/vim-gitgutter'
 call plug#end()
+
+""" airblade/vim-gitgutter
+highlight GitGutterAdd    guifg=#009900 ctermfg=2
+highlight GitGutterChange guifg=#bbbb00 ctermfg=3
+highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 
 
 function! CurDir()
@@ -65,54 +76,54 @@ function! CurDir()
 endfunction
 
 function EXEC(args)
-    let cpl = ''
-    if filereadable('.vimexec')
-        let exc = './.vimexec % '
-    elseif filereadable('makefile') || filereadable('Makefile')
-        let exc = 'make'
-    elseif( &ft == 'cpp')
-        let cpl = 'g++ -o %:r -std=c++14 -Wall -Wextra -pedantic % && ' |
-        let exc = './%:r'
-    elseif( &ft == 'c')
-        let cpl = 'gcc -o %:r -Wall -Wextra -pedantic % && ' |
-        let exc = './%:r'
-    elseif( &ft == 'java')
-        let cpl = 'javac % && ' |
-        let exc = 'java %:r'
-    elseif( getline(1) =~ 'python3')
-        let exc = 'python3 %'
-    elseif( getline(1) =~ 'python2')
-        let exc = 'python2 %'
-    elseif( &ft == 'python')
-        let exc = 'python %'
-    elseif( getline(1) =~ 'bash')
-        let exc = 'bash %'
-    elseif( getline(1) =~ 'zsh')
-        let exc = 'zsh %'
-    elseif( &ft == 'sh')
-        let exc = 'sh %'
-    elseif( &ft == 'verilog')
-        let cpl = 'iverilog % -o %:r.exe && ' |
-        let exc = './%:r.exe'
-    elseif( &ft == 'ruby')
-        let exc = 'ruby %'
-    elseif( &ft == 'tex')
-        let cpl = 'pdflatex % && ' |
-        let exc = ''
-    else
-        let exc = './%'
-    endif
+  let cpl = ''
+  if filereadable('.vimexec')
+    let exc = './.vimexec % '
+  elseif filereadable('makefile') || filereadable('Makefile')
+    let exc = 'make'
+  elseif( &ft == 'cpp')
+    let cpl = 'g++ -o %:r -std=c++14 -Wall -Wextra -pedantic % && ' |
+    let exc = './%:r'
+  elseif( &ft == 'c')
+    let cpl = 'gcc -o %:r -Wall -Wextra -pedantic % && ' |
+    let exc = './%:r'
+  elseif( &ft == 'java')
+    let cpl = 'javac % && ' |
+    let exc = 'java %:r'
+  elseif( getline(1) =~ 'python3')
+    let exc = 'python3 %'
+  elseif( getline(1) =~ 'python2')
+    let exc = 'python2 %'
+  elseif( &ft == 'python')
+    let exc = 'python %'
+  elseif( getline(1) =~ 'bash')
+    let exc = 'bash %'
+  elseif( getline(1) =~ 'zsh')
+    let exc = 'zsh %'
+  elseif( &ft == 'sh')
+    let exc = 'sh %'
+  elseif( &ft == 'verilog')
+    let cpl = 'iverilog % -o %:r.exe && ' |
+    let exc = './%:r.exe'
+  elseif( &ft == 'ruby')
+    let exc = 'ruby %'
+  elseif( &ft == 'tex')
+    let cpl = 'pdflatex % && ' |
+    let exc = ''
+  else
+    let exc = './%'
+  endif
 
-    if !exists('exc')
-        echo 'Can''t run this filetype ...'
-        return
+  if !exists('exc')
+    echo 'Can''t run this filetype ...'
+    return
+  else
+    if cpl != ''
+      let cp_r = 'echo -e "\e[1;33m[Compiling] $(date)\e[0m" && ' . cpl . 'echo -e "\e[1;32m[Running] $(date)\e[0m" && time ' . exc
     else
-        if cpl != ''
-            let cp_r = 'echo -e "\e[1;33m[Compiling] $(date)\e[0m" && ' . cpl . 'echo -e "\e[1;32m[Running] $(date)\e[0m" && time ' . exc
-        else
-            let cp_r = 'echo -e "\e[1;32m[Running] $(date)\e[0m" && time ' . exc
-        endif
+      let cp_r = 'echo -e "\e[1;32m[Running] $(date)\e[0m" && time ' . exc
     endif
+  endif
 
-    return '!clear;' . cp_r . ' ' . a:args . '; echo -e "\e[1;31m[Terminated][$?] $(date)\e[0m\a"'
+  return '!clear;' . cp_r . ' ' . a:args . '; echo -e "\e[1;31m[Terminated][$?] $(date)\e[0m\a"'
 endfunction
