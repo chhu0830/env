@@ -44,15 +44,6 @@ set statusline+=%1*\ (%{&fenc}:%Y)\ %4*
 set statusline+=%=\ 🔎\ Ln\ %l/%L\,\ Col\ %c\ (%p%%)
 
 
-map <F2> :wa<CR>:EXEC 
-map <F5> gT
-map <F6> gt
-imap <F2> <ESC><F2>
-imap <F5> <ESC><F5>
-imap <F6> <ESC><F6>
-command -nargs=* EXEC execute EXEC(<q-args>)
-
-
 """ vim-plug
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
@@ -70,6 +61,30 @@ highlight GitGutterAdd    guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 
+
+map <F2> :wa<CR>:EXEC 
+map <F3> :call CopyPasteToggle()<CR>
+map <F5> gT
+map <F6> gt
+map <F9> :MARK 
+imap <F3> <ESC><F3>a
+command -nargs=* EXEC execute EXEC(<q-args>)
+command -nargs=* MARK execute MARK(<q-args>)
+
+
+function CopyPasteToggle()
+  if &nu == 1
+    set nonumber
+    set paste
+    set mouse=
+    set signcolumn=no
+  else
+    set number
+    set nopaste
+    set mouse=a
+    set signcolumn=yes
+  endif
+endfunction
 
 function! CurDir()
   let curdir = substitute(getcwd(), $HOME, '~', '')
@@ -127,4 +142,15 @@ function EXEC(args)
   endif
 
   return '!clear;' . cp_r . ' ' . a:args . '; echo -e "\e[1;31m[Terminated][$?] $(date)\e[0m\a"'
+endfunction
+
+function MARK(cols)
+  let clist = split(a:cols, ' ') 
+  if len(clist) == 0
+    let &colorcolumn='999'
+  else
+    for col in clist
+      let &colorcolumn=col . ',' . &colorcolumn
+    endfor
+  endif
 endfunction
