@@ -45,21 +45,23 @@ set statusline+=%=\ 🔎\ Ln\ %l/%L\,\ Col\ %c\ (%p%%)
 
 
 """ vim-plug
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source ${MYVIMRC}
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
-autocmd VimEnter * if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall --sync | q | endif
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall --sync | source ${MYVIMRC} | endif
 
 call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
+Plug 'jiangmiao/auto-pairs'
 call plug#end()
 
 """ airblade/vim-gitgutter
 highlight GitGutterAdd    guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1
+
+""" jiangmiao/auto-pairs
+autocmd FileType html let b:AutoPairs = AutoPairsDefine({'<!--' : '-->'}, ['{'])
 
 
 map <F2> :wa<CR>:EXEC 
