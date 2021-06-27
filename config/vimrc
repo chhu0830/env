@@ -1,11 +1,13 @@
 colorscheme peachpuff
 syntax on
+set encoding=utf-8
+set updatetime=100
+set mouse=a
 set number
 set ruler
 set incsearch
 set hlsearch
-set mouse=a
-set updatetime=100
+set splitbelow
 
 set autoindent
 set cindent
@@ -32,11 +34,11 @@ set signcolumn=yes
 highlight ColorColumn ctermbg=235 guibg=#2c2d27
 let &colorcolumn='80,100'
 
-highlight User1 ctermfg=1
-highlight User2 ctermfg=3
-highlight User3 ctermfg=2
-highlight User4 ctermfg=6
-highlight User5 ctermfg=7
+highlight User1 ctermfg=red
+highlight User2 ctermfg=yellow
+highlight User3 ctermfg=green
+highlight User4 ctermfg=cyan
+highlight User5 ctermfg=white
 set laststatus=2
 set statusline=%5*📁%<%{CurDir()}/ 
 set statusline+=\ 📝%2*%f%m
@@ -53,6 +55,7 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) | 
 call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'jiangmiao/auto-pairs'
+Plug 'ycm-core/YouCompleteMe'
 call plug#end()
 
 """ airblade/vim-gitgutter
@@ -63,6 +66,20 @@ highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 """ jiangmiao/auto-pairs
 autocmd FileType html let b:AutoPairs = AutoPairsDefine({'<!--' : '-->'}, ['{'])
 
+""" ycm-core/YouCompleteMe
+if empty(glob('~/.vim/plugged/YouCompleteMe/third_party/ycmd/ycm_core.cpython-38-x86_64-linux-gnu.so'))
+  silent !echo '=== Install YouCompleteMe ==='
+  silent !sudo apt install -y build-essential cmake vim-nox python3-dev
+  silent !sudo apt install -y mono-complete golang nodejs default-jdk npm
+  silent !python3 ~/.vim/plugged/YouCompleteMe/install.py --all
+  source ${MYVIMRC}
+endif
+set completeopt-=preview
+" let g:ycm_autoclose_preview_window_after_completion = 1
+" let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_global_ycm_extra_conf='~/.vim/plugged/YouCompleteMe/.ycm_extra_conf.py'
+let g:ycm_goto_buffer_command = 'split'
+
 
 map <F2> :wa<CR>:EXEC 
 map <F3> :call CopyPasteToggle()<CR>
@@ -70,6 +87,7 @@ map <F5> gT
 map <F6> gt
 map <F9> :MARK 
 imap <F3> <ESC><F3>a
+nnoremap fd :YcmCompleter GoTo<CR>
 command -nargs=* EXEC execute EXEC(<q-args>)
 command -nargs=* MARK execute MARK(<q-args>)
 
