@@ -43,14 +43,14 @@ set laststatus=2
 set statusline=%5*📁%<%{CurDir()}/ 
 set statusline+=\ 📝%2*%f%m
 set statusline+=%1*\ (%{&fenc}:%Y)\ %4*
-set statusline+=%=\ 🔎\ Ln\ %l/%L\,\ Col\ %c\ (%p%%)
+set statusline+=%=\ 🔎\ Ln\ %l/%L\,\ Col\ %c\ (%p%%)%5*
 
 
 """ vim-plug
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
-autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall --sync | source ${MYVIMRC} | endif
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall --sync | call ExtraPlugInstall() | source ${MYVIMRC} | endif
 
 call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
@@ -67,13 +67,6 @@ highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 autocmd FileType html let b:AutoPairs = AutoPairsDefine({'<!--' : '-->'}, ['{'])
 
 """ ycm-core/YouCompleteMe
-if empty(glob('~/.vim/plugged/YouCompleteMe/third_party/ycmd/ycm_core.cpython-38-x86_64-linux-gnu.so'))
-  silent !echo '=== Install YouCompleteMe ==='
-  silent !sudo apt install -y build-essential cmake vim-nox python3-dev
-  silent !sudo apt install -y mono-complete golang nodejs default-jdk npm
-  silent !python3 ~/.vim/plugged/YouCompleteMe/install.py --all
-  source ${MYVIMRC}
-endif
 set completeopt-=preview
 " let g:ycm_autoclose_preview_window_after_completion = 1
 " let g:ycm_autoclose_preview_window_after_insertion = 1
@@ -162,6 +155,17 @@ function EXEC(args)
   endif
 
   return '!clear;' . cp_r . ' ' . a:args . '; echo -e "\e[1;31m[Terminated][$?] $(date)\e[0m\a"'
+endfunction
+
+function ExtraPlugInstall()
+  if !empty(glob('~/.vim/plugged/YouCompleteMe/install.py'))
+    if empty(glob('~/.vim/plugged/YouCompleteMe/third_party/ycmd/ycm_core.cpython-38-x86_64-linux-gnu.so'))
+      silent !echo '=== Install YouCompleteMe ==='
+      silent !sudo apt install -y build-essential cmake vim-nox python3-dev
+      silent !sudo apt install -y mono-complete golang nodejs default-jdk npm
+      silent !python3 ~/.vim/plugged/YouCompleteMe/install.py --all --quiet
+    endif
+  endif
 endfunction
 
 function MARK(cols)
