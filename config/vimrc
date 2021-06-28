@@ -161,8 +161,8 @@ function ExtraPlugInstall()
   if !empty(glob('~/.vim/plugged/YouCompleteMe/install.py'))
     if empty(glob('~/.vim/plugged/YouCompleteMe/third_party/ycmd/ycm_core.cpython-38-x86_64-linux-gnu.so'))
       silent !echo '=== Install YouCompleteMe ==='
-      silent !sudo apt install -y build-essential cmake vim-nox python3-dev
-      silent !sudo apt install -y mono-complete golang nodejs default-jdk npm
+      silent !sudo apt install -y build-essential cmake vim-nox python3-dev npm
+      silent !sudo apt install -y mono-complete golang nodejs default-jdk
       silent !python3 ~/.vim/plugged/YouCompleteMe/install.py --all --quiet
     endif
   endif
