@@ -119,6 +119,8 @@ function EXEC(args)
   elseif( &ft == 'java')
     let cpl = 'javac % && ' |
     let exc = 'java %:r'
+  elseif( &ft == 'go' )
+    let exc = 'go run %'
   elseif( getline(1) =~ 'python3')
     let exc = 'python3 %'
   elseif( getline(1) =~ 'python2')
