@@ -1,5 +1,10 @@
-ServerAliveInterval 60
+Host !github.com
+    ServerAliveInterval 60
 
-PermitLocalCommand yes
-LocalCommand echo -ne "\033k%h\033\\"
-# LocalCommand ~/.ssh/.ssh_hostname %h
+    PermitLocalCommand yes
+    LocalCommand echo -ne "\033k%h\033\\"
+
+# Stop zsh (oh-my-zsh) from resetting screen window titles?
+# It can be disabled in .zshrc by uncommenting the line:
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
