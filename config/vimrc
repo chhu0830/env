@@ -5,6 +5,8 @@ set updatetime=100
 set mouse=a
 set number
 set ruler
+set ignorecase
+set smartcase
 set incsearch
 set hlsearch
 set splitbelow
@@ -56,6 +58,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'jiangmiao/auto-pairs'
 Plug 'ycm-core/YouCompleteMe'
+Plug 'preservim/nerdcommenter'
 call plug#end()
 
 """ airblade/vim-gitgutter
@@ -64,23 +67,50 @@ highlight GitGutterChange guifg=#bbbb00 ctermfg=3
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 
 """ jiangmiao/auto-pairs
-autocmd FileType html let b:AutoPairs = AutoPairsDefine({'<!--' : '-->'}, ['{'])
+let g:AutoPairsShortcutFastWrap = '<S-tab>'
+" let g:AutoPairsFlyMode = 1
+autocmd FileType html let b:AutoPairs = AutoPairsDefine({'<!--':'-->', '<':'>'}, ['{'])
+autocmd FileType php let b:AutoPairs = AutoPairsDefine({'<?':'?>', '<?php': '?>'})
 
 """ ycm-core/YouCompleteMe
+nnoremap fd :YcmCompleter GoTo<CR>
 set completeopt-=preview
 " let g:ycm_autoclose_preview_window_after_completion = 1
 " let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_global_ycm_extra_conf='~/.vim/plugged/YouCompleteMe/.ycm_extra_conf.py'
-let g:ycm_goto_buffer_command = 'split'
+" let g:ycm_goto_buffer_command = 'split'
+let g:ycm_goto_buffer_command = 'new-tab'
+
+""" preservim/nerdcommenter
+map <C-_> <leader>c<space>
+" Create default mappings
+let g:NERDCreateDefaultMappings = 1
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+" Enable NERDCommenterToggle to check all selected lines is commented or not
+let g:NERDToggleCheckAllLines = 1
 
 
 map <F2> :wa<CR>:EXEC 
 map <F3> :call CopyPasteToggle()<CR>
-map <F5> gT
-map <F6> gt
-map <F9> :MARK 
+map <F8> :MARK 
+map <F9> :-tabmove<CR>
+map <F10> :+tabmove<CR>
+map <F11> gT
+map <F12> gt
 imap <F3> <ESC><F3>a
-nnoremap fd :YcmCompleter GoTo<CR>
+imap <F9> <ESC><F9>a
+imap <F10> <ESC><F10>a
+imap <F11> <ESC><F11>
+imap <F12> <ESC><F12>
 command -nargs=* EXEC execute EXEC(<q-args>)
 command -nargs=* MARK execute MARK(<q-args>)
 
@@ -89,12 +119,10 @@ function CopyPasteToggle()
   if &nu == 1
     set nonumber
     set paste
-    set mouse=
     set signcolumn=no
   else
     set number
     set nopaste
-    set mouse=a
     set signcolumn=yes
   endif
 endfunction
@@ -106,8 +134,8 @@ endfunction
 
 function EXEC(args)
   let cpl = ''
-  if filereadable('.vimexec')
-    let exc = './.vimexec % '
+  if filereadable('.vimexc')
+    let exc = './.vimexc % '
   elseif filereadable('makefile') || filereadable('Makefile')
     let exc = 'make'
   elseif( &ft == 'cpp')
