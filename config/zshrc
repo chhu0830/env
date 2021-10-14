@@ -27,7 +27,7 @@ zinit light zsh-users/zsh-syntax-highlighting
 # zinit ice lucid wait='0' atload='_zsh_autosuggest_start; zpcompinit; zpcdreplay'
 zinit ice wait='0' lucid atload='_zsh_autosuggest_start'
 zinit light zsh-users/zsh-autosuggestions
-ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
+ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd completion) history
 
 zinit ice lucid wait='0'
 zinit light zsh-users/zsh-completions
