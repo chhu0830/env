@@ -59,6 +59,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'jiangmiao/auto-pairs'
 Plug 'ycm-core/YouCompleteMe'
 Plug 'preservim/nerdcommenter'
+Plug 'kien/ctrlp.vim'
 call plug#end()
 
 """ airblade/vim-gitgutter
@@ -69,8 +70,8 @@ highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 """ jiangmiao/auto-pairs
 let g:AutoPairsShortcutFastWrap = '<S-tab>'
 " let g:AutoPairsFlyMode = 1
-autocmd FileType html let b:AutoPairs = AutoPairsDefine({'<!--':'-->', '<':'>'}, ['{'])
-autocmd FileType php let b:AutoPairs = AutoPairsDefine({'<?':'?>', '<?php': '?>'})
+" autocmd FileType html let b:AutoPairs = AutoPairsDefine({'<!--':'-->', '<':'>'}, ['{'])
+" autocmd FileType php let b:AutoPairs = AutoPairsDefine({'<?':'?>', '<?php': '?>'})
 
 """ ycm-core/YouCompleteMe
 nnoremap fd :YcmCompleter GoTo<CR>
@@ -98,7 +99,9 @@ let g:NERDTrimTrailingWhitespace = 1
 " Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDToggleCheckAllLines = 1
 
-
+""" kien/ctrlp.vim
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_regexp = 1
 map <F2> :wa<CR>:EXEC 
 map <F3> :call CopyPasteToggle()<CR>
 map <F8> :MARK 
