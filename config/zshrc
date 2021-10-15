@@ -27,7 +27,7 @@ zinit light zsh-users/zsh-syntax-highlighting
 # zinit ice lucid wait='0' atload='_zsh_autosuggest_start; zpcompinit; zpcdreplay'
 zinit ice wait='0' lucid atload='_zsh_autosuggest_start'
 zinit light zsh-users/zsh-autosuggestions
-ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd completion) history
+ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd) # completion) # history)
 
 zinit ice lucid wait='0'
 zinit light zsh-users/zsh-completions
@@ -44,25 +44,52 @@ zinit light zsh-users/zsh-completions
 #   zinit-zsh/z-a-bin-gem-node
 
 
-setopt SHARE_HISTORY
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=1000
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' check-for-changes false
+zstyle ':vcs_info:git*' formats '%b'
+zstyle ':vcs_info:git*' actionformats '%b (%a)'
 
-# REPORTTIME=1
-# TMOUT=1
-# TRAPALRM() {
-#   zle reset-prompt
-# }
+function prompt_git() {
+  is_dirty() {
+    test -n "$(git status --porcelain --ignore-submodules)"
+  }
+  ref="${vcs_info_msg_0_}"
+  if [[ -n "${ref}" ]]; then
+    if [[ "${ref/.../}" == "${ref}" ]]; then
+      ref="🐙${ref}"
+    else
+      # detached
+      ref="🐙${ref/.../}🔒"
+    fi
+    ref="%F{008}${ref}%f"
+    if is_dirty; then
+      ref="${ref} %F{yellow}•%f"
+    else
+      ref="${ref} %F{green}•%f"
+    fi
+    # prompt_segment ${color} ${PRIMARY_FG}
+    print -Pn "${ref}"
+  fi
+}
+
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+function prompt_pyenv() {
+  pyenv="$(basename ${VIRTUAL_ENV} 2> /dev/null)"
+  if [[ -n ${pyenv} ]]; then
+    echo "🐍%F{yellow}${pyenv}%f "
+  fi
+}
+
+function prompt_goenv() {
+  if [[ -n ${GOENV_VERSION} ]]; then
+    echo "🐶%F{cyan}${GOENV_VERSION}%f "
+  fi
+}
 
 
 ### Prompt ###
 setopt prompt_subst
-PROMPT='👤%F{magenta}%n%f 💻%F{cyan}%m%f 📁%F{white}%~%f $(prompt_git)
-🐈 '
-# ▓▒░ ✗
-# ⚡🐍💎🐳🌟🏄🔥✨👀💾💡🔄📣📚📺💨🐣🐛💬🌀🚀🐯👋🏠🚫🔮🧪🤖
-# 🔴🟠🟡🟢🔵🟣
 
 function preexec() {
   timer=$(date +%s%3N)
@@ -80,41 +107,35 @@ function precmd() {
   h=$((elapsed / 1000 / 60 / 60 % 24))
   d=$((elapsed / 1000 / 60 / 60 / 24))
 
-  exectime="${ms}%F{magenta}ms%f"
-  [ ${s} -gt 0 ] && exectime="${s}%F{magenta}s%f"
-  [ ${m} -gt 0 ] && exectime="${m}%F{magenta}m%f${exectime}"
-  [ ${h} -gt 0 ] && exectime="${h}%F{magenta}h%f${exectime}"
-  [ ${d} -gt 0 ] && exectime="${d}%F{magenta}d%f${exectime}"
+  exectime=""
+  [[ ${d} -gt 0 ]] && exectime="${d}%F{magenta}d%f"
+  [[ ${h} -gt 0 || -n ${exectime} ]] && exectime="${exectime}${h}%F{magenta}h%f"
+  [[ ${m} -gt 0 || -n ${exectime} ]] && exectime="${exectime}${m}%F{magenta}m%f"
+  [[ ${s} -gt 0 || -n ${exectime} ]] && exectime="${exectime}${s}%F{magenta}s%f"
+  [[ ! -n ${exectime} ]] && exectime="${ms}%F{magenta}ms%f"
 
+  PROMPT="👤%F{magenta}%n%f 💻%F{cyan}%m%f 📁%F{white}%~%f $(prompt_git)"$'\n'"$(prompt_goenv)$(prompt_pyenv)🐈 "
   RPROMPT="%(?.%F{green}✓.%F{red}💀%?)%f ⏳%F{white}${exectime}%f 🕑%F{yellow}%D{%H:%M:%S}%f"
+  # ▓▒░ ✗
+  # ⚡💎🐳🌟🏄🔥✨👀💾💡🚫❗🔄📣📚📺💨🐣🐛💬🌀🚀🐯👋🏠🔮🧪🤖
+  # 🔴🟠🟡🟢🔵🟣
 }
 
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:*' check-for-changes false
-zstyle ':vcs_info:git*' formats '%b'
-zstyle ':vcs_info:git*' actionformats '%b (%a)'
 
-function prompt_git() {
-  is_dirty() {
-    test -n "$(git status --porcelain --ignore-submodules)"
-  }
-  ref="${vcs_info_msg_0_}"
-  if [[ -n "${ref}" ]]; then
-    if [[ "${ref/.../}" == "${ref}" ]]; then
-      ref="${BRANCH}${ref}"
-    else
-      ref="${DETACHED}❗${ref/.../}"
-    fi
-    if is_dirty; then
-      ref="${ref}±"
-    else
-      ref="${ref}"
-    fi
-    # prompt_segment ${color} ${PRIMARY_FG}
-    print -Pn "%F{yellow}(${ref})%f"
-  fi
-}
+setopt SHARE_HISTORY
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=1000
+
+# REPORTTIME=1
+# TMOUT=1
+# TRAPALRM() {
+#   zle reset-prompt
+# }
+
+
+bindkey -e
+bindkey '^f'  forward-word
 
 
 ### Alias ###
