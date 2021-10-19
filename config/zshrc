@@ -50,6 +50,9 @@ zstyle ':vcs_info:*' check-for-changes false
 zstyle ':vcs_info:git*' formats '%b'
 zstyle ':vcs_info:git*' actionformats '%b (%a)'
 
+### Prompt ###
+setopt prompt_subst
+
 function prompt_git() {
   is_dirty() {
     test -n "$(git status --porcelain --ignore-submodules)"
@@ -73,23 +76,28 @@ function prompt_git() {
   fi
 }
 
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-function prompt_pyenv() {
-  pyenv="$(basename ${VIRTUAL_ENV} 2> /dev/null)"
-  if [[ -n ${pyenv} ]]; then
-    echo "🐍%F{yellow}${pyenv}%f "
-  fi
+function _prompt_pyenv() {
+  [[ -n ${VIRTUAL_ENV} ]] && echo "🐍%F{yellow}${VIRTUAL_ENV##*/}%f "
 }
 
-function prompt_goenv() {
-  if [[ -n ${GOENV_VERSION} ]]; then
-    echo "🐶%F{cyan}${GOENV_VERSION}%f "
-  fi
+export GOENV_GOPATH_PREFIX=${HOME}/.go
+export GOENV_ROOT="${HOME}/.goenv"
+export PATH="${GOENV_ROOT}/bin:$PATH"
+eval "$(goenv init -)"
+# export PATH="${GOROOT:+${GOROOT}/bin:}${PATH}"
+# export PATH="${PATH}${GOPATH:+:${GOPATH}/bin}"
+
+function _prompt_goenv() {
+  [[ -f .go-version ]] && export GOENV_VERSION="$(cat .go-version)"
+  [[ -n ${GOENV_VERSION} ]] && echo "🐶%F{cyan}${GOENV_VERSION}%f "
 }
-
-
-### Prompt ###
-setopt prompt_subst
 
 function preexec() {
   timer=$(date +%s%3N)
@@ -112,9 +120,9 @@ function precmd() {
   [[ ${h} -gt 0 || -n ${exectime} ]] && exectime="${exectime}${h}%F{magenta}h%f"
   [[ ${m} -gt 0 || -n ${exectime} ]] && exectime="${exectime}${m}%F{magenta}m%f"
   [[ ${s} -gt 0 || -n ${exectime} ]] && exectime="${exectime}${s}%F{magenta}s%f"
-  [[ ! -n ${exectime} ]] && exectime="${ms}%F{magenta}ms%f"
+  [[ -z ${exectime} ]] && exectime="${ms}%F{magenta}ms%f"
 
-  PROMPT="👤%F{magenta}%n%f 💻%F{cyan}%m%f 📁%F{white}%~%f $(prompt_git)"$'\n'"$(prompt_goenv)$(prompt_pyenv)🐈 "
+  PROMPT='👤%F{magenta}%n%f 💻%F{cyan}%m%f 📁%F{white}%~%f $(prompt_git)'$'\n''$(_prompt_goenv)$(_prompt_pyenv)🐈 '
   RPROMPT="%(?.%F{green}✓.%F{red}💀%?)%f ⏳%F{white}${exectime}%f 🕑%F{yellow}%D{%H:%M:%S}%f"
   # ▓▒░ ✗
   # ⚡💎🐳🌟🏄🔥✨👀💾💡🚫❗🔄📣📚📺💨🐣🐛💬🌀🚀🐯👋🏠🔮🧪🤖
@@ -125,7 +133,7 @@ function precmd() {
 setopt SHARE_HISTORY
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
-SAVEHIST=1000
+SAVEHIST=10000
 
 # REPORTTIME=1
 # TMOUT=1
@@ -134,7 +142,7 @@ SAVEHIST=1000
 # }
 
 
-bindkey -e
+# bindkey -e
 bindkey '^f'  forward-word
 
 
