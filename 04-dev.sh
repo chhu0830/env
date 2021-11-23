@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+CFGDIR=${CFGDIR:-$(realpath $(dirname $0)/config)}
 
 echo "***********************"
 echo "* Development Install *"
@@ -34,7 +35,7 @@ sudo $INS $INSOPT \
   libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
 sudo pip3 install virtualenv
 curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-cat >> ${HOME}/.zshenv <<EOF
+cat >> ${CFGDIR}/zcustom <<EOF
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
@@ -46,10 +47,11 @@ EOF
 ### goenv ###
 sudo $INS $INSOPT golang
 git clone https://github.com/syndbg/goenv.git ~/.goenv
-cat >> ${HOME}/.zshenv <<EOF
+cat >> ${CFGDIR}/zcustom <<EOF
+export GOENV_GOPATH_PREFIX=${HOME}/.go
 export GOENV_ROOT="${HOME}/.goenv"
 export PATH="${GOENV_ROOT}/bin:$PATH"
 eval "$(goenv init -)"
-export PATH="${GOROOT:+${GOROOT}/bin:}${PATH}"
-export PATH="${PATH}${GOPATH:+:${GOPATH}/bin}"
+# export PATH="${GOROOT:+${GOROOT}/bin:}${PATH}"
+# export PATH="${PATH}${GOPATH:+:${GOPATH}/bin}"
 EOF
