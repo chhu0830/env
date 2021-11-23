@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+CFGDIR=${CFGDIR:-$(realpath $(dirname $0)/config)}
 
 echo "*******************"
 echo "* Utility Install *"
@@ -30,14 +31,14 @@ sudo $INS $INSOPT httpie
 # sudo $INS $INSOPT manpages-posix-dev glibc-doc
 
 sudo $INS $INSOPT git tk
-ln -b -s ${PWD}/config/gitconfig ${HOME}/.gitconfig
+ln -b -s ${CFGDIR}/gitconfig ${HOME}/.gitconfig
 
 sudo $INS $INSOPT vim
-ln -b -s ${PWD}/config/vimrc ${HOME}/.vimrc
+ln -b -s ${CFGDIR}/vimrc ${HOME}/.vimrc
 
 sudo $INS $INSOPT tmux
 git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
-ln -b -s ${PWD}/config/tmux.conf ${HOME}/.tmux.conf
+ln -b -s ${CFGDIR}/tmux.conf ${HOME}/.tmux.conf
 
 sudo $INS $INSOPT screen
-ln -b -s ${PWD}/config/screenrc ${HOME}/.screenrc
+ln -b -s ${CFGDIR}/screenrc ${HOME}/.screenrc

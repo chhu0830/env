@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+CFGDIR=${CFGDIR:-$(realpath $(dirname $0)/config)}
 
 echo "***************"
 echo "* ZSH Install *"
@@ -24,7 +25,8 @@ sudo $INS $UPDOPT
 
 ### zsh Installation ###
 sudo ${INS} ${INSOPT} curl git zsh
-ln -b -s ${PWD}/config/zshrc ${HOME}/.zshrc
+ln -b -s ${CFGDIR}/zshrc ${HOME}/.zshrc
+ln -b -s ${HOME}/.profile ${HOME}/.zprofile
 
 # FIXME: ${USER} not set in docker
 sudo usermod --shell $(which zsh) ${USER}
