@@ -1,3 +1,5 @@
+timer=$(date +%s%3N)
+
 ### Zinit ###
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
   print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
@@ -32,6 +34,22 @@ ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd) # completion) # history)
 zinit ice lucid wait='0'
 zinit light zsh-users/zsh-completions
 
+zinit ice wait='0' lucid
+zinit snippet ~/.env/config/zcustom
+
+# zinit light olivierverdier/zsh-git-prompt
+# ZSH_THEME_GIT_PROMPT_PREFIX="🐙"
+# ZSH_THEME_GIT_PROMPT_SUFFIX=""
+# ZSH_THEME_GIT_PROMPT_SEPARATOR=" "
+# ZSH_THEME_GIT_PROMPT_BRANCH="%{$fg_bold[magenta]%}"
+# ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[red]%}%{●%G%}"
+# ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$fg[red]%}%{✖%G%}"
+# ZSH_THEME_GIT_PROMPT_CHANGED="%{$fg[blue]%}%{✚%G%}"
+# ZSH_THEME_GIT_PROMPT_BEHIND="%{↓%G%}"
+# ZSH_THEME_GIT_PROMPT_AHEAD="%{↑%G%}"
+# ZSH_THEME_GIT_PROMPT_UNTRACKED="%{…%G%}"
+# ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}%{✔%G%}"
+
 # autoload -Uz _zinit
 # (( ${+_comps} )) && _comps[zinit]=_zinit
 #
@@ -44,16 +62,16 @@ zinit light zsh-users/zsh-completions
 #   zinit-zsh/z-a-bin-gem-node
 
 
+### Prompt ###
+setopt prompt_subst
+
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes false
 zstyle ':vcs_info:git*' formats '%b'
 zstyle ':vcs_info:git*' actionformats '%b (%a)'
 
-### Prompt ###
-setopt prompt_subst
-
-function prompt_git() {
+function _prompt_git() {
   is_dirty() {
     test -n "$(git status --porcelain --ignore-submodules)"
   }
@@ -76,27 +94,13 @@ function prompt_git() {
   fi
 }
 
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 function _prompt_pyenv() {
   [[ -n ${VIRTUAL_ENV} ]] && echo "🐍%F{yellow}${VIRTUAL_ENV##*/}%f "
 }
 
-export GOENV_GOPATH_PREFIX=${HOME}/.go
-export GOENV_ROOT="${HOME}/.goenv"
-export PATH="${GOENV_ROOT}/bin:$PATH"
-eval "$(goenv init -)"
-# export PATH="${GOROOT:+${GOROOT}/bin:}${PATH}"
-# export PATH="${PATH}${GOPATH:+:${GOPATH}/bin}"
-
 function _prompt_goenv() {
-  [[ -f .go-version ]] && export GOENV_VERSION="$(cat .go-version)"
-  [[ -n ${GOENV_VERSION} ]] && echo "🐶%F{cyan}${GOENV_VERSION}%f "
+  hash goenv 2> /dev/null && [[ $(goenv global) != $(goenv version-name) ]] && echo "🐶%F{cyan}$(goenv version-name)%f "
 }
 
 function preexec() {
@@ -122,8 +126,10 @@ function precmd() {
   [[ ${s} -gt 0 || -n ${exectime} ]] && exectime="${exectime}${s}%F{magenta}s%f"
   [[ -z ${exectime} ]] && exectime="${ms}%F{magenta}ms%f"
 
-  PROMPT='👤%F{magenta}%n%f 💻%F{cyan}%m%f 📁%F{white}%~%f $(prompt_git)'$'\n''$(_prompt_goenv)$(_prompt_pyenv)🐈 '
-  RPROMPT="%(?.%F{green}✓.%F{red}💀%?)%f ⏳%F{white}${exectime}%f 🕑%F{yellow}%D{%H:%M:%S}%f"
+  # [[ -z ${PYENV_VIRTUALENV_INIT} ]] && hash pyenv 2> /dev/null && eval "$(pyenv virtualenv-init -)"
+  hash pyenv 2> /dev/null && eval "$(pyenv virtualenv-init -)"
+  PROMPT='👤%F{magenta}%n%f 💻%F{cyan}%m%f 📁%F{white}%~%f $(_prompt_git)'$'\n''$(_prompt_goenv)$(_prompt_pyenv)🐈 '
+  RPROMPT='%(?.%F{green}✓.%F{red}💀%?)%f ⏳%F{white}${exectime}%f 🕑%F{yellow}%D{%H:%M:%S}%f'
   # ▓▒░ ✗
   # ⚡💎🐳🌟🏄🔥✨👀💾💡🚫❗🔄📣📚📺💨🐣🐛💬🌀🚀🐯👋🏠🔮🧪🤖
   # 🔴🟠🟡🟢🔵🟣
@@ -135,6 +141,9 @@ HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
 # REPORTTIME=1
 # TMOUT=1
 # TRAPALRM() {
@@ -142,11 +151,21 @@ SAVEHIST=10000
 # }
 
 
+# Find exact Key code by <C-v> <key>
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[OA" up-line-or-beginning-search # Up
+bindkey "^[OB" down-line-or-beginning-search # Down
+bindkey "^k" up-line-or-beginning-search
+bindkey "^j" down-line-or-beginning-search
+bindkey '^f' forward-word
 # bindkey -e
-bindkey '^f'  forward-word
 
 
 ### Alias ###
 alias ls="ls --color=auto"
 alias ssh="ssh -Y -D 0.0.0.0:800$WINDOW "
+alias tmpenv="docker run -it --rm -v '${PWD}:/${PWD##*/}' -w '/${PWD##*/}'"
 # alias ssh="ssh -Y -D `ifconfig ens37 | sed -n '2p' | awk '{print $2}'`:800$WINDOW "
