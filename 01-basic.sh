@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
 set -e
+CFGDIR=${CFGDIR:-$(realpath $(dirname $0)/config)}
 
 echo "*********************"
 echo "* Basic Environment *"
 echo "*********************"
 
-OS=$(. /etc/os-release && echo $ID)
-case $OS in
+. /etc/os-release
+case ${ID} in
   arch)
     echo  ""
     echo  "  The operating system is \`$OS\`."
@@ -53,8 +54,30 @@ case $OS in
     echo "  The operating system is $OS."
     echo "  Nothing to be installed."
     echo ""
-    echo "****     Press ENTER to continue    ****"
 esac
 
-clear
+if [[ -n ${WSL_DISTRO_NAME} ]]; then
+  cat > /etc/wsl.conf <<-EOF
+  [user]
+  default = ${USER}
+  
+  [automount]
+  enabled = true
+  root = /mnt/
+  options = "metadata,umask=022,fmask=111"
+  mountFsTab = true
+  EOF
+
+  cat >> /etc/fstab <<-EOF
+  C:\                     /mnt/c  drvfs   rw,noatime,dirsync,aname=drvfs,path=C:\,uid=1000,gid=1000,metadata,umask=022,fmask=011,symlinkroot=/mnt/,mmap,access=client,msize=65536,trans=fd,rfd=8,wfd=8    0 0
+  EOF
+    
+  crontab <<-EOF
+  $(crontab -l)
+  @reboot rm -rf /tmp/*
+  @reboot mkdir -m 777 /run/screen
+  @daily echo 1 > /proc/sys/vm/compact_memory
+  EOF
+fi
+
 echo "==== $0 successfully finished ===="
