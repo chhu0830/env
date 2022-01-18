@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 set -e
-CFGDIR=${CFGDIR:-$(realpath $(dirname $0)/config)}
+# CFGDIR=${CFGDIR:-$(realpath $(dirname $0)/config)}
+CFGDIR=./config
 
 echo "*******************"
 echo "* Utility Install *"

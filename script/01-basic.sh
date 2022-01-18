@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 set -e
-CFGDIR=${CFGDIR:-$(realpath $(dirname $0)/config)}
+# CFGDIR=${CFGDIR:-$(realpath $(dirname $0)/config)}
+CFGDIR=./config
 
 echo "*********************"
 echo "* Basic Environment *"
@@ -76,7 +77,8 @@ if [[ -n ${WSL_DISTRO_NAME} ]]; then
   $(crontab -l)
   @reboot rm -rf /tmp/*
   @reboot mkdir -m 777 /run/screen
-  @daily echo 1 > /proc/sys/vm/compact_memory
+  @reboot /etc/init.d/ssh start && ssh -i /home/chhu0830/.ssh/id_rsa -NfD 0.0.0.0:8000 chhu0830@localhost
+  #@daily echo 1 > /proc/sys/vm/compact_memory
   EOF
 fi
 
