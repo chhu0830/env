@@ -158,14 +158,17 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[OA" up-line-or-beginning-search # Up
 bindkey "^[OB" down-line-or-beginning-search # Down
+bindkey "^[k" backward-word
+bindkey "^[j" forward-word
+bindkey "^[h" backward-char
+bindkey "^[l" forward-char
 bindkey "^k" up-line-or-beginning-search
 bindkey "^j" down-line-or-beginning-search
 bindkey '^f' forward-word
 # bindkey -e
 
-
 ### Alias ###
-alias ls="ls --color=auto"
-alias ssh="ssh -Y -D 0.0.0.0:800$WINDOW "
-alias tmpenv="docker run -it --rm -v '${PWD}:/${PWD##*/}' -w '/${PWD##*/}'"
-# alias ssh="ssh -Y -D `ifconfig ens37 | sed -n '2p' | awk '{print $2}'`:800$WINDOW "
+alias ls="ls --color=auto --group-directories-first"
+alias ssh="ssh -Y -D 0.0.0.0:800${WINDOW} "
+alias cenv="docker run -it --rm -v '${PWD}:/${PWD##*/}' -w '/${PWD##*/}'"
+alias kubectl="minikube kubectl --"
