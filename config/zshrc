@@ -1,23 +1,25 @@
-timer=$(date +%s%3N)
-
-### Zinit ###
+### Zinit
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-  print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-  command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-  command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
-    print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-    print -P "%F{160}▓▒░ The clone has failed.%f%b"
+    print -P "%F{33}▓▒░ %F{160}Installing %F{33}ZINIT%F{160} Initiative Plugin Manager (%F{33}z-shell/zinit%F{160})…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone -q https://github.com/z-shell/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
 fi
 
-[ ! -f "${HOME}/.zinit/bin/zmodules/Src/zdharma/zplugin.so" ] && source "${HOME}/.zinit/bin/zinit.zsh" && zinit module build
-module_path+=( "${HOME}/.zinit/bin/zmodules/Src" )
-zmodload zdharma/zplugin
-# zpmod source-study
+[ ! -f "${HOME}/.zinit/bin/zmodules/Src/zshell/zplugin.so" ] && source "${HOME}/.zinit/bin/zinit.zsh" && zinit module build
+module_path+=( "${HOME}/.zinit/bin/zmodules/Src"  )
+zmodload zshell/zplugin
+# zpmod source-study -l
 
-source "${HOME}/.zinit/bin/zinit.zsh"
+source "$HOME/.zinit/bin/zinit.zsh"
 # zinit self-update
 # zinit update
 # zinit delete --clean
+
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+### End of Zinit's installer chunk
 
 
 ### Zinit Plugin ###
@@ -102,6 +104,8 @@ function _prompt_pyenv() {
 function _prompt_goenv() {
   hash goenv 2> /dev/null && [[ $(goenv global) != $(goenv version-name) ]] && echo "🐶%F{cyan}$(goenv version-name)%f "
 }
+
+timer=$(date +%s%3N)
 
 function preexec() {
   timer=$(date +%s%3N)
