@@ -70,7 +70,11 @@ if [[ -n ${WSL_DISTRO_NAME} ]]; then
   EOF
 
   cat >> /etc/fstab <<-EOF
-  C:\                     /mnt/c  drvfs   rw,noatime,dirsync,aname=drvfs,path=C:\,uid=1000,gid=1000,metadata,umask=022,fmask=011,symlinkroot=/mnt/,mmap,access=client,msize=65536,trans=fd,rfd=8,wfd=8    0 0
+  C:\                     /mnt/c  drvfs   rw,noatime,dirsync,aname=drvfs,path=C:\,uid=1000,gid=1000,metadata,umask=022,fmask=011,symlinkroot=/mnt/,mmap,access=client,msize=65536,trans=fd    0 0
+  EOF
+
+  cat >> ./config/zcustom <<-EOF
+  export DISPLAY=\$(awk '/nameserver / {print \$2; exit}' /etc/resolv.conf 2>/dev/null):0
   EOF
     
   crontab <<-EOF
