@@ -1,3 +1,20 @@
+timer=$(date +%s%3N)
+
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt SHARE_HISTORY
+
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+# REPORTTIME=1
+# TMOUT=1
+# TRAPALRM() {
+#   zle reset-prompt
+# }
+
+
 ### Zinit
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
     print -P "%F{33}▓▒░ %F{160}Installing %F{33}ZINIT%F{160} Initiative Plugin Manager (%F{33}z-shell/zinit%F{160})…%f"
@@ -7,7 +24,10 @@ if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
         print -P "%F{160}▓▒░ The clone has failed.%f%b"
 fi
 
-[ ! -f "${HOME}/.zinit/bin/zmodules/Src/zshell/zplugin.so" ] && source "${HOME}/.zinit/bin/zinit.zsh" && zinit module build
+[[ ! -f "${HOME}/.zinit/bin/zmodules/Src/zshell/zplugin.so" ]] \
+  && source "${HOME}/.zinit/bin/zinit.zsh" \
+  && zinit module build
+
 module_path+=( "${HOME}/.zinit/bin/zmodules/Src"  )
 zmodload zshell/zplugin
 # zpmod source-study -l
@@ -25,18 +45,18 @@ autoload -Uz _zinit
 ### Zinit Plugin ###
 # zinit ice lucid wait='0' atinit='zpcompinit'
 # zinit light zdharma/fast-syntax-highlighting
-zinit ice lucid wait='0'
+zinit ice wait lucid
 zinit light zsh-users/zsh-syntax-highlighting
 
 # zinit ice lucid wait='0' atload='_zsh_autosuggest_start; zpcompinit; zpcdreplay'
-zinit ice wait='0' lucid atload='_zsh_autosuggest_start'
+zinit ice wait lucid atload='_zsh_autosuggest_start'
 zinit light zsh-users/zsh-autosuggestions
 ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd) # completion) # history)
 
-zinit ice lucid wait='0'
+zinit ice wait lucid
 zinit light zsh-users/zsh-completions
 
-zinit ice wait='0' lucid
+zinit ice wait lucid
 zinit snippet ~/.env/config/zcustom
 
 # zinit light olivierverdier/zsh-git-prompt
@@ -105,8 +125,6 @@ function _prompt_goenv() {
   hash goenv 2> /dev/null && [[ $(goenv global) != $(goenv version-name) ]] && echo "🐶%F{cyan}$(goenv version-name)%f "
 }
 
-timer=$(date +%s%3N)
-
 function preexec() {
   timer=$(date +%s%3N)
 }
@@ -140,21 +158,6 @@ function precmd() {
 }
 
 
-setopt SHARE_HISTORY
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-
-export LC_CTYPE=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-
-# REPORTTIME=1
-# TMOUT=1
-# TRAPALRM() {
-#   zle reset-prompt
-# }
-
-
 # Find exact Key code by <C-v> <key>
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
@@ -174,5 +177,5 @@ bindkey '^f' forward-word
 ### Alias ###
 alias ls="ls --color=auto --group-directories-first"
 alias ssh="ssh -Y -D 0.0.0.0:800${WINDOW} "
-alias cenv="docker run -it --rm -v '${PWD}:/${PWD##*/}' -w '/${PWD##*/}'"
+alias cenv='docker run -it --rm -v "${PWD}:/${PWD##*/}" -w "/${PWD##*/}"'
 alias kubectl="minikube kubectl --"
