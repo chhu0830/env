@@ -150,8 +150,11 @@ function precmd() {
 
   # [[ -z ${PYENV_VIRTUALENV_INIT} ]] && hash pyenv 2> /dev/null && eval "$(pyenv virtualenv-init -)"
   hash pyenv 2> /dev/null && eval "$(pyenv virtualenv-init -)"
+
+  _lineup=$'\e[1A'
+  _linedown=$'\e[1B'
   PROMPT='👤%F{magenta}%n%f 💻%F{cyan}%m%f 📁%F{white}%~%f $(_prompt_git)'$'\n''$(_prompt_goenv)$(_prompt_pyenv)🐈 '
-  RPROMPT='%(?.%F{green}✓.%F{red}💀%?)%f ⏳%F{white}${exectime}%f 🕑%F{yellow}%D{%H:%M:%S}%f'
+  RPROMPT='%{${_lineup}%}%(?.%F{green}✓.%F{red}💀%?)%f ⏳%F{white}${exectime}%f 🕑%F{yellow}%D{%H:%M:%S}%f%{${_linedown}%}'
   # ▓▒░ ✗
   # ⚡💎🐳🌟🏄🔥✨👀💾💡🚫❗🔄📣📚📺💨🐣🐛💬🌀🚀🐯👋🏠🔮🧪🤖
   # 🔴🟠🟡🟢🔵🟣
@@ -177,5 +180,5 @@ bindkey '^f' forward-word
 ### Alias ###
 alias ls="ls --color=auto --group-directories-first"
 alias ssh="ssh -Y -D 0.0.0.0:800${WINDOW} "
-alias cenv='docker run -it --rm -v "${PWD}:/${PWD##*/}" -w "/${PWD##*/}"'
+alias denv='docker run -it --rm -v "${PWD}:/${PWD##*/}" -w "/${PWD##*/}"'
 alias kubectl="minikube kubectl --"
