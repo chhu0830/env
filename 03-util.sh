@@ -2,7 +2,7 @@
 
 set -e
 # CFGDIR=${CFGDIR:-$(realpath $(dirname $0)/config)}
-CFGDIR=./config
+CFGDIR=${PWD}/config
 
 echo "*******************"
 echo "* Utility Install *"

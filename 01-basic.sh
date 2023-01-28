@@ -58,32 +58,38 @@ case ${ID} in
 esac
 
 if [[ -n ${WSL_DISTRO_NAME} ]]; then
-  cat > /etc/wsl.conf <<-EOF
-  [user]
-  default = ${USER}
-  
-  [automount]
-  enabled = true
-  root = /mnt/
-  options = "metadata,umask=022,fmask=111"
-  mountFsTab = true
-  EOF
+  sudo cat > /etc/wsl.conf <<-EOF
+[boot]
+systemd=true
 
-  cat >> /etc/fstab <<-EOF
-  C:\                     /mnt/c  drvfs   rw,noatime,dirsync,aname=drvfs,path=C:\,uid=1000,gid=1000,metadata,umask=022,fmask=011,symlinkroot=/mnt/,mmap,access=client,msize=65536,trans=fd    0 0
-  EOF
+[user]
+default = ${USER}
 
-  cat >> ./config/zcustom <<-EOF
-  export DISPLAY=\$(awk '/nameserver / {print \$2; exit}' /etc/resolv.conf 2>/dev/null):0
-  EOF
-    
-  crontab <<-EOF
-  $(crontab -l)
-  @reboot rm -rf /tmp/*
-  @reboot mkdir -m 777 /run/screen
-  @reboot /etc/init.d/ssh start && ssh -i /home/chhu0830/.ssh/id_rsa -NfD 0.0.0.0:8000 chhu0830@localhost
-  #@daily echo 1 > /proc/sys/vm/compact_memory
-  EOF
+[automount]
+enabled = true
+root = /mnt/
+options = "metadata,umask=022,fmask=111"
+mountFsTab = true
+EOF
+
+  sudo cat >> /etc/fstab <<-EOF
+C:\                     /mnt/c  drvfs   rw,noatime,dirsync,aname=drvfs,path=C:\,uid=1000,gid=1000,metadata,umask=022,fmask=011,symlinkroot=/mnt/,mmap,access=client,msize=65536,trans=fd    0 0
+EOF
+
+  sudo cat >> ./config/zcustom <<-EOF
+export DISPLAY=\$(awk '/nameserver / {print \$2; exit}' /etc/resolv.conf 2>/dev/null):0
+EOF
+
+  # If windows cmd shows run-detectors: unable to find an interpreter
+  # @reboot update-binfmts --disable cli
+
+#   crontab <<-EOF
+# $(crontab -l)
+# @reboot rm -rf /tmp/*
+# @reboot mkdir -m 777 /run/screen
+# #@daily echo 1 > /proc/sys/vm/compact_memory
+# EOF
+
 fi
 
 echo "==== $0 successfully finished ===="

@@ -63,6 +63,7 @@ Plug 'ycm-core/YouCompleteMe'
 Plug 'preservim/nerdcommenter'
 Plug 'kien/ctrlp.vim'
 Plug 'mattn/emmet-vim'
+Plug 'zivyangll/git-blame.vim'
 call plug#end()
 
 """ airblade/vim-gitgutter
@@ -79,6 +80,7 @@ autocmd FileType php let b:AutoPairs = AutoPairsDefine({'<?':'?>', '<?php': '?>'
 
 """ ycm-core/YouCompleteMe
 nnoremap fd :YcmCompleter GoTo<CR>
+nnoremap <C-g> :tab YcmCompleter GoTo<CR>
 set completeopt-=preview
 " let g:ycm_autoclose_preview_window_after_completion = 1
 " let g:ycm_autoclose_preview_window_after_insertion = 1
@@ -107,13 +109,25 @@ let g:NERDToggleCheckAllLines = 1
 let g:ctrlp_working_path_mode = 'ra'
 " let g:ctrlp_regexp = 1
 let g:ctrlp_show_hidden = 1
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
 """ mattn/emmet-vim
 " let g:user_emmet_leader_key='<C-e>'
 let g:user_emmet_expandabbr_key = '<C-e>'
 
+""" zivyangll/git-blame.vim
+nnoremap gb :<C-u>call gitblame#echo()<CR>
+
+" set switchbuf+=newtab
+" autocmd BufLeave * cclose
+autocmd FileType qf nnoremap <buffer> <C-t> <C-w><Enter>:cclose<CR><C-w>T
+autocmd FileType qf nnoremap <buffer> t <C-w><Enter><C-w>TgT<C-w><C-w>
+map <C-f> :SEARCH 
+map fw :FIND<CR>
+
 map <F2> :wa<CR>:EXEC 
 map <F3> :call CopyPasteToggle()<CR>
+map <F4> :wa<CR>:COMMIT 
 map <F8> :MARK 
 map <F9> :-tabmove<CR>
 map <F10> :+tabmove<CR>
@@ -126,6 +140,9 @@ imap <F11> <ESC><F11>
 imap <F12> <ESC><F12>
 command -nargs=* EXEC execute EXEC(<q-args>)
 command -nargs=* MARK execute MARK(<q-args>)
+command -nargs=* COMMIT execute 'silent tabdo windo !git add %' | execute '!clear; git commit -m "' . <q-args> . '"' | execute 'silent tabdo windo w'
+command -nargs=* SEARCH execute 'vimgrep /' . <q-args> . '/j **/*' | execute 'copen'
+command -nargs=* FIND execute 'vimgrep /' . expand('<cword>') . '/j **/*' | execute 'copen'
 
 
 function CopyPasteToggle()

@@ -116,13 +116,37 @@ function _prompt_git() {
   fi
 }
 
+#[[ -z ${PYENV_VIRTUALENV_INIT} ]] && hash pyenv 2> /dev/null && eval "$(pyenv virtualenv-init -)"
+hash pyenv 2> /dev/null && eval "$(pyenv virtualenv-init -)"
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 function _prompt_pyenv() {
   [[ -n ${VIRTUAL_ENV} ]] && echo "🐍%F{yellow}${VIRTUAL_ENV##*/}%f "
 }
 
 function _prompt_goenv() {
-  hash goenv 2> /dev/null && [[ $(goenv global) != $(goenv version-name) ]] && echo "🐶%F{cyan}$(goenv version-name)%f "
+  # hash goenv 2> /dev/null && [[ $(goenv global) != $(goenv version-name) ]] && echo "🐶%F{cyan}$(goenv version-name)%f "
+  hash goenv 2> /dev/null && [[ $(goenv version-origin) != "${GOENV_ROOT}/version" ]] && echo "🐶%F{cyan}$(goenv version-name)%f "
+}
+
+function _exectime() {
+  now=$(date +%s%3N)
+  elapsed=$([ ${timer} ] && echo $((${now}-${timer})) || echo 0)
+
+  d=$((elapsed / 1000 / 60 / 60 / 24))
+  h=$((elapsed / 1000 / 60 / 60 % 24))
+  m=$((elapsed / 1000 / 60 % 60))
+  s=$((elapsed / 1000 % 60))
+  ms=$((elapsed % 1000))
+
+  exectime=""
+  [[ ${d} -gt 0 ]] && exectime="${d}%F{magenta}d%f"
+  [[ ${h} -gt 0 || -n ${exectime} ]] && exectime="${exectime}${h}%F{magenta}h%f"
+  [[ ${m} -gt 0 || -n ${exectime} ]] && exectime="${exectime}${m}%F{magenta}m%f"
+  [[ ${s} -gt 0 || -n ${exectime} ]] && exectime="${exectime}${s}%F{magenta}s%f"
+  [[ ${ms} -gt 0 || -n ${exectime} ]] && exectime="${exectime}${ms}%F{magenta}ms%f"
+  [[ -z ${exectime} ]] && exectime="${ms}%F{magenta}ms%f"
+
+  echo "${exectime}"
 }
 
 function preexec() {
@@ -131,25 +155,8 @@ function preexec() {
 
 function precmd() {
   vcs_info
-  now=$(date +%s%3N)
-  elapsed=$([ ${timer} ] && echo $((${now}-${timer})) || echo 0)
+  exectime=$(_exectime)
   unset timer
-
-  ms=$((elapsed % 1000))
-  s=$((elapsed / 1000 % 60))
-  m=$((elapsed / 1000 / 60 % 60))
-  h=$((elapsed / 1000 / 60 / 60 % 24))
-  d=$((elapsed / 1000 / 60 / 60 / 24))
-
-  exectime=""
-  [[ ${d} -gt 0 ]] && exectime="${d}%F{magenta}d%f"
-  [[ ${h} -gt 0 || -n ${exectime} ]] && exectime="${exectime}${h}%F{magenta}h%f"
-  [[ ${m} -gt 0 || -n ${exectime} ]] && exectime="${exectime}${m}%F{magenta}m%f"
-  [[ ${s} -gt 0 || -n ${exectime} ]] && exectime="${exectime}${s}%F{magenta}s%f"
-  [[ -z ${exectime} ]] && exectime="${ms}%F{magenta}ms%f"
-
-  # [[ -z ${PYENV_VIRTUALENV_INIT} ]] && hash pyenv 2> /dev/null && eval "$(pyenv virtualenv-init -)"
-  hash pyenv 2> /dev/null && eval "$(pyenv virtualenv-init -)"
 
   _lineup=$'\e[1A'
   _linedown=$'\e[1B'
@@ -179,6 +186,6 @@ bindkey '^f' forward-word
 
 ### Alias ###
 alias ls="ls --color=auto --group-directories-first"
-alias ssh="ssh -Y -D 0.0.0.0:800${WINDOW} "
+alias ssh="ssh -Y -D 888${WINDOW} "
 alias denv='docker run -it --rm -v "${PWD}:/${PWD##*/}" -w "/${PWD##*/}"'
 alias kubectl="minikube kubectl --"
