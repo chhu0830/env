@@ -1,8 +1,11 @@
-Host !github.com
+Host *
     ServerAliveInterval 60
 
+Host * !github.* !gitlab.* !jumphost
     PermitLocalCommand yes
-    LocalCommand echo -ne "\033k%h\033\\"
+    LocalCommand [[ "$TERM" =~ 'screen*'  ]] && echo -ne "\033k%h\033\\"
+    ForwardX11 yes
+    DynamicForward 888${WINDOW}
 
 # Stop zsh (oh-my-zsh) from resetting screen window titles?
 # It can be disabled in .zshrc by uncommenting the line:

@@ -2,7 +2,7 @@
 
 set -e
 # CFGDIR=${CFGDIR:-$(realpath $(dirname $0)/config)}
-CFGDIR=${PWD}/config
+CFGDIR="${PWD}/config"
 
 echo "*******************"
 echo "* Utility Install *"
@@ -22,24 +22,26 @@ case $OS in
     ;;
 esac
 
-sudo $INS $UPDOPT
+sudo ${INS} ${UPDOPT}
 
 ### Utilitiy Installation ###
-sudo $INS $INSOPT zip unzip p7zip unrar
-sudo $INS $INSOPT htop iftop iotop
-sudo $INS $INSOPT ntfs-3g cifs-utils
-sudo $INS $INSOPT httpie
-# sudo $INS $INSOPT manpages-posix-dev glibc-doc
+sudo ${INS} ${INSOPT} zip unzip p7zip unrar
+sudo ${INS} ${INSOPT} htop iftop iotop sysstat
+sudo ${INS} ${INSOPT} ntfs-3g cifs-utils
+sudo ${INS} ${INSOPT} httpie jq
+# sudo ${INS} ${INSOPT} manpages-posix-dev glibc-doc
 
-sudo $INS $INSOPT git tk
+sudo ${INS} ${INSOPT} git tk
 ln -b -s ${CFGDIR}/gitconfig ${HOME}/.gitconfig
 
-sudo $INS $INSOPT vim
+sudo ${INS} ${INSOPT} vim
 ln -b -s ${CFGDIR}/vimrc ${HOME}/.vimrc
 
-sudo $INS $INSOPT tmux
+sudo ${INS} ${INSOPT} screen
+ln -b -s ${CFGDIR}/screenrc ${HOME}/.screenrc
+
+sudo ${INS} ${INSOPT} tmux
 git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
 ln -b -s ${CFGDIR}/tmux.conf ${HOME}/.tmux.conf
-
-sudo $INS $INSOPT screen
-ln -b -s ${CFGDIR}/screenrc ${HOME}/.screenrc
+tmux run-shell /home/chhu0830/.tmux/plugins/tpm/bindings/install_plugins
+# echo "Insatll tmux plugin by <prefix> + I"

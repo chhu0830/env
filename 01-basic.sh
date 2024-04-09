@@ -2,7 +2,7 @@
 
 set -e
 # CFGDIR=${CFGDIR:-$(realpath $(dirname $0)/config)}
-CFGDIR=./config
+CFGDIR="${PWD}/config"
 
 echo "*********************"
 echo "* Basic Environment *"
@@ -58,7 +58,7 @@ case ${ID} in
 esac
 
 if [[ -n ${WSL_DISTRO_NAME} ]]; then
-  sudo cat > /etc/wsl.conf <<-EOF
+  cat <<EOF | sudo tee /etc/wsl.conf
 [boot]
 systemd=true
 
@@ -72,16 +72,17 @@ options = "metadata,umask=022,fmask=111"
 mountFsTab = true
 EOF
 
-  sudo cat >> /etc/fstab <<-EOF
+  cat <<-EOF | sudo tee -a /etc/fstab
 C:\                     /mnt/c  drvfs   rw,noatime,dirsync,aname=drvfs,path=C:\,uid=1000,gid=1000,metadata,umask=022,fmask=011,symlinkroot=/mnt/,mmap,access=client,msize=65536,trans=fd    0 0
 EOF
 
-  sudo cat >> ./config/zcustom <<-EOF
-export DISPLAY=\$(awk '/nameserver / {print \$2; exit}' /etc/resolv.conf 2>/dev/null):0
-EOF
+# If windows cmd shows run-detectors: unable to find an interpreter
+# @reboot update-binfmts --disable cli
+# echo 1 > /proc/sys/fs/binfmt_misc/WSLInterop
 
-  # If windows cmd shows run-detectors: unable to find an interpreter
-  # @reboot update-binfmts --disable cli
+# If exec format error
+# sudo sh -c 'echo :WSLInterop:M::MZ::/init:PF > /usr/lib/binfmt.d/WSLInterop.conf'
+# sudo systemctl restart systemd-binfmt
 
 #   crontab <<-EOF
 # $(crontab -l)

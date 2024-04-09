@@ -2,7 +2,7 @@
 
 set -e
 # CFGDIR=${CFGDIR:-$(realpath $(dirname $0)/config)}
-CFGDIR=./config
+CFGDIR="${PWD}/config"
 
 echo "***************"
 echo "* ZSH Install *"
@@ -30,6 +30,9 @@ ln -b -s ${CFGDIR}/zshrc ${HOME}/.zshrc
 ln -b -s ${HOME}/.profile ${HOME}/.zprofile
 
 # FIXME: ${USER} not set in docker
+sudo ${INS} ${INSOPT} gcc make libncurses5-dev libncursesw5-dev
 sudo usermod --shell $(which zsh) ${USER}
 
-# sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
+exec zsh -il
+# https://wiki.zshell.dev/docs/getting_started/installation
+# sh -c "$(curl -fsSL get.zshell.dev)" --
