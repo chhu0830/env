@@ -20,13 +20,15 @@ set shiftwidth=4
 set softtabstop=4
 set tabstop=4
 " set textwidth=79
-autocmd FileType html,css,javascript,typescript,typescriptreact,ruby,c,cpp set ts=2 sts=2 sw=2
+autocmd FileType html,css,javascript,typescript,typescriptreact,ruby set ts=2 sts=2 sw=2
 autocmd FileType markdown,yaml,xml,vim,sh,zsh set ts=2 sts=2 sw=2
 autocmd FileType go set noexpandtab
 
-set nofoldenable
 set foldmethod=syntax
+" set nofoldenable
 set foldlevel=999
+set foldtext=repeat('\ ',indent(v:foldstart)).trim(getline(v:foldstart)).'\ ...('.(v:foldend-v:foldstart+1).')\ '.trim(getline(v:foldend)).'\ '
+highlight Folded ctermfg=cyan ctermbg=0
 
 highlight Visual ctermbg=0
 " highlight Comment ctermfg=20
@@ -72,9 +74,11 @@ Plug 'zivyangll/git-blame.vim'
 call plug#end()
 
 """ airblade/vim-gitgutter
+let g:gitgutter_map_keys = 0
 highlight GitGutterAdd    guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1
+
 
 """ jiangmiao/auto-pairs
 let g:AutoPairsShortcutFastWrap = '<S-tab>'
@@ -84,16 +88,15 @@ let g:AutoPairsShortcutFastWrap = '<S-tab>'
 autocmd FileType php let b:AutoPairs = AutoPairsDefine({'<?':'?>', '<?php': '?>'})
 
 """ ycm-core/YouCompleteMe
-nnoremap fd :YcmCompleter GoTo<CR>
-nnoremap <C-g> :tab YcmCompleter GoTo<CR>
 set completeopt-=preview
 " let g:ycm_autoclose_preview_window_after_completion = 1
 " let g:ycm_autoclose_preview_window_after_insertion = 1
 " let g:ycm_global_ycm_extra_conf='~/.vim/plugged/YouCompleteMe/.ycm_extra_conf.py'
 " let g:ycm_goto_buffer_command = 'new-tab'
-let g:ycm_goto_buffer_command = 'split'
+let g:ycm_goto_buffer_command = 'split-or-existing-window'
 
 """ preservim/nerdcommenter
+" vim register <C-/> as <C-_>
 map <C-_> <leader>c<space>
 " Create default mappings
 let g:NERDCreateDefaultMappings = 1
@@ -121,20 +124,33 @@ let g:ctrlp_custom_ignore = {'dir': '\.git$\|node_modules$'}
 let g:user_emmet_expandabbr_key = '<C-e>'
 
 """ zivyangll/git-blame.vim
-nnoremap gb :<C-u>call gitblame#echo()<CR>
 
-" set switchbuf+=newtab
+set switchbuf+=usetab,newtab,uselast
 " autocmd BufLeave * cclose
 autocmd FileType qf nnoremap <buffer> <C-t> <C-w><Enter>:cclose<CR><C-w>T
 autocmd FileType qf nnoremap <buffer> t <C-w><Enter><C-w>TgT<C-w><C-w>
-map <C-f> :SEARCH 
+
+nnoremap <C-g> :tab YcmCompleter GoTo<CR>
+nnoremap fd :tab YcmCompleter GoTo<CR>
+nnoremap fD :YcmCompleter GoTo<CR>
+nnoremap fx :YcmCompleter GoToCallers<CR>
 map fw :FIND<CR>
+nnoremap <C-f> :SEARCH 
+
+nnoremap gb :<C-u>call gitblame#echo()<CR>
 " git conflict
 map gc /<<<<<<<\\|=======\\|>>>>>>><CR>
+map gw :GitGutterDiffOrig<CR><C-w>w
+map gW :GITCOMP<CR>
+
+map <tab> za
+map <S-tab><S-tab> zM
+map <S-tab><tab> zR
 
 map <F2> :wa<CR>:EXEC 
 map <F3> :call CopyPasteToggle()<CR>
 map <F4> :wa<CR>:COMMIT 
+map <F5> :checktime<CR> \| :GitGutterAll<CR> \| :YcmRestartServer<CR>
 map <F7> :YCMInstall 
 map <F8> :MARK 
 map <F9> :-tabmove<CR>
@@ -146,14 +162,14 @@ imap <F9> <ESC><F9>a
 imap <F10> <ESC><F10>a
 imap <F11> <ESC><F11>
 imap <F12> <ESC><F12>
-nnoremap <tab> zo
-nnoremap <S-tab> zc
+
 command -nargs=* EXEC execute EXEC(<q-args>)
 command -nargs=* MARK execute MARK(<q-args>)
 command -nargs=* COMMIT execute 'silent tabdo windo !git add %' | execute '!clear; git commit -m "' . <q-args> . '"' | execute 'silent tabdo windo w'
 command -nargs=* SEARCH execute 'vimgrep /' . <q-args> . '/j **/*' | execute 'copen'
 command -nargs=* FIND execute 'vimgrep /' . expand('<cword>') . '/j **/*' | execute 'copen'
 command -nargs=* YCMInstall execute '!/usr/bin/python3 ~/.vim/plugged/YouCompleteMe/install.py ' . <q-args>
+command -nargs=* GITCOMP execute 'let gitgutter_diff_base="' . inputdialog("Base: ") . '"' | execute 'GitGutterDiffOrig' | execute 'wincmd w' | execute 'let gitgutter_diff_base=""'
 
 
 function CopyPasteToggle()

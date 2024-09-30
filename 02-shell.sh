@@ -26,7 +26,7 @@ sudo $INS $UPDOPT
 
 ### zsh Installation ###
 sudo ${INS} ${INSOPT} curl git zsh
-ln -b -s ${CFGDIR}/zshrc ${HOME}/.zshrc
+ln -b -s ${CFGDIR}/system/home/.zshrc ${HOME}/.zshrc
 ln -b -s ${HOME}/.profile ${HOME}/.zprofile
 
 # FIXME: ${USER} not set in docker

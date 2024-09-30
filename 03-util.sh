@@ -32,16 +32,16 @@ sudo ${INS} ${INSOPT} httpie jq
 # sudo ${INS} ${INSOPT} manpages-posix-dev glibc-doc
 
 sudo ${INS} ${INSOPT} git tk
-ln -b -s ${CFGDIR}/gitconfig ${HOME}/.gitconfig
+ln -b -s ${CFGDIR}/system/home/.gitconfig ${HOME}/.gitconfig
 
 sudo ${INS} ${INSOPT} vim
-ln -b -s ${CFGDIR}/vimrc ${HOME}/.vimrc
+ln -b -s ${CFGDIR}/system/home/.vimrc ${HOME}/.vimrc
 
 sudo ${INS} ${INSOPT} screen
-ln -b -s ${CFGDIR}/screenrc ${HOME}/.screenrc
+ln -b -s ${CFGDIR}/system/home/.screenrc ${HOME}/.screenrc
 
 sudo ${INS} ${INSOPT} tmux
 git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
-ln -b -s ${CFGDIR}/tmux.conf ${HOME}/.tmux.conf
-tmux run-shell /home/chhu0830/.tmux/plugins/tpm/bindings/install_plugins
+ln -b -s ${CFGDIR}/system/home/.tmux.conf ${HOME}/.tmux.conf
+tmux run-shell ${HOME}/.tmux/plugins/tpm/bindings/install_plugins
 # echo "Insatll tmux plugin by <prefix> + I"

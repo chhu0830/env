@@ -5,5 +5,7 @@ autodetach on
 startup_message off
 
 caption always "%{= dw}%-Lw%{= dg}%n*%f %t%{= dw}%+Lw"
+# hardstatus alwayslastline '%m/%d %02c:%s %{= .g}%H%{-} %L=%-w%45L>%{=u g.}%n %t%{-}%+w %-17<%=%{= .y}(%l)'
+defdynamictitle off
 
 bind r eval "source ${HOME}/.screenrc"
